@@ -1,10 +1,17 @@
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Home from "../Pages/Prabashwara/Home";
+import Register from "../Pages/Prabashwara/Register";
 function App() {
- 
   return (
     <>
-      <h1 className="bg-red-500">Hi</h1>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/register" element={<Register />} />
+        </Routes>
+      </BrowserRouter>
     </>
-  )
+  );
 }
 
-export default App
+export default App;

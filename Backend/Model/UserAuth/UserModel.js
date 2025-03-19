@@ -1,8 +1,9 @@
 const mongoose = require("mongoose");
+const bcrypt = require('bcrypt')
 
 const Schema = mongoose.Schema
     
-const UserRegistration = new Schema({
+const UserRegistrationSchema = new Schema({
     name:{
         type: String,
         required: true
@@ -17,21 +18,23 @@ const UserRegistration = new Schema({
     }
 },{timestamps: true})
 
-module.exports = mongoose.model("User" , UserRegistration)
+
 
 
 //Create registraion Statics function 
-UserRegistration.statics.Register = async function (email , password){
+UserRegistrationSchema.statics.Register = async function (name , email , password){
     const exit = await this.findOne({email})
 
     if(exit){
         throw Error("Email Already in use")
     }
 
-    const salt = await bcrypt.getSalt(10)
+    const salt = await bcrypt.genSalt(10)
     const hash = await bcrypt.hash(password , salt)
 
-    const user = await this.create({email , password:hash})
+    const user = await this.create({name , email , password:hash})
 
     return user 
 }
+
+module.exports = mongoose.model("User" , UserRegistrationSchema)

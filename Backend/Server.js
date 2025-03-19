@@ -10,9 +10,9 @@ const app = express()
 //middleware
 app.use(express.json())
 
-app.use('/' , (req , res) => {
-    res.json("Backend is working ")
-})
+// app.use('/' , (req , res) => {
+//     res.json("Backend is working ")
+// })
 
 app.use('/api/register' , UserRouter)
 
