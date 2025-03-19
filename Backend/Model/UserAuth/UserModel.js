@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const bcrypt = require('bcrypt')
+const validator = require('validator')
 
 const Schema = mongoose.Schema
     
@@ -35,6 +36,33 @@ UserRegistrationSchema.statics.Register = async function (name , email , passwor
     const user = await this.create({name , email , password:hash})
 
     return user 
+}
+
+//Create login Static function
+UserRegistrationSchema.statics.Login = async function (email , password){
+    
+    //Validation
+    if(!email || !password){
+        throw Error("All fields must be filled")
+    }
+
+    if(!validator.isEmail(email)){
+        throw Error("Email not valid")
+    }
+
+    const user = await this.findOne({email})
+
+    if(!user){
+        throw Error("Incorrect email")
+    }
+
+    const match = await bcrypt.compare(password , user.password)
+
+    if(!match){
+        throw Error("Incorrect Password")
+    }
+
+    return user
 }
 
 module.exports = mongoose.model("User" , UserRegistrationSchema)

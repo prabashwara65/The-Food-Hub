@@ -14,7 +14,8 @@ app.use(express.json())
 //     res.json("Backend is working ")
 // })
 
-app.use('/api/register' , UserRouter)
+app.use('/api/auth' , UserRouter)
+
 
 mongoose.connect(process.env.DB)
 .then(()=> {
