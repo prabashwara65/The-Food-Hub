@@ -19,10 +19,10 @@ const Login = () => {
       credentials: "include", // Ensures cookies are sent/received if backend sets them
     });
 
-    const json = await response.json();
+    const result = await response.json();
 
     if (!response.ok) {
-      setError(json.error);
+      setError(result.error);
     }
 
     if (response.ok) {
@@ -33,7 +33,7 @@ const Login = () => {
 
 
       console.log("Successfully log in ");
-      console.log(json);
+      console.log(result.name);
     }
   };
   return (
