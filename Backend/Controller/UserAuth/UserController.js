@@ -2,8 +2,10 @@ require("dotenv").config()
 const UserModel = require("../../Model/UserAuth/UserModel");
 const jwt = require("jsonwebtoken");
 
+
+
 const createToken = (_id) => {
-    return jwt.sign({_id} , process.env.TOKEN , {expiresIn: '3d'})
+    return jwt.sign({_id } , process.env.TOKEN , {expiresIn: '3d'})
 }
 
 const RegisterUser = async (req, res) => {
@@ -29,9 +31,12 @@ const LoginUser = async (req, res) => {
     const user = await UserModel.Login(email, password);
 
       //Create Token
-      const token = createToken(user._id)
+      const token = createToken(user._id )
 
-    res.status(200).json({email , token});
+       //Set cookies 
+      res.cookie('token' , token , { httpOnly : true })
+
+    res.status(200).json( {user} );
   } catch (error) {
     res.status(400).json({error: error.message})
   }
