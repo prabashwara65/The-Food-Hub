@@ -1,9 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React, {  useState } from "react";
+import { useDispatch } from 'react-redux';
+import { setUser } from '../../ReduxToolKit/userSlice';
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error , setError] = useState("")
+  const dispatch = useDispatch();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -26,14 +29,21 @@ const Login = () => {
     }
 
     if (response.ok) {
+
+
     //   setTitle("");
     //   setLoad("");
     //   setReps("");
     //   setError(null);
 
+    dispatch(setUser({
+        name: result.name,
+        email: result.email,
+    }))
+
 
       console.log("Successfully log in ");
-      console.log(result.name);
+      console.log(result.email);
     }
   };
   return (
