@@ -30,11 +30,8 @@ const Login = () => {
 
     if (response.ok) {
 
-
-    //   setTitle("");
-    //   setLoad("");
-    //   setReps("");
-    //   setError(null);
+      setEmail("");
+      setPassword("")
 
     dispatch(setUser({
         name: result.name,
