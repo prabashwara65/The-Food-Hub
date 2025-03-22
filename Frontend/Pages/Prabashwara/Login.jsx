@@ -1,12 +1,14 @@
 import React, {  useState } from "react";
 import { useDispatch } from 'react-redux';
 import { setUser } from '../../ReduxToolKit/userSlice';
+import { useNavigate } from "react-router";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error , setError] = useState("")
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -19,7 +21,7 @@ const Login = () => {
       headers: {
         "Content-Type": "application/json",
       },
-      credentials: "include", // Ensures cookies are sent/received if backend sets them
+      credentials: "include", 
     });
 
     const result = await response.json();
@@ -33,10 +35,20 @@ const Login = () => {
       setEmail("");
       setPassword("")
 
+      console.log(result.role)
+
     dispatch(setUser({
         name: result.name,
         email: result.email,
     }))
+
+    if(result.role == "user"){
+      navigate("/")
+    }
+
+    else if (result.role == "admin"){
+      navigate("/")
+    }
 
 
       console.log("Successfully log in ");
