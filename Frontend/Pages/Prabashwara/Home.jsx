@@ -7,7 +7,8 @@ const Home = () => {
   const user = useSelector((state) => state.user.user)
   return (
     <div>
-      <div className="bg-red-500 container p-4">{user.email}</div>
+      <h1 className="text-xl">Home</h1>
+      <div className="bg-red-500  p-4">{user.email}</div>
     </div>
   );
 };
