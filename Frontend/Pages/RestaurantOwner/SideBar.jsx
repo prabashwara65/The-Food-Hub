@@ -1,37 +1,39 @@
 import React, { useState } from 'react';
 import logo from '../../assets/images/logo.png';
-import { ChevronFirst, ChevronLast, Home, Settings, LogOut, LayoutDashboard, User } from "lucide-react";
+import { ChevronFirst, ChevronLast, SquareMenu, Settings, LogOut, LayoutDashboard, User, NotebookPen } from "lucide-react";
 
-const SideBar = () => {
+const SideBar = ({ setActivePage }) => {
   const [isCollapsed, setIsCollapsed] = useState(false);
 
   return (
-    <aside className={`h-screen transition-all duration-300 ${isCollapsed ? 'w-16' : 'w-64'} border border-gray-200 shadow-lg`}>
+    <aside className={`h-screen transition-all duration-300 ${isCollapsed ? 'w-16' : 'w-64'} border-r border-gray-200 shadow-xl`}>
       <nav className="h-full flex flex-col bg-white">
-        {/* Logo and Toggle Button */}
+        
+        {/* Logo & Toggle Button */}
         <div className="p-3 pb-2 flex justify-between items-center border-b border-gray-100">
           <img src={logo} alt="logo" className={`w-20 transition-all ${isCollapsed ? 'hidden' : 'block'}`} />
-          {!isCollapsed && <h3 className="text-lg font-semibold text-gray-700">The Food Hub</h3>}
+          {!isCollapsed && <h5 className="text-md font-bold text-gray-700 pr-2">The Food Hub</h5>}
           <button 
             onClick={() => setIsCollapsed(!isCollapsed)} 
-            className='p-1.5 rounded-lg bg-gray-50 hover:bg-gray-100 transition'
+            className="p-1.5 rounded-lg bg-orange-100 hover:bg-orange-300 transition"
           >
             {isCollapsed ? <ChevronLast /> : <ChevronFirst />}
           </button>
         </div>
 
         {/* Navigation Menu */}
-        <ul className='flex-1 px-3 space-y-2'>
-          <NavItem icon={<Home size={20} />} label="Home" isCollapsed={isCollapsed} />
-          <NavItem icon={<LayoutDashboard size={20} />} label="Dashboard" isCollapsed={isCollapsed} />
-          <NavItem icon={<Settings size={20} />} label="Settings" isCollapsed={isCollapsed} />
-          <NavItem icon={<LogOut size={20} />} label="Logout" isCollapsed={isCollapsed} />
+        <ul className="flex-1 px-2 space-y-3 pt-5">
+          <NavItem icon={<LayoutDashboard size={20} />} label="Dashboard" isCollapsed={isCollapsed} setActivePage={setActivePage} />
+          <NavItem icon={<SquareMenu size={20} />} label="Menu" isCollapsed={isCollapsed} setActivePage={setActivePage} />
+          <NavItem icon={<NotebookPen size={20} />} label="Order" isCollapsed={isCollapsed} setActivePage={setActivePage} />
+          <NavItem icon={<Settings size={20} />} label="Settings" isCollapsed={isCollapsed} setActivePage={setActivePage} />
+          <NavItem icon={<LogOut size={20} />} label="Logout" isCollapsed={isCollapsed} setActivePage={setActivePage} />
         </ul>
 
         {/* User Profile Section */}
-        <div className='border-t border-gray-200 flex items-center p-3'>
-          <User size={20} className="text-gray-500" />
-          {!isCollapsed && <span className='ml-3 font-medium text-gray-700'>John Doe</span>}
+        <div className="border-t border-gray-200 flex items-center p-3 bg-orange-100 hover:bg-orange-300 m-3 rounded-lg cursor-pointer transition">
+          <User size={20} className="text-black" />
+          {!isCollapsed && <span className="ml-3 font-medium text-gray-700">John Doe</span>}
         </div>
       </nav>
     </aside>
@@ -39,8 +41,12 @@ const SideBar = () => {
 };
 
 /** Navigation Item Component */
-const NavItem = ({ icon, label, isCollapsed }) => (
-  <li className="flex items-center space-x-3 p-2 rounded-lg hover:bg-gray-100 cursor-pointer transition text-gray-700">
+const NavItem = ({ icon, label, isCollapsed, setActivePage }) => (
+  <li
+    onClick={() => setActivePage(label)}
+    className="flex items-center space-x-2 p-3 rounded-lg cursor-pointer transition text-black font-bold text-md 
+               hover:bg-orange-300 bg-orange-100"
+  >
     {icon}
     {!isCollapsed && <span className="font-medium">{label}</span>}
   </li>
