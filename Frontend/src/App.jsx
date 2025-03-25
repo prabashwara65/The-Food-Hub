@@ -4,6 +4,9 @@ import Register from "../Pages/Prabashwara/Register";
 import Login from "../Pages/Prabashwara/Login";
 import Adminpanel from "../Pages/AdminPanel/Adminpanel";
 
+//restaurant owner
+import OwnerDashboard from "../Pages/RestaurantOwner/OwnerDashboard"
+
 function App() {
   return (
     <>
@@ -13,6 +16,9 @@ function App() {
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />
           <Route path="/admin" element={<Adminpanel />} />
+
+          {/* restaurant owner route  */}
+          <Route path="/OwnerDashboard" element={<OwnerDashboard />} />
         </Routes>
       </BrowserRouter>
     </>
