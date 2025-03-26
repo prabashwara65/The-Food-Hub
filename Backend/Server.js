@@ -5,6 +5,7 @@ const { mongoose } = require('mongoose')
 const cors = require('cors')
 
 const  UserRouter  = require('./Routes/UserAuth/UserRouter')
+const MenuRouter = require('./Routes/Menu/MenuRouter')
 
 const app = express()
 
@@ -19,6 +20,7 @@ app.use(cors({
 
 
 app.use('/api/auth' , UserRouter)
+app.use('/api/menu', MenuRouter)
 
 
 mongoose.connect(process.env.DB)
