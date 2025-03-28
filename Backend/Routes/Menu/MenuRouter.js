@@ -1,10 +1,13 @@
 const express = require("express");
 
-const { createMenu} =  require('../../Controller/Menu/MenuController')
+const { createMenu, getMenus} =  require('../../Controller/Menu/MenuController')
 
-const router = express.Router();
+const router = express.Router()
 
-router.post("/", createMenu);
+//create new menu
+router.post("/", createMenu)
 
+//get all the menus
+router.get("/", getMenus)
 
 module.exports = router;

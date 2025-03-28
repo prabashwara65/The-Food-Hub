@@ -1,33 +1,171 @@
-import React from 'react';
+import React, { useState } from "react";
+import { Trash2 } from "lucide-react";
+import toast, { Toaster } from "react-hot-toast";
 
 const AddMenuModal = ({ isOpen, onClose }) => {
-  if (!isOpen) return null; 
+  const [photos, setPhotos] = useState([])
+  const [title, setTitle] = useState('')
+  const [description, setDescription] = useState('')
+  const [category, setCategory] = useState('')
+  const [availability, setAvailability] = useState('')
+  const [price , setPrice] = useState('')
+  const [error , setError] = useState(null)
 
+  // Handle image change
+  const handleImageChange = (event) => {
+    const files = Array.from(event.target.files);
+    setPhotos((prevImages) => [...prevImages, ...files]);
+  };
+
+  // Remove image from the array
+  const handleRemoveImage = (index) => {
+    setPhotos(photos.filter((_, i) => i !== index));
+  };
+
+  if (!isOpen) return null;
+ 
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+
+    const menu = {title, description, category, availability, price, photos}
+
+    const response = await fetch('http://localhost:8000/api/menu', {
+      method: 'POST',
+      body: JSON.stringify(menu),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+
+    const json = await response.json()
+
+    if(!response.ok){
+      setError(json.error)
+    } if(response.ok) {
+      setTitle('')
+      setDescription('')
+      setCategory('')
+      setAvailability('')
+      setPrice('')
+      setPhotos([])
+      setError(null)
+      toast.success("Menu item added successfully!")
+      console.log('new menu added', json)
+    }
+  }
+  
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-orange-100 bg-opacity-50">
-      <div className="bg-white p-6 rounded-lg shadow-lg w-96 bg-opacity-50 ">
-        <h2 className="text-lg font-bold mb-4">Add New Menu Item</h2>
-     
-        <input 
-          type="text" placeholder="Menu Name" className="w-full p-2 mb-3 border rounded-lg"/>
-          <input 
-          type="text" 
-          placeholder="Menu Name" 
-          className="w-full p-2 mb-3 border rounded-lg"
-        />
-        <input 
-          type="number" 
-          placeholder="Price" 
-          className="w-full p-2 mb-3 border rounded-lg"
-        />
+      <div className="bg-white p-4 rounded-lg shadow-lg w-full max-w-4xl flex flex-col">
+       
+       <form className="create" onSubmit={handleSubmit}>
+        <div className="flex-1 mr-4">
+          <h2 className="text-lg font-bold mb-2">Add New Menu Item</h2>
 
-        {/* Buttons */}
-        <div className="flex justify-end gap-2">
-          <button onClick={onClose} className="px-4 py-2 bg-gray-300 rounded-lg">Cancel</button>
+          <div>
+            <label className="block font-semibold mb-1">Menu Name</label>
+            <input type="text" placeholder="Enter menu name" className="w-full p-2 mb-2 border rounded-lg"
+            onChange={(e) => setTitle(e.target.value)}/>
+
+            <label className="block font-semibold mb-1">Description</label>
+            <textarea placeholder="Enter description" className="w-full p-2 mb-2 border rounded-lg h-15 resize-none" 
+            onChange={(e) => setDescription(e.target.value)}/>
+
+            <label className="block font-semibold mb-1">Category</label>
+            <div className="relative">
+              <select className="appearance-none w-full p-3 mb-3 border rounded-lg bg-white text-gray-700"
+              onChange={(e) => setCategory(e.target.value)}>
+                <option value="">Select category</option>
+                <option value="appetizers">Appetizers</option>
+                <option value="mainCourses">Main Courses</option>
+                <option value="sides">Sides</option>
+                <option value="desserts">Desserts</option>
+                <option value="beverages">Beverages</option>
+                <option value="breakfast&Brunch">Breakfast & Brunch</option>
+              </select>
+
+              {/* Custom dropdown arrow */}
+              <div className="absolute right-3 top-1/2 transform -translate-y-1/2 pointer-events-none">
+                <svg
+                  className="w-4 h-4 text-gray-500"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor" >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M19 9l-7 7-7-7"
+                  ></path>
+                </svg>
+              </div>
+            </div>
+
+            <label className="block font-semibold mb-1">Availability</label>
+            <div className="relative w-10">
+              <input
+                id="switch-component-green"
+                type="checkbox"
+                className="peer hidden"
+                checked={availability}
+                onChange={() => setAvailability(!availability)}/>
+              <div className="w-10 h-5 bg-slate-100 rounded-full peer-checked:bg-green-600 transition-colors duration-300 cursor-pointer border border-gray-500 mb-2"></div>
+              <label
+                htmlFor="switch-component-green"
+                className="absolute top-0 left-0 w-5 h-5 bg-white rounded-full border border-black shadow-sm transition-transform duration-300 peer-checked:translate-x-6 peer-checked:border-green-600 cursor-pointer"
+              ></label>
+            </div>
+
+            <label className="block font-semibold mb-1">Price</label>
+            <input
+              type="number"
+              placeholder="Enter price"
+              className="w-full p-2 mb-3 border rounded-lg" 
+              onChange={(e) => setPrice(e.target.value)}/>
+          </div>
+        </div>
+
+
+        <div className="w-80">
+          <label className="block font-semibold mb-1">Upload Images</label>
+          <input
+            type="file"
+            multiple
+            accept="image/*"
+            className="w-full p-2 mb-3 border rounded-lg cursor-pointer"
+            onChange={handleImageChange}/>
+
+          {/* Preview Selected Images */}
+          <div className="flex gap-2 ">
+            {photos.length > 0 &&
+              photos.map((image, index) => (
+                <div key={index} className="relative">
+                  <img
+                    src={URL.createObjectURL(image)}
+                    alt={`Preview ${index}`}
+                    className="w-20 h-20 object-cover rounded-lg border "
+                  />
+                  <button
+                    onClick={() => handleRemoveImage(index)}
+                    className="absolute top-1 right-1 bg-red-400 text-white p-2 rounded-full text-xs" >
+                    <Trash2 />
+                  </button>
+                </div>
+              ))}
+          </div>
+        </div>
+
+        <div className="flex justify-end gap-2 mt-auto">
+          <button onClick={onClose} className="px-4 py-2 bg-gray-300 rounded-lg">
+            Cancel
+          </button>
           <button className="px-4 py-2 bg-orange-500 text-white rounded-lg hover:bg-orange-600">
             Save
           </button>
         </div>
+        {error && <div className="error">{error}</div>}
+        </form>
       </div>
     </div>
   );

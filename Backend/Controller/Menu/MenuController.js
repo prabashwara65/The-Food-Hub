@@ -1,6 +1,7 @@
 const mongoose = require('mongoose')
 const Menu = require('../../Model/Menu/MenuModel');
 
+//create menu
 const createMenu = async(req, res) => {
     const {restaurantId, title, description, price,  availability,photos, category} = req.body
 
@@ -16,4 +17,11 @@ const createMenu = async(req, res) => {
 }
 
 
-module.exports = {createMenu}
+//get all the menus
+const getMenus = async(req,res) => {
+  const menus = await Menu.find({}).sort({createdAt: -1})
+
+  res.status(200).json(menus)
+}
+
+module.exports = {createMenu, getMenus}
