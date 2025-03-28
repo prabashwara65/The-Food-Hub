@@ -24,4 +24,7 @@ const getMenus = async(req,res) => {
   res.status(200).json(menus)
 }
 
+//delete menu
+
+
 module.exports = {createMenu, getMenus}

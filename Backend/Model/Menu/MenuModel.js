@@ -10,7 +10,7 @@ const MenuSchema  = new Schema({
     price : {type: Number, required : true},
     availability: {type: Boolean, required: true, default: true},
     photos: { type: [String], validate: v => v.length >= 3 },
-    category: {type:String}
+    category: {type:String, required: true}
 }, {timestamps:true})
 
 module.exports = mongoose.model("Menu", MenuSchema)
