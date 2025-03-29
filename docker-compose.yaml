@@ -5,17 +5,17 @@ services:
     ports:
       - '4000:4000'
     volumes:
-      - ./backend:backend
-      - ./backend/node_modules
+      - ./backend:/app 
+      - /app/node_modules
     env_file:
       - ./backend/.env
   frontend:
     build: ./frontend
     container_name: TheFoodHub-frontend-container
     ports:
-      - '3000:3000'
+      - '5173:5173'
     volumes:
-      - ./frontend:frontend
-      - ./frontend/node_modules
+      - ./frontend:/app 
+      - /app/node_modules
     stdin_open: true
     tty: true  

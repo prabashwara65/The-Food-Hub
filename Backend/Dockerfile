@@ -1,6 +1,6 @@
-FROM node17:alpine
+FROM node:18-alpine
 
-WORKDIR /backend 
+WORKDIR /app 
 
 RUN npm i -g nodemon
 

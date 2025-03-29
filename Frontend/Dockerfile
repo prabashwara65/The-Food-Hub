@@ -1,6 +1,6 @@
-FROM node17:alpine
+FROM node:20-bullseye
 
-WORKDIR /frontend
+WORKDIR /app
 
 COPY package.json .
 
