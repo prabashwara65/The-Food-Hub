@@ -11,7 +11,7 @@ const MenuDashboard = () => {
   useEffect(() => {
     const fetchMenus = async () => {
       try {
-        const response = await fetch("http://localhost:8000/api/menu");
+        const response = await fetch("http://localhost:8000/api/menu/getmenu");
         if (!response.ok) throw new Error("Failed to fetch menus");
 
         const json = await response.json();
