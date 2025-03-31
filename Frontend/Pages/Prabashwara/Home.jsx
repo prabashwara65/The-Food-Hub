@@ -9,6 +9,9 @@ const Home = () => {
     <div>
       <h1 className="text-xl">Home</h1>
       <div className="bg-red-500  p-4">{user.email}</div>
+      <h1>Home must have SerchBard</h1>
+      <h1>Home must have Hero Section</h1>
+      <h1>Home must have Grid View</h1>
     </div>
   );
 };
