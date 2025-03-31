@@ -12,6 +12,7 @@ const Home = () => {
       <h1>Home must have SerchBard</h1>
       <h1>Home must have Hero Section</h1>
       <h1>Home must have Grid View</h1>
+      <h1>Home must have footer</h1>
     </div>
   );
 };
