@@ -32,7 +32,7 @@ const MenuCard = ({ menu, onUpdate, onDelete}) => {
        <div className="flex justify-end gap-2 mt-4">
         <button
           onClick={() => onUpdate(menu._id)}
-          className=" items-center  px-3 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600">
+          className=" items-center mr-2 px-3 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600">
           <Edit size={16} />
         </button>
 

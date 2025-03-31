@@ -1,31 +1,85 @@
 import React, { useEffect, useState } from "react";
 import { PlusCircle } from "lucide-react";
 import AddMenuModal from "./AddMenu";
-import MenuCard from "./MenuCard"; 
+import MenuCard from "./MenuCard";
+import toast, { Toaster } from "react-hot-toast";
 
 const MenuDashboard = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [menus, setMenus] = useState([]); 
+  const [menus, setMenus] = useState([]);
 
   useEffect(() => {
     const fetchMenus = async () => {
       try {
         const response = await fetch("http://localhost:8000/api/menu");
-        const json = await response.json();
+        if (!response.ok) throw new Error("Failed to fetch menus");
 
-        if (response.ok) {
-          setMenus(json);
-        }
+        const json = await response.json();
+        setMenus(json);
       } catch (error) {
-        console.error("Error fetching menu:", error);
+        toast.error("Error fetching menu data.");
+        console.error("Fetch Error:", error);
       }
     };
 
     fetchMenus();
   }, []);
 
+  // Delete menu
+  const handleDelete = async (id) => {
+    toast(
+      (t) => (
+        <div>
+          <p>Are you sure you want to delete this item?</p>
+          <div className="flex justify-end gap-2 mt-2">
+            <button
+              className="px-3 py-1 bg-red-500 text-white rounded-md"
+              onClick={async () => {
+                try {
+                  const response = await fetch(
+                    `http://localhost:8000/api/menu/${id}`,
+                    {
+                      method: "DELETE",
+                    }
+                  );
+
+                  if (response.ok) {
+                    setMenus((prevMenus) =>
+                      prevMenus.filter((menu) => menu._id !== id)
+                    );
+                    toast.success("Menu item deleted successfully!");
+                  } else {
+                    toast.error("Failed to delete menu item.");
+                  }
+                } catch (error) {
+                  console.error("Error deleting menu:", error);
+                  toast.error("An error occurred while deleting.");
+                }
+                toast.dismiss(t.id);
+              }}>
+              Yes
+            </button>
+            <button
+              className="px-3 py-1 bg-gray-300 text-black rounded-md"
+              onClick={() => toast.dismiss(t.id)} >
+              No
+            </button>
+          </div>
+        </div>
+      ),
+      {
+        duration: 5000,
+        position: "top-center",
+      }
+    );
+  };
+
+
+
   return (
     <div className="p-6">
+      <Toaster />
+
       <div className="flex justify-between mb-4">
         <h2 className="text-lg font-bold text-black">Menu Gallery</h2>
       </div>
@@ -42,18 +96,18 @@ const MenuDashboard = () => {
       {/* Add Menu Modal */}
       <AddMenuModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
 
-      {/* Menu Grid Display */}
+ 
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mt-6">
         {menus.length > 0 ? (
-          menus.map((menu) => <MenuCard key={menu._id} menu={menu} />)
+          menus.map((menu) => (
+            <MenuCard key={menu._id} menu={menu} onDelete={handleDelete} />
+          ))
         ) : (
-          <p className="text-center text-gray-500 col-span-full">No menu items found.</p>
+          <p className="text-center text-gray-500 col-span-full">
+            No menu items found.
+          </p>
         )}
       </div>
-
-      <botton>
-        
-      </botton>
     </div>
   );
 };
