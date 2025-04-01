@@ -11,7 +11,7 @@ const MenuDashboard = () => {
   useEffect(() => {
     const fetchMenus = async () => {
       try {
-        const response = await fetch("http://localhost:8000/api/menu/getmenu");
+        const response = await fetch("http://localhost:8000/api/menu/");
         if (!response.ok) throw new Error("Failed to fetch menus");
 
         const json = await response.json();
@@ -41,7 +41,7 @@ const MenuDashboard = () => {
                     {
                       method: "DELETE",
                     }
-                  );
+                  )
 
                   if (response.ok) {
                     setMenus((prevMenus) =>

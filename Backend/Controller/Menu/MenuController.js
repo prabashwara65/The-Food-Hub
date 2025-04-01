@@ -5,7 +5,7 @@ const Menu = require('../../Model/Menu/MenuModel');
 const createMenu = async(req, res) => {
     const {restaurantId, title, description, price,  availability,photos, category} = req.body
 
-     const menuId = `MI-${Math.floor(1000 + Math.random() * 900000)}`;
+     const menuId = `MI-${Math.floor(1000 + Math.random() * 900000)}`
 
      //add to db
      try{

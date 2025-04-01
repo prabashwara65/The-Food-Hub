@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import logo from '../../assets/images/logo.png';
+import logo from '../../../assets/images/logo.png';
 import { ChevronFirst, ChevronLast, SquareMenu, Settings, LogOut, LayoutDashboard, User, NotebookPen } from "lucide-react";
 
 const SideBar = ({ setActivePage }) => {
