@@ -1,17 +1,16 @@
 import React, { useState } from "react";
 import { RiFacebookLine } from "react-icons/ri";
-import {  CgProfile } from "react-icons/cg";
+import { CgProfile } from "react-icons/cg";
 import { RiGoogleLine } from "react-icons/ri";
 import { FaInstagram } from "react-icons/fa";
 
 const Register = () => {
-
   const [isHovered, setIsHovered] = useState(false);
 
   const Interstyle = { color: "gray", fontSize: "30px" };
-  const Outerstyle = { 
+  const Outerstyle = {
     color: isHovered ? "black" : "gray",
-    fontSize: "25px" 
+    fontSize: "25px",
   };
 
   return (
@@ -21,11 +20,13 @@ const Register = () => {
 
         <div className="flex flex-row space-between gap-4 mt-7">
           <div className="border rounded-full p-2 hover:bg-blue-500">
-            <RiFacebookLine 
-              style={Outerstyle} 
-              onMouseEnter={() => {setIsHovered(true)}}
+            <RiFacebookLine
+              style={Outerstyle}
+              onMouseEnter={() => {
+                setIsHovered(true);
+              }}
               onMouseLeave={() => setIsHovered(false)}
-              />
+            />
           </div>
           <div className="border rounded-full p-2 hover:bg-red-500">
             <RiGoogleLine style={Outerstyle} />
