@@ -11,14 +11,14 @@ pipeline {
         }
         stage('Build Docker Image') {
             steps {
-                sh 'docker build -t adomicarts/nodeapp-cuban:${BUILD_NUMBER} .'
+                sh 'docker build -t prabashwara65/the-food-hub_backend :${BUILD_NUMBER} .'
             }
         }
         stage('Login to Docker Hub') {
             steps {
-                withCredentials([string(credentialsId: 'samin-docker', variable: 'samindocker')]) {
+                withCredentials([string(credentialsId: 'DockerHub-Password', variable: 'DockerHub-Password')]) {
                     script {  
-                        sh "docker login -u adomicarts -p '${samindocker}'"
+                        sh "docker login -u prabashwara65 -p '${DockerHub-Password}'"
                     }
                 }
             }
