@@ -5,27 +5,28 @@ pipeline {
         stage('SCM Checkout') {
             steps {
                 retry(3) {
-                    git branch: 'main', url: 'https://github.com/HGSChandeepa/test-node'
+                    git branch: 'main', url: 'https://github.com/prabashwara65/The-Food-Hub.git'
                 }
             }
         }
         stage('Build Docker Image') {
             steps {
-                sh 'docker build -t adomicarts/nodeapp-cuban:${BUILD_NUMBER} .'
+                sh 'docker build -t prabashwara65/the-food-hub_backend:${BUILD_NUMBER} .'
+
             }
         }
         stage('Login to Docker Hub') {
             steps {
-                withCredentials([string(credentialsId: 'samin-docker', variable: 'samindocker')]) {
+                withCredentials([string(credentialsId: 'githubPassword', variable: 'githubPassword')]) {
                     script {  
-                        sh "docker login -u adomicarts -p '${samindocker}'"
+                        sh "docker login -u prabashwara65 -p '${githubPassword}'"
                     }
                 }
             }
         }
         stage('Push Image') {
             steps {
-                sh "docker push adomicarts/nodeapp-cuban:${BUILD_NUMBER}"
+                sh "docker push prabashwara65/the-food-hub_backend:${BUILD_NUMBER}"
             }
         }
     }
