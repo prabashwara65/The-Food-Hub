@@ -2,18 +2,20 @@ import React from "react";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { clearUser } from "../../ReduxToolKit/userSlice";
+import Navbar from "../../Components/Navbar";
 
 const Home = () => {
   const user = useSelector((state) => state.user.user);
   return (
-    <div className="h-screen bg-[#F6F6FF]">
+    <div className="h-screen bg-linear-to-r from-[#E3E5E6] from-10% via-[#EDECE3] via-65% to-[#F6EFC8] to-90%">
+      <Navbar />
       <div className="h-full mx-auto">
         <div className="container flex mx-auto py-8 justify-between items-end ">
           {/* Search bar */}
           <div className="relative p-1">
             <input
               type="text"
-              className="w-3xl focus:outline-none py-4 bg-[#EFEEFE] focus:shadow-amber-600 focus:shadow-sm rounded-full px-4"
+              className="w-3xl focus:outline-none py-3 bg-[#EFEEFE] focus:shadow-amber-600 focus:shadow-sm rounded-full px-4"
               placeholder="Search By food name / Resturant"
             />
             <svg
@@ -33,8 +35,8 @@ const Home = () => {
           </div>
 
           {/* +Add order Button */}
-          <button className="border-2 ml-8 rounded-3xl p-4 text-white bg-[#B97A9E]">
-            + Add Order{" "}
+          <button className="ml-8 rounded-3xl p-3 text-white bg-[#B97A9E] font-extralight">
+            + Add Order
           </button>
         </div>
 
