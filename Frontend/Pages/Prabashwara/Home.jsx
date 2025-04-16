@@ -6,9 +6,9 @@ import { clearUser } from "../../ReduxToolKit/userSlice";
 const Home = () => {
   const user = useSelector((state) => state.user.user);
   return (
-    <div className="h-screen bg-[#F6F6FF] p-7">
-      <div className="h-full mx-auto py-7 bg-red-300">
-        <div className="container flex mx-auto py-8 bg-white justify-between items-end">
+    <div className="h-screen bg-[#F6F6FF]">
+      <div className="h-full mx-auto">
+        <div className="container flex mx-auto py-8 justify-between items-end ">
           {/* Search bar */}
           <div className="relative">
             <input
@@ -39,7 +39,19 @@ const Home = () => {
           </button>
         </div>
 
-        
+        <div className="container mx-auto bg-[#F3B734] py-9 pl-3 h-[250px] rounded-3xl">
+          <div className="block w-md pl-5">
+            <span className="font-bold uppercase">
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Delectus
+              tempore aspernatur
+            </span>
+            <p className="block py-5">
+              explicabo illum quidem, repellat fugiat accusamus! Vero quia
+              nostrum consectetur aspernatur deleniti!
+            </p>
+            <button className="rounded-4xl p-4 uppercase bg-[#745200] text-white w-[200px]">Read More</button>
+          </div>
+        </div>
       </div>
     </div>
   );
