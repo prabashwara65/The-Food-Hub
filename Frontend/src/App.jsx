@@ -6,6 +6,7 @@ import Adminpanel from "../Pages/AdminPanel/Adminpanel";
 
 //restaurant owner
 import OwnerDashboard from "../Pages/RestaurantOwner/OwnerDashboard"
+import AssignDriver from "../Pages/Delivery/AssignDriver";
 
 function App() {
   return (
@@ -16,9 +17,10 @@ function App() {
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />
           <Route path="/admin" element={<Adminpanel />} />
+          <Route path="/OwnerDashboard" element={<OwnerDashboard />} />
 
           {/* restaurant owner route  */}
-          <Route path="/OwnerDashboard" element={<OwnerDashboard />} />
+          <Route path="/driver" element={<AssignDriver />} />
         </Routes>
       </BrowserRouter>
     </>
