@@ -192,10 +192,12 @@ const Home = () => {
             </div>
           </div>
         </div>
-        <div className="container flex flex-row mx-auto justify-between bg-red-100 mt-10">
+
+        {/* 3rd container */}
+        <div className="container flex mx-auto justify-between mt-10 gap-5">
           {/* First Card */}
-          <div className="flex flex-2/3 gap-3">
-            <div className="flex flex-col w-30 h-30 items-center p-4">
+          <div className="flex flex-1/4">
+            <div className="flex flex-col w-40 h-40 items-center p-4">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
@@ -210,10 +212,10 @@ const Home = () => {
                   d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z"
                 />
               </svg>
-              <p className="font-medium pt-3">Minto</p>
-              <p>Suppliers</p>
+              <p className="font-medium pt-3">Semms</p>
+              <p className="font-extralight">Marketing</p>
             </div>
-            <div className="flex flex-col w-30 h-30 bg-amber-100 items-center p-4">
+            <div className="flex flex-col w-40 h-40 items-center p-4">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
@@ -229,9 +231,9 @@ const Home = () => {
                 />
               </svg>
               <p className="font-medium pt-3">Minto</p>
-              <p>Suppliers</p>
+              <p className="font-extralight">Suppliers</p>
             </div>
-            <div className="flex flex-col w-30 h-30 bg-amber-100 items-center p-4">
+            <div className="flex flex-col w-40 h-40 items-center p-4">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
@@ -246,14 +248,14 @@ const Home = () => {
                   d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z"
                 />
               </svg>
-              <p className="font-medium pt-3">Minto</p>
-              <p>Suppliers</p>
+              <p className="font-medium pt-3">Alia</p>
+              <p className="font-extralight">Accounting</p>
             </div>
           </div>
 
           {/* Second bottom card */}
-          <div className="flex flex-2/3">
-            <div className="w-75 bg-[#FFFFFF] rounded-2xl">
+          <div className="flex flex-1/3 bg-[#FFFFFF] rounded-2xl ">
+            
               <div className="flex flex-col w-30 h-30 items-center p-4">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -270,16 +272,15 @@ const Home = () => {
                   />
                 </svg>
                 <p className="font-medium pt-3">Minto</p>
-                <p>Suppliers</p>
+                <p className="font-extralight">Suppliers</p>
               </div>
-            </div>
+            
           </div>
 
           {/* Third bottom card */}
-          <div className="flex flex-1/3">
-            <div className="w-25 bg-red-200">ds</div>
-            <div className="w-25 bg-red-200">ds</div>
-            <div className="w-25 bg-red-200">ds</div>
+          <div className="flex flex-1/3 bg-green-300">
+            <div className="w-full bg-red-200">ds</div>
+            
           </div>
         </div>
       </div>
