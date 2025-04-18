@@ -15,7 +15,7 @@ const Register = () => {
 
   return (
     <div className="min-h-screen py-28 bg-[#38AA9A] ">
-      <div className="flex flex-col bg-gray-100  items-center  mx-auto w-lg h-full text-2xl rounded-3xl p-10 shadow-2xs">
+      <div className="flex flex-col bg-gray-100 items-center mx-auto w-lg h-full text-2xl rounded-3xl p-10 shadow-2xs">
         <span className="text-[#38AA9A] font-bold">Create An Account</span>
 
         <div className="flex flex-row space-between gap-4 mt-7">
