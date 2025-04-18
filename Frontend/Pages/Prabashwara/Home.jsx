@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { clearUser } from "../../ReduxToolKit/userSlice";
 import Navbar from "../../Components/Navbar";
+import Footer from "../../Components/Footer";
 
 const Home = () => {
   const user = useSelector((state) => state.user.user);
@@ -194,7 +195,7 @@ const Home = () => {
         </div>
 
         {/* 3rd container */}
-        <div className="container flex mx-auto justify-between mt-10 gap-5">
+        <div className="container flex mx-auto justify-between mt-15 gap-5">
           {/* First Card */}
           <div className="flex flex-1/4">
             <div className="flex flex-col w-40 h-40 items-center p-4">
@@ -283,6 +284,7 @@ const Home = () => {
             
           </div>
         </div>
+        <Footer />
       </div>
     </div>
   );
