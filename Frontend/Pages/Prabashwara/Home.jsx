@@ -1,39 +1,69 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { clearUser } from "../../ReduxToolKit/userSlice";
 import Navbar from "../../Components/Navbar";
 import Footer from "../../Components/Footer";
+import SearchBar from "../../Components/SearchBar";
+
 
 const Home = () => {
+  //for search function (hasara)
+  const [searchQuery, setSearchQuery] = useState("");
+  const [restaurants, setRestaurants] = useState([]); 
+  const [notFound, setNotFound] = useState(false); 
+
   const user = useSelector((state) => state.user.user);
+
+ useEffect(() => {
+  const delayDebounce = setTimeout(() => {
+    if(searchQuery.trim() === "") {
+      setRestaurants([]);
+      setNotFound(false)
+      return;
+    }
+
+    fetch(`http://localhost:8000/api/restaurantView/searchRestaurants?name=${searchQuery}`)
+    .then((res) => res.json())
+    .then((data) => {
+      if(data.length === 0){
+        setNotFound(true);
+      }else {
+        setNotFound(false);
+      }
+      setRestaurants(data);
+    })
+    .catch((err) => {
+      console.error("Error fetching data:", err);
+      setRestaurants([]);
+      setNotFound(true);
+    })
+  }, [500]); //debounce delay
+
+  return () => clearTimeout(delayDebounce); //cleanup function
+ }, [searchQuery]);
+
   return (
     <div className="min-h-screen bg-linear-to-r from-[#E3E5E6] from-10% via-[#EDECE3] via-65% to-[#F6EFC8] to-90%">
       <Navbar />
       <div className="h-full mx-auto">
         <div className="container flex mx-auto py-8 justify-between items-end ">
           {/* Search bar */}
-          <div className="relative p-1">
-            <input
-              type="text"
-              className="w-3xl focus:outline-none py-3 bg-[#EFEEFE] focus:shadow-amber-600 focus:shadow-sm rounded-full px-4"
-              placeholder="Search By food name / Resturant"
-            />
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth={1.5}
-              stroke="currentColor"
-              className="size-8 absolute right-6 top-4 text-gray-400"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z"
-              />
-            </svg>
-          </div>
+          <div className="w-full max-w-2xl ml-5">
+          <SearchBar value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)}/>
+
+            <div className="mt-2 max-h-40 overflow-y-auto ">
+              {notFound ? (
+                <p className="text-gray-600 bg-white p-1 rounded shadow mb-3">No such restaurant found.</p>
+              ) : (
+                restaurants.map((restaurant, index) => (
+                  <div key={index} className="bg-white p-2 rounded shadow mb-3">
+                      {restaurant.name}
+                  </div>
+                ))
+              )}
+            </div>
+            </div>
 
           {/* +Add order Button */}
           <button className="ml-8 rounded-3xl p-3 text-white bg-[#B97A9E] font-extralight">
