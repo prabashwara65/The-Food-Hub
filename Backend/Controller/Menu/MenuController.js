@@ -1,20 +1,46 @@
 const mongoose = require('mongoose')
 const Menu = require('../../Model/Menu/MenuModel');
+const {putObject} = require('../../utils/putObject')
+const {v4} = require('uuid')
 
 //create menu
-const createMenu = async(req, res) => {
-    const {restaurantId, title, description, price,  availability,photos, category} = req.body
-
-     const menuId = `MI-${Math.floor(1000 + Math.random() * 900000)}`
-
-     //add to db
-     try{
-         const menu = await Menu.create({menuId,restaurantId, title, description, price,  availability,photos, category})
-         res.status(200).json(menu)
-     }catch (error){
-         res.status(400).json({error: error.message})
-     }
-}
+const createMenu = async (req, res) => {
+    const { restaurantId, title, description, price, availability, category } = req.body;
+  
+    const files = req.files?.photos;
+    const photoFiles = Array.isArray(files) ? files : [files];
+  
+    if (!photoFiles || photoFiles.length < 1) {
+      return res.status(400).json({ status: 'error', error: 'At least one image is required.' });
+    }
+  
+    const menuId = `MI-${Math.floor(1000 + Math.random() * 900000)}`;
+    const imageUrls = [];
+  
+    try {
+      for (const file of photoFiles) {
+        const fileName = `images/${v4()}-${file.name}`;
+        const { url } = await putObject(file.data, fileName);
+        if (!url) throw new Error(`Failed to upload image: ${file.name}`);
+        imageUrls.push(url);
+      }
+  
+      const menu = await Menu.create({
+        menuId,
+        restaurantId,
+        title,
+        description,
+        price,
+        availability,
+        photos: imageUrls,
+        category,
+      });
+  
+      res.status(200).json(menu);
+    } catch (err) {
+      res.status(500).json({ status: 'error', error: err.message });
+    }
+  };
 
 
 //get all the menus

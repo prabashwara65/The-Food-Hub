@@ -90,7 +90,7 @@ const MenuDashboard = () => {
         onClick={() => setIsModalOpen(true)}
       >
         <PlusCircle size={20} />
-        Add Menu
+        Add New Menu
       </button>
 
       {/* Add Menu Modal */}
