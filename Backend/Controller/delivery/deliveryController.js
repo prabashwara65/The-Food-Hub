@@ -1,4 +1,5 @@
 const Driver = require('../../Model/delivery/Driver');
+const Assignment = require('../../Model/delivery/Assignment'); // Import the Assignment model
 const { Client } = require('@googlemaps/google-maps-services-js');
 const client = new Client({});
 
@@ -58,9 +59,20 @@ exports.assignDriver = async (req, res) => {
       }
     });
 
+    // Mark the driver as unavailable
     assignedDriver.available = false;
     await assignedDriver.save();
 
+    // Save the assignment in the database
+    const assignment = new Assignment({
+      driver: assignedDriver._id,
+      orderLocation: { lat, lng },
+      distance: `${(nearest.distance / 1000).toFixed(1)} km`,
+      eta: calculateETA(nearest.distance)
+    });
+    await assignment.save();
+
+    // Respond with the assigned driver and directions
     res.json({
       driver: assignedDriver.name,
       vehicleType: assignedDriver.vehicleType,
@@ -78,7 +90,7 @@ exports.assignDriver = async (req, res) => {
 };
 
 function calculateETA(distanceMeters) {
-  const avgSpeedKmph = 30;
-  const distanceKm = distanceMeters / 1000;
-  return Math.round((distanceKm / avgSpeedKmph) * 60) + ' minutes';
+  const avgSpeedKmph = 30; // Average speed in km/h
+  const distanceKm = distanceMeters / 1000; // Convert meters to kilometers
+  return Math.round((distanceKm / avgSpeedKmph) * 60) + ' minutes'; // Return ETA in minutes
 }

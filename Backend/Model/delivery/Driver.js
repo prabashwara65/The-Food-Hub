@@ -10,6 +10,12 @@ const DriverSchema = new mongoose.Schema({
     required: [true, "Phone number is required"],
     match: [/^\+?\d{10,15}$/, "Invalid phone number"] 
   },
+  email: {
+    type: String,
+    required: [true, "Email is required"],
+    unique: true, // Ensure email is unique
+    match: [/^\S+@\S+\.\S+$/, "Invalid email address"] // Validate email format
+  },
   location: {
     lat: { type: Number, required: true },
     lng: { type: Number, required: true }

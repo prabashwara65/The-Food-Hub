@@ -72,7 +72,7 @@ const AssignDriver = () => {
       setError("Please select an order location on the map first.");
       return;
     }
-  
+
     setIsLoading(true);
     try {
       // Get nearest driver from your backend
@@ -81,27 +81,50 @@ const AssignDriver = () => {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(orderLocation)
       });
-  
+
       if (!response.ok) {
         const errorData = await response.json();
         throw new Error(errorData.error || 'Failed to assign driver');
       }
-  
+
       const data = await response.json();
       setAssignedDriver(data);
       setError(null);
-  
-      // Now, fetch route from Google Maps Directions API
+
+      // Fetch route from Google Maps Directions API
       const directionsService = new window.google.maps.DirectionsService();
       directionsService.route(
         {
-          origin: { lat: data.location.lat, lng: data.location.lng },
-          destination: { lat: orderLocation.lat, lng: orderLocation.lng },
+          origin: { lat: data.location.lat, lng: data.location.lng }, // Driver's location
+          destination: { lat: orderLocation.lat, lng: orderLocation.lng }, // User's location
+          waypoints: [
+            {
+              location: { lat: 6.922201, lng: 79.913870 }, // Restaurant location
+              stopover: true
+            }
+          ],
           travelMode: window.google.maps.TravelMode.DRIVING
         },
         (result, status) => {
           if (status === window.google.maps.DirectionsStatus.OK) {
             setDirections(result);
+
+            // Extract distance and duration
+            const route = result.routes[0];
+            const legs = route.legs;
+            const totalDistance = legs.reduce((sum, leg) => sum + leg.distance.value, 0); // in meters
+            const totalDuration = legs.reduce((sum, leg) => sum + leg.duration.value, 0); // in seconds
+
+            // Convert distance to kilometers and duration to minutes
+            const distanceInKm = (totalDistance / 1000).toFixed(2);
+            const durationInMinutes = Math.ceil(totalDuration / 60);
+
+            // Update assigned driver with distance and ETA
+            setAssignedDriver((prev) => ({
+              ...prev,
+              distance: `${distanceInKm} km`,
+              eta: `${durationInMinutes} min`
+            }));
           } else {
             console.error("Directions request failed due to", status);
             setError("Failed to fetch route.");
@@ -109,14 +132,13 @@ const AssignDriver = () => {
           setIsLoading(false);
         }
       );
-  
+
     } catch (err) {
       console.error("Error in assignDriver:", err.message);
       setError(err.message);
       setIsLoading(false);
     }
   };
-  
 
   const vehicleIcons = {
     bike: '🚲',
@@ -144,6 +166,12 @@ const AssignDriver = () => {
                   icon={{ url: 'https://maps.google.com/mapfiles/ms/icons/red-dot.png' }}
                 />
               )}
+
+              {/* Add a marker for the restaurant */}
+              <Marker
+                position={{ lat: 6.922201, lng: 79.913870 }}
+                icon={{ url: 'https://maps.google.com/mapfiles/ms/icons/blue-dot.png' }}
+              />
 
               {assignedDriver && assignedDriver.location && (
                 <Marker
@@ -176,49 +204,49 @@ const AssignDriver = () => {
         </div>
 
         <div className="flex-1 text-center">
-          <div className="mb-5">
+          <div className="mb-5 flex flex-row gap items-center">
             <p className="mb-2">Your location</p>
             <button onClick={getUserLocation} className="p-2 text-xl bg-gray-200 rounded-full">
               <FaLocationCrosshairs />
             </button>
           </div>
-            {/* Display assigned driver details */}
-  {assignedDriver && (
-    <div className="mt-5 p-4 bg-gray-100 rounded-md shadow-md items-center">
-    <div className="flex flex-row items-center gap-10 pl-15">
-      <div className='flex flex-col gap-10'>
-      <img
-        src={driv}
-        alt="Driver Avatar"
-        className="w-16 h-16 rounded-full mx-auto mb-3"
-      />
-      </div>
-      <div className='flex flex-col gap-2'>
-      <h3 className="text-lg font-bold">{assignedDriver.driver}</h3>
-      </div>
-    </div>
-      <div className='bg-black w-f'>
-    <p className="text-white  -700 flex items-center gap-8 pl-20 p-2">
-  <FaPhoneAlt className="text-green-500 w-6 h-6" /> {assignedDriver.contact}
-</p>
-</div>
-<div>
-  
-</div>
-
-    </div>
-  )}
-  <br />
-  <br />
-
-  <div className="bg-black w-full ">
-  <p className="text-white flex items-center gap-8 pl-20 p-2">
-        <strong>Distance:</strong> {assignedDriver.distance}
-      </p>
-      <p className="text-white flex items-center gap-8 pl-20 p-2">
-        <strong>ETA:</strong> {assignedDriver.eta}
-      </p>
-      </div>
+          {assignedDriver ? (
+            <div className="mt-5 p-4 bg-gray-100 rounded-md shadow-md items-center">
+              <div className="flex flex-row items-center gap-10 pl-15">
+                <div className="flex flex-col gap-10">
+                  <img
+                    src={driv}
+                    alt="Driver Avatar"
+                    className="w-16 h-16 rounded-full mx-auto mb-3"
+                  />
+                </div>
+                <div className="flex flex-col gap-2">
+                  <h3 className="text-lg font-bold">{assignedDriver.driver}</h3>
+                </div>
+              </div>
+              <div className="bg-black w-full">
+                <p className="text-white flex items-center gap-8 pl-20 p-2">
+                  <FaPhoneAlt className="text-green-500 w-6 h-6" /> {assignedDriver.contact}
+                </p>
+                </div>
+                <br />
+                <div className='bg-black w-full'>
+                <p className="text-white flex items-center gap-8 pl-20 p-2">
+                  <strong>Distance:</strong> {assignedDriver.distance}
+                </p>
+                <p className="text-white flex items-center gap-8 pl-20 p-2">
+                  <strong>ETA:</strong> {assignedDriver.eta}
+                </p>
+              </div>
+            </div>
+          ) : (
+            <div className="mt-5 p-4 bg-gray-100 rounded-md shadow-md text-center">
+              <p className="text-gray-700">No driver assigned yet.</p>
+              <p className="text-gray-500">Please select a location on the map and assign a driver.</p>
+            </div>
+          )}
+          <br />
+          <br />
         </div>
       </div>
 
