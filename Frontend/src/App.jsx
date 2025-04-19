@@ -6,7 +6,7 @@ import Adminpanel from "../Pages/AdminPanel/Adminpanel";
 
 //restaurant owner
 import OwnerDashboard from "../Pages/Hasara/RestaurantOwner/OwnerDashboard"
-
+import RestaurantView from "../Pages/Hasara/RestaurantDetails/RestaurantView"
 
 function App() {
   return (
@@ -20,6 +20,8 @@ function App() {
 
           {/* restaurant owner route  */}
           <Route path="/OwnerDashboard" element={<OwnerDashboard />} />
+          {/*restaurant View - hasara*/ }
+          <Route path="/restaurant/:id" element={<RestaurantView />} />
          
         </Routes>
       </BrowserRouter>

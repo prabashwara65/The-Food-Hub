@@ -5,7 +5,7 @@ import { clearUser } from "../../ReduxToolKit/userSlice";
 import Navbar from "../../Components/Navbar";
 import Footer from "../../Components/Footer";
 import SearchBar from "../../Components/SearchBar";
-
+import {Link} from "react-router-dom";
 
 const Home = () => {
   //for search function (hasara)
@@ -57,9 +57,11 @@ const Home = () => {
                 <p className="text-gray-600 bg-white p-1 rounded shadow mb-3">No such restaurant found.</p>
               ) : (
                 restaurants.map((restaurant, index) => (
-                  <div key={index} className="bg-white p-2 rounded shadow mb-3">
+                  <Link to={`/restaurant/${restaurant.restaurantId}`} key={index}>
+                     <div className="bg-white p-4 rounded shadow mb-2 hover:bg-gray-100 cursor-pointer">
                       {restaurant.name}
-                  </div>
+                    </div>
+                  </Link>
                 ))
               )}
             </div>
