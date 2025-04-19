@@ -13,8 +13,13 @@
     "@react-google-maps/api": "^2.20.6",
     "@reduxjs/toolkit": "^2.6.1",
     "@tailwindcss/vite": "^4.0.14",
+
     "chart.js": "^4.4.8",
-    "lucide-react": "^0.483.0",
+   
+
+    "lucide-react": "^0.488.0",
+    "prettier-plugin-tailwindcss": "^0.0.0-insiders.d539a72",
+
     "react": "^19.0.0",
     "react-chartjs-2": "^5.3.0",
     "react-dom": "^19.0.0",
