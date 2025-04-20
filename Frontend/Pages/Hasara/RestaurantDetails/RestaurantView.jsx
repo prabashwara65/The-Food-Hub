@@ -8,7 +8,7 @@ const RestaurantDetails = () => {
   const [menus, setMenus] = useState([]);
 
   useEffect(() => {
-    fetch(`http://localhost:8000/api/restaurantView/byRestaurant/${id}`)
+    fetch(`http://localhost:4000/api/restaurantView/byRestaurant/${id}`)
       .then((res) => res.json())
       .then((data) => setMenus(data))
       .catch((err) => {

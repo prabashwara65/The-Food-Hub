@@ -23,7 +23,7 @@ const Home = () => {
       return;
     }
 
-    fetch(`http://localhost:8000/api/restaurantView/searchRestaurants?name=${searchQuery}`)
+    fetch(`http://localhost:4000/api/restaurantView/searchRestaurants?name=${searchQuery}`)
     .then((res) => res.json())
     .then((data) => {
       if(data.length === 0){
