@@ -1,0 +1,52 @@
+import React from "react";
+import { FaPhoneAlt, FaMapMarkerAlt, FaFacebookF, FaWhatsapp, FaInstagram } from "react-icons/fa";
+
+const Banner = () => {
+  return (
+    <div className="container mx-auto p-5 py-5 bg-orange-300 md:h-[290px] rounded-xl">
+      <div className="container relative mx-auto bg-amber-100 py-5 px-5 md:h-[250px] rounded-xl 
+      overflow-hidden flex flex-col md:flex-row items-center justify-between gap-6">
+        
+        {/* Left: Text Content */}
+        <div className="flex flex-col gap-3 max-w-xl ml-5">
+          <h3 className="text-2xl md:text-3xl font-extrabold text-[#2F2F2F]">Mew Mew</h3>
+
+          {/* Contact Info */}
+          <div className="mt-2 space-y-1 text-sm text-[#2F2F2F]">
+            <p className="flex items-center gap-3">
+              <FaPhoneAlt /> +39 123 456 789
+            </p>
+            <p className="flex items-center gap-3">
+              <FaMapMarkerAlt /> Via Roma 45, Florence, Italy
+            </p>
+          </div>
+
+          {/* Social Media Icons */}
+          <div className="flex gap-4 mt-3 text-[#2F2F2F] text-lg">
+            <a href="#" aria-label="Facebook" className="hover:text-blue-600">
+              <FaFacebookF />
+            </a>
+            <a href="#" aria-label="Whatsapp" className="hover:text-emerald-500">
+              <FaWhatsapp />
+            </a>
+            <a href="#" aria-label="Instagram" className="hover:text-pink-500">
+              <FaInstagram />
+            </a>
+          </div>
+        </div>
+
+        {/* Right: Image */}
+        <div className="md:block">
+          <img
+            src="/restaurant.png"
+            alt="restaurant"
+            className="w-[16rem] md:w-[20rem] -rotate-12 md:rotate-0 h-[20rem] md:h-[20rem] "
+          />
+        </div>
+
+      </div>
+    </div>
+  );
+};
+
+export default Banner;
