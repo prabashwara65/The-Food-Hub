@@ -4,6 +4,7 @@ import Navbar from "../../../Components/Navbar";
 import Banner from "../../../Components/BannerRestaurant";
 import Footer from "../../../Components/Footer";
 import { FaShoppingCart } from "react-icons/fa";
+import { Link } from "react-router-dom";
 
 const RestaurantDetails = () => {
   const { id } = useParams(); // restaurantId from URL
@@ -24,9 +25,9 @@ const RestaurantDetails = () => {
   }, [id]);
 
   return (
-    <div className="container mx-auto p-2">
+    <div className="min-h-screen bg-linear-to-r from-[#f7b758] from-10% via-[#f0d9a3] via-65% to-[#e49e53] to-90%">
         <Navbar />
-       <div className="bg-orange-100 rounded-xl p-5 "> 
+       <div className=" p-5"> 
         <Banner restaurantId={id}/>
       {menus.length === 0 ? (
         <p>No menu available.</p>
@@ -35,16 +36,23 @@ const RestaurantDetails = () => {
           {menus.map((menu) => (
           <div key={menu.menuId} className="p-4 rounded shadow-xl bg-white/75 backdrop-blur-sm flex flex-col justify-between h-full">
            <div>
-              <h2 className="font-bold text-lg">{menu.title}</h2>
+           <Link to={`/menu/${menu.menuId}`} className="hover:underline text-black-900">
+               <h2 className="font-bold text-lg">{menu.title}</h2>
+           </Link>
               {menu.photos?.length > 0 && (
-               <img src={menu.photos[0]} alt={menu.title} className="mt-2 w-full h-45 object-cover rounded" />
+              <Link to={`/menu/${menu.menuId}`}>
+              <img
+                src={menu.photos[0]}
+                alt={menu.title}
+                className="mt-2 w-full h-45 object-cover rounded hover:opacity-90 transition"
+              />
+            </Link>
              )}
-             <p className="font-semibold mt-2">Rs. {menu.price}</p>
            </div>
 
-          <div className="mt-2 flex justify-between items-center">
-              <button className="text-blue-600 hover:underline text-sm">View More</button>
-              <button className="bg-green-600 text-white px-2 py-1 rounded flex items-center gap-2 hover:bg-green-700 transition">
+          <div className="mt-4 flex justify-between items-center">
+              <p className="font-bold  text-lg">Rs. {menu.price}</p>
+              <button className="bg-black text-white px-2 py-1 rounded flex items-center gap-2 hover:bg-gray-300 hover:text-black transition">
               <FaShoppingCart /> Add to Cart
               </button>
         </div>

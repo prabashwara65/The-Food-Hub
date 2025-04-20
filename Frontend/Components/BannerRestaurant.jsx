@@ -19,7 +19,7 @@ const Banner = ({ restaurantId }) => {
 
 
   return (
-    <div className="container mx-auto p-5 py-5 bg-orange-300 md:h-[290px] rounded-xl">
+    <div className="">
       <div className="container relative mx-auto bg-amber-100 py-5 px-5 md:h-[250px] rounded-xl 
       overflow-hidden flex flex-col md:flex-row items-center justify-between gap-6">
         
@@ -56,7 +56,7 @@ const Banner = ({ restaurantId }) => {
           <img
             src="/restaurant.png"
             alt="restaurant"
-            className="w-[16rem] md:w-[20rem] -rotate-12 md:rotate-0 h-[20rem] md:h-[20rem] "
+            className="w-[15rem] md:w-[20rem]   h-[15rem] md:h-[20rem] "
           />
         </div>
 
