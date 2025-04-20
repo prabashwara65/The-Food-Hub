@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import Navbar from "../../../Components/Navbar";
 import Banner from "../../../Components/BannerRestaurant";
+import Footer from "../../../Components/Footer";
 
 const RestaurantDetails = () => {
   const { id } = useParams(); // restaurantId from URL
@@ -39,6 +40,7 @@ const RestaurantDetails = () => {
           ))}
         </div>
       )}
+      <Footer/>
     </div>
   );
 };
