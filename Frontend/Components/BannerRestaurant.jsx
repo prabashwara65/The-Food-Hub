@@ -1,7 +1,23 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { FaPhoneAlt, FaMapMarkerAlt, FaFacebookF, FaWhatsapp, FaInstagram } from "react-icons/fa";
 
-const Banner = () => {
+const Banner = ({ restaurantId }) => {
+  const [restaurant, setRestaurant] = useState(null);
+
+  useEffect(() => {
+    if (restaurantId) {
+      fetch(`http://localhost:4000/api/restaurantView/${restaurantId}`)
+        .then((res) => res.json())
+        .then((data) => setRestaurant(data))
+        .catch((err) => {
+          console.error("Error fetching restaurant details:", err);
+          setRestaurant(null);
+        });
+    }
+  }, [restaurantId]);
+
+
+
   return (
     <div className="container mx-auto p-5 py-5 bg-orange-300 md:h-[290px] rounded-xl">
       <div className="container relative mx-auto bg-amber-100 py-5 px-5 md:h-[250px] rounded-xl 
@@ -9,15 +25,15 @@ const Banner = () => {
         
         {/* Left: Text Content */}
         <div className="flex flex-col gap-3 max-w-xl ml-5">
-          <h3 className="text-2xl md:text-3xl font-extrabold text-[#2F2F2F]">Mew Mew</h3>
+          <h3 className="text-2xl md:text-3xl font-extrabold text-[#2F2F2F]">{restaurant?.name || "Loading..."}</h3>
 
           {/* Contact Info */}
-          <div className="mt-2 space-y-1 text-sm text-[#2F2F2F]">
+          <div className="mt-2 space-y-1 text-lg text-[#2F2F2F]">
             <p className="flex items-center gap-3">
-              <FaPhoneAlt /> +39 123 456 789
+              <FaPhoneAlt /> {restaurant?.mobile || "+39 123 456 789"}
             </p>
             <p className="flex items-center gap-3">
-              <FaMapMarkerAlt /> Via Roma 45, Florence, Italy
+              <FaMapMarkerAlt /> {restaurant?.location || "Unknown location"}
             </p>
           </div>
 
