@@ -4,14 +4,16 @@ import AddMenuModal from "./AddMenu";
 import MenuCard from "./MenuCard";
 import toast, { Toaster } from "react-hot-toast";
 
-const MenuDashboard = () => {
+const MenuDashboard = ({restaurantId}) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [menus, setMenus] = useState([]);
+  
 
   useEffect(() => {
     const fetchMenus = async () => {
+      if (!restaurantId) return; 
       try {
-        const response = await fetch("http://localhost:8000/api/menu/");
+        const response = await fetch(`http://localhost:8000/api/menu/menus/${restaurantId}`);
         if (!response.ok) throw new Error("Failed to fetch menus");
 
         const json = await response.json();
@@ -23,7 +25,7 @@ const MenuDashboard = () => {
     };
 
     fetchMenus();
-  }, []);
+  }, [restaurantId]);
 
   // Delete menu
   const handleDelete = async (id) => {

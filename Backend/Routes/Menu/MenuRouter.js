@@ -1,6 +1,6 @@
 const express = require("express");
 
-const { createMenu, getMenus, updateMenu, deleteMenu} =  require('../../Controller/Menu/MenuController')
+const { createMenu, getMenus, updateMenu, deleteMenu, getMenusByRestaurantID} =  require('../../Controller/Menu/MenuController')
 
 const router = express.Router()
 const fileupload = require("express-fileupload")
@@ -25,5 +25,7 @@ router.patch("/:id", fileupload(),updateMenu)
 //delete menu
 router.delete("/:id", deleteMenu)
 
+//get menu by restaurant id
+router.get("/menus/:restaurantId", getMenusByRestaurantID)
 
 module.exports = router

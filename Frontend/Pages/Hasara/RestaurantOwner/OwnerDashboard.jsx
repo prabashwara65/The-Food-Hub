@@ -16,7 +16,7 @@ const OwnerDashboard = () => {
               Welcome to Mew Mew Dashboard
             </h2>
           )}
-          {activePage === "Menu" && <Menu />}
+          {activePage === "Menu" && <Menu restaurantId="RI-0001"/>}
           {activePage === "Order" && (
             <h2 className="text-xl font-semibold">Order Management</h2>
           )}

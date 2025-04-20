@@ -107,4 +107,16 @@ const updateMenu = async (req,res) => {
         }
 }
 
-module.exports = {createMenu, getMenus, updateMenu, deleteMenu}
+//get menus by restaurantId
+const getMenusByRestaurantID = async (req, res) => {
+  try{
+    const {restaurantId} = req.params
+    const menus = await Menu.find({restaurantId})
+    res.status(200).json(menus)
+  } catch (error){
+    res.status(500).json({ error: "Internal Server Error", details: error.message })
+  }
+};
+
+
+module.exports = {createMenu, getMenus, updateMenu, deleteMenu, getMenusByRestaurantID}
