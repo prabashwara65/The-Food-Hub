@@ -2,13 +2,14 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import Navbar from "../../../Components/Navbar";
 import Banner from "../../../Components/BannerRestaurant";
+import Footer from "../../../Components/Footer";
 
 const RestaurantDetails = () => {
   const { id } = useParams(); // restaurantId from URL
   const [menus, setMenus] = useState([]);
 
   useEffect(() => {
-    fetch(`http://localhost:8000/api/restaurantView/byRestaurant/${id}`)
+    fetch(`http://localhost:4000/api/restaurantView/byRestaurant/${id}`)
       .then((res) => res.json())
       .then((data) => setMenus(data))
       .catch((err) => {
@@ -39,6 +40,7 @@ const RestaurantDetails = () => {
           ))}
         </div>
       )}
+      <Footer/>
     </div>
   );
 };

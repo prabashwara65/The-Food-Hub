@@ -1,12 +1,14 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 const Navbar = () => {
+
   return (
     <div className="container mx-auto w-full h-2xl p-4 ">
       <div className="flex  items-center justify-between">
         <h3 className="text-2xl">The Food App</h3>
         <ul className="flex flex-row gap-7 justify-center cursor-pointer font-extralight bg-[#F4F6F6] p-4 rounded-3xl">
-          <li>Home</li>
+          <Link to='/' >Home</Link>
           <li>Service</li>
           <li>Order</li>
           <li>Restuarant</li>
