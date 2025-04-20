@@ -31,7 +31,7 @@ const RestaurantDetails = () => {
       {menus.length === 0 ? (
         <p>No menu available.</p>
       ) : (
-        <div className="grid gap-10 grid-cols-2 md:grid-cols-3 lg:grid-cols-4 mt-5">
+        <div className="grid gap-10 grid-cols-2 md:grid-cols-3 lg:grid-cols-4 mt-10 mb-10">
           {menus.map((menu) => (
           <div key={menu.menuId} className="p-4 rounded shadow-xl bg-white/75 backdrop-blur-sm flex flex-col justify-between h-full">
            <div>
