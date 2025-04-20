@@ -58,7 +58,7 @@ const Home = () => {
               ) : (
                 restaurants.map((restaurant, index) => (
                   <Link to={`/restaurant/${restaurant.restaurantId}`} key={index}>
-                     <div className="bg-white p-4 rounded shadow mb-2 hover:bg-gray-100 cursor-pointer">
+                     <div className="bg-white p-1 rounded shadow mb-2 hover:bg-gray-100 cursor-pointer">
                       {restaurant.name}
                     </div>
                   </Link>

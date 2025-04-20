@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import Navbar from "../../../Components/Navbar";
+import Banner from "../../../Components/BannerRestaurant";
 
 const RestaurantDetails = () => {
   const { id } = useParams(); // restaurantId from URL
@@ -19,6 +20,7 @@ const RestaurantDetails = () => {
   return (
     <div className="container mx-auto p-4">
         <Navbar />
+        <Banner/>
       <h1 className="text-2xl font-bold mb-4">Menu for Restaurant: {id}</h1>
       {menus.length === 0 ? (
         <p>No menu available.</p>
