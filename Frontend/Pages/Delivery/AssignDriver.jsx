@@ -153,7 +153,7 @@ const AssignDriver = () => {
 
       <div className="flex flex-col md:flex-row gap-5">
         <div className="flex-3 w-full md:w-3/4">
-          <LoadScript googleMapsApiKey="AIzaSyDnTiJWsc_ZB0JwbXSbiS_TIX-Qwv3foEA">
+          <LoadScript googleMapsApiKey="">
             <GoogleMap
               mapContainerStyle={mapContainerStyle}
               center={center}
