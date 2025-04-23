@@ -3,6 +3,8 @@ import { useParams } from "react-router-dom";
 import Navbar from "../../../Components/Navbar";
 import Banner from "../../../Components/BannerRestaurant";
 import Footer from "../../../Components/Footer";
+import { FaShoppingCart } from "react-icons/fa";
+import { Link } from "react-router-dom";
 
 const RestaurantDetails = () => {
   const { id } = useParams(); // restaurantId from URL
@@ -11,7 +13,11 @@ const RestaurantDetails = () => {
   useEffect(() => {
     fetch(`http://localhost:4000/api/restaurantView/byRestaurant/${id}`)
       .then((res) => res.json())
-      .then((data) => setMenus(data))
+      .then((data) => {
+        // Filter menus to only include available ones
+        const availableMenus = data.filter((menu) => menu.availability === true);
+        setMenus(availableMenus);
+      })
       .catch((err) => {
         console.error("Error fetching menus:", err);
         setMenus([]);
@@ -19,27 +25,42 @@ const RestaurantDetails = () => {
   }, [id]);
 
   return (
-    <div className="container mx-auto p-4">
+    <div className="min-h-screen bg-linear-to-r from-[#f7b758] from-10% via-[#f0d9a3] via-65% to-[#e49e53] to-90%">
         <Navbar />
-        <Banner/>
-      <h1 className="text-2xl font-bold mb-4">Menu for Restaurant: {id}</h1>
+       <div className=" p-5"> 
+        <Banner restaurantId={id}/>
       {menus.length === 0 ? (
         <p>No menu available.</p>
       ) : (
-        <div className="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+        <div className="grid gap-10 grid-cols-2 md:grid-cols-3 lg:grid-cols-4 mt-10 mb-10">
           {menus.map((menu) => (
-            <div key={menu.menuId} className="border p-4 rounded shadow">
-              <h2 className="font-bold text-lg">{menu.title}</h2>
-              <p className="text-sm text-gray-600">{menu.description}</p>
-              <p className="font-semibold text-green-700">Rs. {menu.price}</p>
-              <p className="text-sm">Category: {menu.category}</p>
+          <div key={menu.menuId} className="p-4 rounded shadow-xl bg-white/75 backdrop-blur-sm flex flex-col justify-between h-full">
+           <div>
+           <Link to={`/menu/${menu.menuId}`} className="hover:underline text-black-900">
+               <h2 className="font-bold text-lg">{menu.title}</h2>
+           </Link>
               {menu.photos?.length > 0 && (
-                <img src={menu.photos[0]} alt={menu.title} className="mt-2 w-full h-40 object-cover rounded" />
-              )}
-            </div>
-          ))}
+              <Link to={`/menu/${menu.menuId}`}>
+              <img
+                src={menu.photos[0]}
+                alt={menu.title}
+                className="mt-2 w-full h-45 object-cover rounded hover:opacity-90 transition"
+              />
+            </Link>
+             )}
+           </div>
+
+          <div className="mt-4 flex justify-between items-center">
+              <p className="font-bold  text-lg">Rs. {menu.price}</p>
+              <button className="bg-black text-white px-2 py-1 rounded flex items-center gap-2 hover:bg-gray-300 hover:text-black transition">
+              <FaShoppingCart /> Add to Cart
+              </button>
+        </div>
+        </div>
+        ) )}
         </div>
       )}
+      </div>
       <Footer/>
     </div>
   );

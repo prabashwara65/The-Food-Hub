@@ -119,4 +119,23 @@ const getMenusByRestaurantID = async (req, res) => {
 };
 
 
-module.exports = {createMenu, getMenus, updateMenu, deleteMenu, getMenusByRestaurantID}
+//get single menu by id
+const getMenuById = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const menu = await Menu.findOne({ menuId: id });
+
+    if (!menu) {
+      return res.status(404).json({ error: "No such menu" });
+    }
+
+    res.status(200).json(menu);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Server error" });
+  }
+};
+
+
+module.exports = {createMenu, getMenus, updateMenu, deleteMenu, getMenusByRestaurantID, getMenuById}
