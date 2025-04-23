@@ -13,11 +13,11 @@ const Navbar = () => {
       <div className="flex items-center justify-between">
         <h3 className="text-2xl">The Food App</h3>
         <ul className="flex flex-row gap-7 justify-center cursor-pointer font-extralight bg-[#F4F6F6] p-4 rounded-3xl">
-          <Link to="/">Home</Link>
-          <li>Service</li>
-          <li>Order</li>
-          <li>Restaurant</li>
-          <li>Feedback</li>
+          <Link to='/' >Home</Link>
+          <Link to='#'>Service</Link>
+          <Link to='#'>Order</Link>
+          <Link to='#'>Restuarant</Link>
+          <Link to='#'>Feedback</Link>
         </ul>
         <div className="flex gap-2 pl-2 items-center relative">
           {isLoggedIn && (

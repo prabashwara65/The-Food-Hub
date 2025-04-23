@@ -5,7 +5,7 @@ const Footer = () => {
           
           {/* Brand */}
           <div>
-            <h2 className="text-2xl font-bold mb-2 text-[#48AAF5]">GoFIND-WORLD 🌍</h2>
+            <h2 className="text-2xl font-bold mb-2 text-[#48AAF5]">The Food Hub </h2>
             <p className="text-sm text-gray-400">
               Explore countries, cultures, and facts around the globe in one immersive map experience.
             </p>

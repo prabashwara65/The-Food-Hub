@@ -5,6 +5,7 @@ import { clearUser } from "../../ReduxToolKit/userSlice";
 import Navbar from "../../Components/Navbar";
 import Footer from "../../Components/Footer";
 import SearchBar from "../../Components/SearchBar";
+import HomeCard from "../../Components/HomeCard"
 import {Link} from "react-router-dom";
 
 const Home = () => {
@@ -12,6 +13,7 @@ const Home = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [restaurants, setRestaurants] = useState([]); 
   const [notFound, setNotFound] = useState(false); 
+  const [menus, setMenus] = useState([]);
 
   const user = useSelector((state) => state.user.user);
 
@@ -43,8 +45,29 @@ const Home = () => {
   return () => clearTimeout(delayDebounce); //cleanup function
  }, [searchQuery]);
 
+  
+ useEffect(() => {
+   const fetchMenus = async () => {
+     try {
+       const response = await fetch("http://localhost:4000/api/menu/menus/RI-0001");
+       console.log(response)
+       
+       if (!response.ok) throw new Error("Failed to fetch menus");
+
+       const json = await response.json();
+       setMenus(json);
+     } catch (error) {
+       toast.error("Error fetching menu data.");
+       console.error("Fetch Error:", error);
+     }
+   };
+
+   fetchMenus();
+ }, []);
+ 
+
   return (
-    <div className="min-h-screen bg-linear-to-r from-[#E3E5E6] from-10% via-[#EDECE3] via-65% to-[#F6EFC8] to-90%">
+    <div className="min-h-screen px-12 bg-linear-to-r from-[#E3E5E6] from-10% via-[#EDECE3] via-65% to-[#F6EFC8] to-90%">
       <Navbar />
       <div className="h-full mx-auto">
         <div className="container flex mx-auto py-8 justify-between items-end ">
@@ -95,139 +118,16 @@ const Home = () => {
           />
         </div>
 
-        <div className="container mx-auto flex flex-row mt-25 gap-7">
-          {/* Card 1 */}
-          <div className="relative flex flex-1/4 h-50 bg-[#FFFFFF] rounded-3xl shadow-xl">
-            <div className="absolute top-[-50px] left-23 w-30 h-30 rounded-full bg-red-200 "></div>
-            <div className="absolute w-30 h-38 bottom-0 p-4 pt-8 ">
-              {/* Rating */}
-              <div className="flex">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth={1.5}
-                  stroke="currentColor"
-                  className="size-5 pt-1 fill-[#AE859B] text-[#AE859B]"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M11.48 3.499a.562.562 0 0 1 1.04 0l2.125 5.111a.563.563 0 0 0 .475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 0 0-.182.557l1.285 5.385a.562.562 0 0 1-.84.61l-4.725-2.885a.562.562 0 0 0-.586 0L6.982 20.54a.562.562 0 0 1-.84-.61l1.285-5.386a.562.562 0 0 0-.182-.557l-4.204-3.602a.562.562 0 0 1 .321-.988l5.518-.442a.563.563 0 0 0 .475-.345L11.48 3.5Z"
-                  />
-                </svg>
-                <p className="text-md pl-1 text-[#AE859B]">4.7</p>
-              </div>
-
-              <p className="w-2xs pt-4 pl-1">
-                Special <span className="block">Chiken rice Bowl</span>{" "}
-              </p>
-              {/* Price */}
-            </div>
-            <div className="absolute flex justify-center items-center w-11 h-11 bottom-8 right-5 bg-[#AE859B] rounded-full text-sm text-white font-medium">
-              250
-            </div>
-          </div>
-          {/* Card 2 */}
-          <div className="relative flex flex-1/4 h-50 bg-[#FFFFFF] rounded-3xl shadow-xl">
-            <div className="absolute top-[-50px] left-23 w-30 h-30 rounded-full bg-red-200"></div>
-            <div className="absolute w-30 h-38 bottom-0 p-4 pt-8">
-              {/* Rating */}
-              <div className="flex">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth={1.5}
-                  stroke="currentColor"
-                  className="size-5 pt-1 fill-[#AE859B] text-[#AE859B]"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M11.48 3.499a.562.562 0 0 1 1.04 0l2.125 5.111a.563.563 0 0 0 .475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 0 0-.182.557l1.285 5.385a.562.562 0 0 1-.84.61l-4.725-2.885a.562.562 0 0 0-.586 0L6.982 20.54a.562.562 0 0 1-.84-.61l1.285-5.386a.562.562 0 0 0-.182-.557l-4.204-3.602a.562.562 0 0 1 .321-.988l5.518-.442a.563.563 0 0 0 .475-.345L11.48 3.5Z"
-                  />
-                </svg>
-                <p className="text-md pl-1 text-[#AE859B]">4.7</p>
-              </div>
-
-              <p className="w-2xs pt-4 pl-1">
-                Special <span className="block">Chiken rice Bowl</span>{" "}
-              </p>
-              {/* Price */}
-            </div>
-            <div className="absolute flex justify-center items-center w-11 h-11 bottom-8 right-5 bg-[#AE859B] rounded-full text-sm text-white font-medium">
-              250
-            </div>
-          </div>
-          {/* Card 3 */}
-          <div className="relative flex flex-1/4 h-50 bg-[#FFFFFF] rounded-3xl shadow-xl">
-            <div className="absolute top-[-50px] left-23 w-30 h-30 rounded-full bg-red-200"></div>
-            <div className="absolute w-30 h-38 bottom-0 p-4 pt-8">
-              {/* Rating */}
-              <div className="flex">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth={1.5}
-                  stroke="currentColor"
-                  className="size-5 pt-1 fill-[#AE859B] text-[#AE859B]"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M11.48 3.499a.562.562 0 0 1 1.04 0l2.125 5.111a.563.563 0 0 0 .475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 0 0-.182.557l1.285 5.385a.562.562 0 0 1-.84.61l-4.725-2.885a.562.562 0 0 0-.586 0L6.982 20.54a.562.562 0 0 1-.84-.61l1.285-5.386a.562.562 0 0 0-.182-.557l-4.204-3.602a.562.562 0 0 1 .321-.988l5.518-.442a.563.563 0 0 0 .475-.345L11.48 3.5Z"
-                  />
-                </svg>
-                <p className="text-md pl-1 text-[#AE859B]">4.7</p>
-              </div>
-
-              <p className="w-2xs pt-4 pl-1">
-                Special <span className="block">Chiken rice Bowl</span>{" "}
-              </p>
-              {/* Price */}
-            </div>
-            <div className="absolute flex justify-center items-center w-11 h-11 bottom-8 right-5 bg-[#AE859B] rounded-full text-sm text-white font-medium">
-              250
-            </div>
-          </div>
-          {/* Card 4 */}
-          <div className="relative flex flex-1/4 h-50 bg-[#FFFFFF] rounded-3xl shadow-xl">
-            <div className="absolute top-[-50px] left-23 w-30 h-30 rounded-full bg-red-200"></div>
-            <div className="absolute w-30 h-38 bottom-0 p-4 pt-8">
-              {/* Rating */}
-              <div className="flex">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth={1.5}
-                  stroke="currentColor"
-                  className="size-5 pt-1 fill-[#AE859B] text-[#AE859B]"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M11.48 3.499a.562.562 0 0 1 1.04 0l2.125 5.111a.563.563 0 0 0 .475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 0 0-.182.557l1.285 5.385a.562.562 0 0 1-.84.61l-4.725-2.885a.562.562 0 0 0-.586 0L6.982 20.54a.562.562 0 0 1-.84-.61l1.285-5.386a.562.562 0 0 0-.182-.557l-4.204-3.602a.562.562 0 0 1 .321-.988l5.518-.442a.563.563 0 0 0 .475-.345L11.48 3.5Z"
-                  />
-                </svg>
-                <p className="text-md pl-1 text-[#AE859B]">4.7</p>
-              </div>
-
-              <p className="w-2xs pt-4 pl-1">
-                Special <span className="block">Chiken rice Bowl</span>{" "}
-              </p>
-              {/* Price */}
-            </div>
-            <div className="absolute flex justify-center items-center w-11 h-11 bottom-8 right-5 bg-[#AE859B] rounded-full text-sm text-white font-medium">
-              250
-            </div>
-          </div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mt-6">
+        {menus.map((menu) => (
+          <HomeCard key={menu._id} menu={menu}  />
+        ))}
         </div>
 
+       
+
         {/* 3rd container */}
-        <div className="container flex mx-auto justify-between mt-15 gap-5">
+        <div className="container p-8 flex mx-auto justify-between mt-15 gap-5">
           {/* First Card */}
           <div className="flex flex-1/4">
             <div className="flex flex-col w-40 h-40 items-center p-4">
@@ -316,9 +216,11 @@ const Home = () => {
             
           </div>
         </div>
-        <Footer />
+        
       </div>
+      <Footer />
     </div>
+    
   );
 };
 
