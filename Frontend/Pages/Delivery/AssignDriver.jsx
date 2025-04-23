@@ -4,11 +4,19 @@ import { FaLocationCrosshairs } from "react-icons/fa6";
 import driv from '../../assets/images/driver1.png';
 import { FaPhoneAlt } from "react-icons/fa";
 
+
 const Spinner = () => (
   <div className="flex justify-center items-center h-24">
     <div className="animate-spin rounded-full h-10 w-10 border-t-4 border-blue-500 border-solid"></div>
   </div>
 );
+
+const vehicleIcons = {
+  bike: 'https://maps.google.com/mapfiles/ms/icons/green-dot.png', // Example icon for bike
+  car: 'https://maps.google.com/mapfiles/ms/icons/blue-dot.png',   // Example icon for car
+  truck: 'https://maps.google.com/mapfiles/ms/icons/orange-dot.png', // Example icon for truck
+  default: 'https://maps.google.com/mapfiles/ms/icons/red-dot.png'  // Default icon
+};
 
 const AssignDriver = () => {
   const [orderLocation, setOrderLocation] = useState(null);
@@ -17,10 +25,11 @@ const AssignDriver = () => {
   const [error, setError] = useState(null);
   const [drivers, setDrivers] = useState([]);
   const [directions, setDirections] = useState(null);
+  const [progressStep, setProgressStep] = useState(0); // Progress step state
 
   const mapContainerStyle = {
     width: '100%',
-    height: '400px'
+    height: '600px'
   };
 
   const center = { lat: 6.9271, lng: 79.8612 };
@@ -47,6 +56,7 @@ const AssignDriver = () => {
     setAssignedDriver(null);
     setError(null);
     setDirections(null);
+    setProgressStep(0); // Reset progress
   };
 
   const getUserLocation = () => {
@@ -57,6 +67,7 @@ const AssignDriver = () => {
           setOrderLocation({ lat: latitude, lng: longitude });
           setError(null);
           setDirections(null);
+          setProgressStep(0); // Reset progress
         },
         () => {
           setError("Unable to retrieve your location. Please enable location services.");
@@ -74,8 +85,8 @@ const AssignDriver = () => {
     }
 
     setIsLoading(true);
+    setProgressStep(1); // Step 1: Assigning driver
     try {
-      // Get nearest driver from your backend
       const response = await fetch('http://localhost:8000/api/assign-driver', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -125,6 +136,8 @@ const AssignDriver = () => {
               distance: `${distanceInKm} km`,
               eta: `${durationInMinutes} min`
             }));
+
+            setProgressStep(2); // Step 2: Delivery driver coming
           } else {
             console.error("Directions request failed due to", status);
             setError("Failed to fetch route.");
@@ -140,20 +153,26 @@ const AssignDriver = () => {
     }
   };
 
-  const vehicleIcons = {
-    bike: '🚲',
-    car: '🚗',
-    truck: '🚚',
-    default: '🚙'
-  };
-
   return (
     <div className="p-4">
-      <h1 className="text-3xl font-bold mb-5">Food <span className="text-green-500">Hub</span></h1>
+      <h1 className="text-3xl font-bold mb-5" style={{ fontSize: '24px' }}>Food <span className="text-green-500">Hub</span></h1>
+
+      <div className="mb-5">
+        <div className="flex justify-between items-center">
+          <div className={`w-1/3 h-2 ${progressStep >= 1 ? 'bg-green-500' : 'bg-gray-300'}`}></div>
+          <div className={`w-1/3 h-2 ${progressStep >= 2 ? 'bg-green-500' : 'bg-gray-300'}`}></div>
+          <div className={`w-1/3 h-2 ${progressStep >= 3 ? 'bg-green-500' : 'bg-gray-300'}`}></div>
+        </div>
+        <div className="flex justify-between text-sm mt-2">
+          <span className={`${progressStep >= 1 ? 'text-green-500' : 'text-gray-500'}`}>Assigning Driver</span>
+          <span className={`${progressStep >= 2 ? 'text-green-500' : 'text-gray-500'}`}>Delivering</span>
+          <span className={`${progressStep >= 3 ? 'text-green-500' : 'text-gray-500'}`}>Confirmation</span>
+        </div>
+      </div>
 
       <div className="flex flex-col md:flex-row gap-5">
-        <div className="flex-3 w-full md:w-3/4">
-          <LoadScript googleMapsApiKey="AIzaSyDnTiJWsc_ZB0JwbXSbiS_TIX-Qwv3foEA">
+        <div className="flex-3.5 w-full md:w-3/4">
+          <LoadScript googleMapsApiKey="YOUR_GOOGLE_MAPS_API_KEY">
             <GoogleMap
               mapContainerStyle={mapContainerStyle}
               center={center}
@@ -173,18 +192,14 @@ const AssignDriver = () => {
                 icon={{ url: 'https://maps.google.com/mapfiles/ms/icons/blue-dot.png' }}
               />
 
-              {assignedDriver && assignedDriver.location && (
+              {/* Add markers for available drivers */}
+              {drivers.map((driver) => (
                 <Marker
-                  position={{
-                    lat: assignedDriver.location.lat,
-                    lng: assignedDriver.location.lng
-                  }}
-                  icon={{
-                    url: 'https://maps.google.com/mapfiles/ms/icons/yellow-dot.png',
-                    scaledSize: new window.google.maps.Size(40, 40)
-                  }}
+                  key={driver._id}
+                  position={{ lat: driver.location.lat, lng: driver.location.lng }}
+                  icon={{ url: vehicleIcons[driver.vehicleType] || vehicleIcons.default }}
                 />
-              )}
+              ))}
 
               {directions && (
                 <DirectionsRenderer
@@ -205,7 +220,7 @@ const AssignDriver = () => {
 
         <div className="flex-1 text-center">
           <div className="mb-5 flex flex-row gap items-center">
-            <p className="mb-2">Your location</p>
+            <p className="mb-2" style={{ fontSize: '24px' }}>Your location</p>
             <button onClick={getUserLocation} className="p-2 text-xl bg-gray-200 rounded-full">
               <FaLocationCrosshairs />
             </button>

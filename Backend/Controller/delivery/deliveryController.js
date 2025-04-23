@@ -1,6 +1,7 @@
 const Driver = require('../../Model/delivery/Driver');
 const Assignment = require('../../Model/delivery/Assignment'); // Import the Assignment model
 const { Client } = require('@googlemaps/google-maps-services-js');
+const nodemailer = require('nodemailer'); // Import Nodemailer
 const client = new Client({});
 
 const GOOGLE_API_KEY = process.env.GOOGLE_MAPS_API_KEY;
@@ -71,6 +72,38 @@ exports.assignDriver = async (req, res) => {
       eta: calculateETA(nearest.distance)
     });
     await assignment.save();
+
+    // Send email notification
+    const transporter = nodemailer.createTransport({
+      service: 'gmail', // Use your email service provider
+      auth: {
+        user: process.env.EMAIL_USER, // Your email address
+        pass: process.env.EMAIL_PASS  // Your email password or app-specific password
+      }
+    });
+
+    const mailOptions = {
+      from: process.env.EMAIL_USER,
+      to: assignedDriver.email, // Use the driver's email from the database
+      subject: 'Driver Assigned for Your Delivery',
+      text: `Hello,
+
+A driver has been assigned for your delivery.
+
+Driver Details:
+- Name: ${assignedDriver.name}
+- Vehicle: ${assignedDriver.vehicleType}
+- Contact: ${assignedDriver.phone}
+- Distance: ${(nearest.distance / 1000).toFixed(1)} km
+- ETA: ${calculateETA(nearest.distance)}
+
+Thank you for using The Food Hub!
+
+Best regards,
+The Food Hub Team`
+    };
+
+    await transporter.sendMail(mailOptions);
 
     // Respond with the assigned driver and directions
     res.json({

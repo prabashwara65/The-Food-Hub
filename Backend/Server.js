@@ -30,6 +30,10 @@ app.use('/api', deliveryRoutes);
 const driverRoutes = require('./Routes/delivery/driverRoutes');
 app.use('/api/drivers', driverRoutes);
 
+const emailRoutes = require('./Routes/delivery/emailRoutes');
+app.use('/api', emailRoutes);
+
+
 mongoose.connect(process.env.DB)
 .then(()=> {
     app.listen(process.env.PORT , () => {
