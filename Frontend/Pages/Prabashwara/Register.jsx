@@ -1,63 +1,74 @@
-import React, { useState } from "react";
-import { RiFacebookLine } from "react-icons/ri";
-import {  CgProfile } from "react-icons/cg";
-import { RiGoogleLine } from "react-icons/ri";
+import React from "react";
+import { RiFacebookLine, RiGoogleLine } from "react-icons/ri";
 import { FaInstagram } from "react-icons/fa";
+import { CgProfile } from "react-icons/cg";
+import { MdEmail, MdLockOutline } from "react-icons/md";
 
 const Register = () => {
-
-  const [isHovered, setIsHovered] = useState(false);
-
-  const Interstyle = { color: "gray", fontSize: "30px" };
-  const Outerstyle = { 
-    color: isHovered ? "black" : "gray",
-    fontSize: "25px" 
-  };
-
   return (
-    <div className="min-h-screen py-28 bg-[#38AA9A] ">
-      <div className="flex flex-col bg-gray-100  items-center  mx-auto w-lg h-full text-2xl rounded-3xl p-10 shadow-2xs">
-        <span className="text-[#38AA9A] font-bold">Create An Account</span>
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-orange-100 via-orange-300 to-yellow-200 py-16 px-4">
+      <div className="bg-white/90 backdrop-blur-xl rounded-3xl shadow-2xl p-10 w-full max-w-md">
+        <h2 className="text-3xl font-extrabold text-center text-orange-500 mb-6">
+          Create an Account
+        </h2>
 
-        <div className="flex flex-row space-between gap-4 mt-7">
-          <div className="border rounded-full p-2 hover:bg-blue-500">
-            <RiFacebookLine 
-              style={Outerstyle} 
-              onMouseEnter={() => {setIsHovered(true)}}
-              onMouseLeave={() => setIsHovered(false)}
-              />
+        <div className="flex justify-center gap-6 mb-6">
+          <div className="p-3 rounded-full bg-gray-200 hover:bg-blue-500 hover:text-white transition">
+            <RiFacebookLine size={24} />
           </div>
-          <div className="border rounded-full p-2 hover:bg-red-500">
-            <RiGoogleLine style={Outerstyle} />
+          <div className="p-3 rounded-full bg-gray-200 hover:bg-red-500 hover:text-white transition">
+            <RiGoogleLine size={24} />
           </div>
-          <div className="border rounded-full p-2 ">
-            <FaInstagram style={Outerstyle} />
+          <div className="p-3 rounded-full bg-gray-200 hover:bg-pink-500 hover:text-white transition">
+            <FaInstagram size={24} />
           </div>
         </div>
-        <div className="flex flex-col mt-6 gap-1 w-sm">
-          <input
-            type="text"
-            placeholder="Name"
-            className="border-0 p-2 m-2 bg-gray-300 relative placeholder:pl-8 placeholder:text-[20px] placeholder:pb-2 placeholder:text-black shadow-sm "
-          />
-          <CgProfile className="absolute mt-5 ml-4 " style={Interstyle} />
-          <input
-            type="text"
-            placeholder="Email"
-            className="border-0 p-2 m-2 bg-gray-300 relative placeholder:pl-8 placeholder:text-[20px] placeholder:pb-2 placeholder:text-black shadow-sm"
-          />
-          <CgProfile className="absolute mt-22 ml-4 " style={Interstyle} />
-          <input
-            type="text"
-            placeholder="Password"
-            className="border-0 p-2 m-2 bg-gray-300 relative placeholder:pl-8 placeholder:text-[20px] placeholder:pb-2 placeholder:text-black shadow-sm"
-          />
-          <CgProfile className="absolute mt-39 ml-4 " style={Interstyle} />
-        </div>
 
-        <button className="border-0 bg-[#38AA9A] m-8 w-sm p-2 rounded-3xl text-white">
-          Register
-        </button>
+        <form className="space-y-5">
+          <div className="relative">
+            <input
+              type="text"
+              placeholder="Full Name"
+              className="w-full pl-12 pr-4 py-2 rounded-lg bg-gray-100 text-gray-700 focus:outline-none focus:ring-2 focus:ring-orange-400"
+              required
+            />
+            <CgProfile className="absolute left-4 top-2.5 text-gray-500" size={22} />
+          </div>
+
+          <div className="relative">
+            <input
+              type="email"
+              placeholder="Email"
+              className="w-full pl-12 pr-4 py-2 rounded-lg bg-gray-100 text-gray-700 focus:outline-none focus:ring-2 focus:ring-orange-400"
+              required
+            />
+            <MdEmail className="absolute left-4 top-2.5 text-gray-500" size={22} />
+          </div>
+
+          <div className="relative">
+            <input
+              type="password"
+              placeholder="Password"
+              className="w-full pl-12 pr-4 py-2 rounded-lg bg-gray-100 text-gray-700 focus:outline-none focus:ring-2 focus:ring-orange-400"
+              required
+            />
+            <MdLockOutline className="absolute left-4 top-2.5 text-gray-500" size={22} />
+          </div>
+
+          <button
+            type="submit"
+            className="w-full bg-orange-500 hover:bg-orange-600 text-white font-bold py-2 rounded-lg shadow-lg transition"
+          >
+            Register
+          </button>
+        </form>
+
+        <p className="text-center text-sm text-gray-600 mt-6">
+          Already have an account?{" "}
+          <span className="text-orange-500 font-medium hover:underline cursor-pointer">
+            Log in
+          </span>
+        </p>
       </div>
     </div>
   );
