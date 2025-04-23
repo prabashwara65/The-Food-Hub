@@ -118,7 +118,7 @@ const MenuDetails = () => {
                   value={quantity}
                   onChange={(e) => setQuantity(Math.max(1, e.target.value))}
                   min="1"
-                  className="w-12 p-2 border border-gray-300 rounded-lg text-center"/>
+                  className="w-15 p-2 border border-gray-300 rounded-lg text-center"/>
                 <button
                   onClick={() => setQuantity(quantity + 1)}
                   className="pb-1 bg-black rounded-full text-xl w-8 text-white"
@@ -129,7 +129,7 @@ const MenuDetails = () => {
 
                     <button
                           onClick={handleAddToCart}
-                          className=" bg-black text-white p-3 rounded-lg shadow-lg hover:bg-gray-300 hover:text-black ml-20 font-semibold "
+                          className=" bg-black text-white p-2 rounded-lg shadow-lg hover:bg-gray-300 hover:text-black ml-20 font-semibold "
                      >
                 Add to Cart
               </button>

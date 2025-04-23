@@ -1,11 +1,16 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const Navbar = () => {
+  const user = useSelector((state) => state.user.user);
+  const isLoggedIn = !!user?.name && !!user?.email;
+
+  const cartItems = useSelector((state) => state.cart.items);
 
   return (
-    <div className="container mx-auto w-full h-2xl p-4 ">
-      <div className="flex  items-center justify-between">
+    <div className="container mx-auto w-full h-2xl p-4">
+      <div className="flex items-center justify-between">
         <h3 className="text-2xl">The Food App</h3>
         <ul className="flex flex-row gap-7 justify-center cursor-pointer font-extralight bg-[#F4F6F6] p-4 rounded-3xl">
           <Link to='/' >Home</Link>
@@ -14,8 +19,20 @@ const Navbar = () => {
           <Link to='#'>Restuarant</Link>
           <Link to='#'>Feedback</Link>
         </ul>
-        <div className="flex gap-2 pl-2">
-        <button className="p-4 bg-[#F4F6F6] rounded-3xl font-extralight">SIGNIN</button>
+        <div className="flex gap-2 pl-2 items-center relative">
+          {isLoggedIn && (
+            <Link to="/cart" className="relative p-4 bg-[#F4F6F6] rounded-3xl">
+              🛒
+              {cartItems.length >= 0 && (
+                <span className="absolute -bottom-1 -right-0 w-5 h-5 bg-red-500 text-white text-xs flex items-center justify-center rounded-full">
+                  {cartItems.length}
+                </span>
+              )}
+            </Link>
+          )}
+          <button className="p-4 bg-[#F4F6F6] rounded-3xl font-extralight">
+            {isLoggedIn ? `Hi, ${user.name}` : 'SIGNIN'}
+          </button>
           <button className="p-4 bg-[#F4F6F6] rounded-3xl">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -32,7 +49,6 @@ const Navbar = () => {
               />
             </svg>
           </button>
-          
         </div>
       </div>
     </div>
