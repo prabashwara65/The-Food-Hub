@@ -38,7 +38,7 @@ const Home = () => {
       setRestaurants([]);
       setNotFound(true);
     })
-  }, [500]); //debounce delay
+  }, 500); //debounce delay
 
   return () => clearTimeout(delayDebounce); //cleanup function
  }, [searchQuery]);
