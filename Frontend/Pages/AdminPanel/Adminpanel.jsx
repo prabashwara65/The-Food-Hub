@@ -1,11 +1,18 @@
-import React from 'react'
+import React from "react";
+import Dashboard from "./Dashboard";
+import HomeSection from "./HomeSection";
+import ManageRestaurants from "./ManageRestaurants";
 
 const Adminpanel = () => {
   return (
-    <div>
-        <h1>AdminPanel</h1>
-    </div>
-  )
-}
+    <div className="flex">
+      <Dashboard />
 
-export default Adminpanel
+      <div className="flex-1 bg-gray-50 min-h-screen p-4">
+        <HomeSection />
+      </div>
+    </div>
+  );
+};
+
+export default Adminpanel;
