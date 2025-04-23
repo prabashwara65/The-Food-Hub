@@ -44,7 +44,7 @@ const Home = () => {
  }, [searchQuery]);
 
   return (
-    <div className="min-h-screen bg-linear-to-r from-[#E3E5E6] from-10% via-[#EDECE3] via-65% to-[#F6EFC8] to-90%">
+    <div className="min-h-screen px-12 bg-linear-to-r from-[#E3E5E6] from-10% via-[#EDECE3] via-65% to-[#F6EFC8] to-90%">
       <Navbar />
       <div className="h-full mx-auto">
         <div className="container flex mx-auto py-8 justify-between items-end ">
@@ -227,7 +227,7 @@ const Home = () => {
         </div>
 
         {/* 3rd container */}
-        <div className="container flex mx-auto justify-between mt-15 gap-5">
+        <div className="container p-8 flex mx-auto justify-between mt-15 gap-5">
           {/* First Card */}
           <div className="flex flex-1/4">
             <div className="flex flex-col w-40 h-40 items-center p-4">
@@ -316,9 +316,11 @@ const Home = () => {
             
           </div>
         </div>
-        <Footer />
+        
       </div>
+      <Footer />
     </div>
+    
   );
 };
 

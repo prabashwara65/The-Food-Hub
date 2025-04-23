@@ -9,10 +9,10 @@ const Navbar = () => {
         <h3 className="text-2xl">The Food App</h3>
         <ul className="flex flex-row gap-7 justify-center cursor-pointer font-extralight bg-[#F4F6F6] p-4 rounded-3xl">
           <Link to='/' >Home</Link>
-          <li>Service</li>
-          <li>Order</li>
-          <li>Restuarant</li>
-          <li>Feedback</li>
+          <Link to='#'>Service</Link>
+          <Link to='#'>Order</Link>
+          <Link to='#'>Restuarant</Link>
+          <Link to='#'>Feedback</Link>
         </ul>
         <div className="flex gap-2 pl-2">
         <button className="p-4 bg-[#F4F6F6] rounded-3xl font-extralight">SIGNIN</button>
