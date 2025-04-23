@@ -11,7 +11,7 @@ const Navbar = () => {
   return (
     <div className="container mx-auto w-full h-2xl p-4">
       <div className="flex items-center justify-between">
-        <h3 className="text-2xl">The Food App</h3>
+        <h3 className="text-2xl font-bold">The Food Hub</h3>
         <ul className="flex flex-row gap-7 justify-center cursor-pointer font-extralight bg-[#F4F6F6] p-4 rounded-3xl">
           <Link to='/' >Home</Link>
           <Link to='#'>Service</Link>
