@@ -3,7 +3,8 @@ import Navbar from '../../../Components/Navbar';
 import { useParams, useNavigate } from 'react-router-dom';
 import Footer from '../../../Components/Footer';
 import { useSelector } from 'react-redux'; //import useSelector from react-redux
-
+import { toast } from 'react-hot-toast';
+import { FaShoppingCart } from "react-icons/fa";
 
 const MenuDetails = () => {
   const { menuId } = useParams(); 
@@ -43,7 +44,7 @@ const MenuDetails = () => {
   // Handle adding item to the cart
   const handleAddToCart = async () => {
     if (!email) {
-      alert("Please log in to add items to your cart.");
+      toast("Please log in to add items to your cart.");
       setTimeout(() => {
         navigate('/login');
       }, 2000); 
@@ -54,7 +55,7 @@ const MenuDetails = () => {
       menuId : menuItem.menuId,
       email: email,
       quantity: quantity,
-      price: menuItem.price * quantity,
+      price: menuItem.price,
       selectStatus: false,
     };
 
@@ -68,20 +69,20 @@ const MenuDetails = () => {
       })
 
       if(response.ok){
-         alert(`${menuItem.title} has been added to the cart.`);
+         toast(`${menuItem.title} has been added to the cart.`);
          console.log("Cart response:", response.status);
       }else {
-        alert('Failed to add to cart. Please try again..');
+        toast('Failed to add to cart. Please try again..');
       }
 
     }catch (error){
       console.error("Error adding to cart", error)
-      alert("Error adding to cart...")
+      toast("Error adding to cart...")
     }
   };
 
   return (
-    <div className="min-h-screen bg-linear-to-r from-[#f7b758] from-10% via-[#f0d9a3] via-65% to-[#e49e53] to-90%">
+    <div className="min-h-screen px-12 bg-linear-to-r from-[#F6EFC8] from-10% via-[#EDECE3] via-65% to-[#F6EFC8] to-90%">
       <Navbar />
       <div>
         <div className="bg-white/75 rounded-xl p-6 shadow-3xl flex flex-col md:flex-row gap-6 m-10 md:mx-10">
@@ -144,9 +145,8 @@ const MenuDetails = () => {
 
                     <button
                           onClick={handleAddToCart}
-                          className=" bg-black text-white p-2 rounded-lg shadow-lg hover:bg-gray-300 hover:text-black ml-20 font-semibold "
-                     >
-                Add to Cart
+                          className=" bg-black text-white px-3 py-3 flex items-center gap-2 rounded-lg shadow-lg hover:bg-gray-300 hover:text-black ml-20 font-semibold">
+               <FaShoppingCart /> Add to Cart
               </button>
             </div>
 
