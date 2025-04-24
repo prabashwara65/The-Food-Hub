@@ -1,15 +1,16 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { setDriverDetails } from '../../store/driverSlice'; // Import the action to update location
+import axios from 'axios'; // Import Axios for API calls
 
 const LocationAccess = () => {
-  const { name, vehicleType, location } = useSelector((state) => state.driver); // Access location from Redux state
+  const { name, email, available, phone, vehicleType, location } = useSelector((state) => state.driver); // Access location from Redux state
   const dispatch = useDispatch();
 
   const handleLocationAccess = () => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
-        (position) => {
+        async (position) => {
           const { latitude, longitude } = position.coords;
 
           // Update location in Redux state
@@ -19,8 +20,35 @@ const LocationAccess = () => {
             })
           );
 
-          console.log('Location:', { name, lat: latitude, lng: longitude });
-          alert('Location access granted!');
+          console.log('Location:', { name, email, available, vehicleType, phone, lat: latitude, lng: longitude });
+
+          // Prepare data to send to the API
+          const driverData = {
+            name,
+            email,
+            available,
+            vehicleType,
+            phone,
+            location: { lat: latitude, lng: longitude },
+          };
+
+          try {
+            console.log('Driver Data to be sent:', driverData);
+
+            // Send data to the API
+            const response = await axios.post('http://localhost:8000/api/drivers', driverData);
+
+            console.log('API Response:', response);
+
+            if (response.status === 200) {
+              console.log('Driver data stored successfully:', response.data);
+            } else {
+              console.log('Failed to store driver data:', response.data);
+            }
+          } catch (error) {
+            console.error('Error storing driver data:', error.response || error.message);
+            alert('An error occurred while storing driver data. Please try again.');
+          }
         },
         () => {
           alert('Location access denied!');

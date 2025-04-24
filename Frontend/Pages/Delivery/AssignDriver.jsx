@@ -3,7 +3,9 @@ import { GoogleMap, LoadScript, Marker, DirectionsRenderer } from '@react-google
 import { FaLocationCrosshairs } from "react-icons/fa6";
 import driv from '../../assets/images/driver1.png';
 import { FaPhoneAlt } from "react-icons/fa";
+import Modal from 'react-modal'; // Import Modal for popup
 
+Modal.setAppElement('#root'); // Set the root element for accessibility
 
 const Spinner = () => (
   <div className="flex justify-center items-center h-24">
@@ -12,7 +14,7 @@ const Spinner = () => (
 );
 
 const vehicleIcons = {
-  bike: 'https://maps.google.com/mapfiles/ms/icons/green-dot.png', // Example icon for bike
+  bike: 'https://maps.google.com/mapfiles/kml/shapes/motorcycling.png', // Example icon for bike
   car: 'https://maps.google.com/mapfiles/ms/icons/blue-dot.png',   // Example icon for car
   truck: 'https://maps.google.com/mapfiles/ms/icons/orange-dot.png', // Example icon for truck
   default: 'https://maps.google.com/mapfiles/ms/icons/red-dot.png'  // Default icon
@@ -26,6 +28,9 @@ const AssignDriver = () => {
   const [drivers, setDrivers] = useState([]);
   const [directions, setDirections] = useState(null);
   const [progressStep, setProgressStep] = useState(0); // Progress step state
+  const [movingDriverPosition, setMovingDriverPosition] = useState(null); // State for moving driver position
+  const [isModalOpen, setIsModalOpen] = useState(false); // State to control modal visibility
+  const [rating, setRating] = useState(0); // State to store the rating
 
   const mapContainerStyle = {
     width: '100%',
@@ -76,6 +81,26 @@ const AssignDriver = () => {
     } else {
       setError("Geolocation is not supported by your browser.");
     }
+  };
+
+  const simulateDriverMovement = (route) => {
+    const steps = route.legs.flatMap((leg) => leg.steps); // Get all steps from the route
+    const path = steps.flatMap((step) => step.path); // Extract the path (array of LatLng points)
+
+    let index = 0;
+    const interval = setInterval(() => {
+      if (index < path.length) {
+        setMovingDriverPosition({
+          lat: path[index].lat(),
+          lng: path[index].lng(),
+        });
+        index++;
+      } else {
+        clearInterval(interval); // Stop the movement when the path ends
+        setProgressStep(3); // Step 3: Confirmation
+        setIsModalOpen(true); // Open the modal when the vehicle reaches the destination
+      }
+    }, 1000); // Adjust the interval time (in milliseconds) for speed
   };
 
   const assignDriver = async () => {
@@ -138,6 +163,9 @@ const AssignDriver = () => {
             }));
 
             setProgressStep(2); // Step 2: Delivery driver coming
+
+            // Start simulating driver movement
+            simulateDriverMovement(route);
           } else {
             console.error("Directions request failed due to", status);
             setError("Failed to fetch route.");
@@ -151,6 +179,15 @@ const AssignDriver = () => {
       setError(err.message);
       setIsLoading(false);
     }
+  };
+
+  const handleConfirm = () => {
+    console.log(`Rating submitted: ${rating} stars`);
+    setIsModalOpen(false); // Close the modal
+    setProgressStep(0); // Reset progress
+    setOrderLocation(null); // Reset order location
+    setAssignedDriver(null); // Reset assigned driver
+    setMovingDriverPosition(null); // Reset moving driver position
   };
 
   return (
@@ -172,7 +209,7 @@ const AssignDriver = () => {
 
       <div className="flex flex-col md:flex-row gap-5">
         <div className="flex-3.5 w-full md:w-3/4">
-          <LoadScript googleMapsApiKey="YOUR_GOOGLE_MAPS_API_KEY">
+          <LoadScript googleMapsApiKey="AIzaSyAnjsdMyhOrZEXpYMA1faKFR1QkHwyNsHY">
             <GoogleMap
               mapContainerStyle={mapContainerStyle}
               center={center}
@@ -189,7 +226,7 @@ const AssignDriver = () => {
               {/* Add a marker for the restaurant */}
               <Marker
                 position={{ lat: 6.922201, lng: 79.913870 }}
-                icon={{ url: 'https://maps.google.com/mapfiles/ms/icons/blue-dot.png' }}
+                icon={{ url: 'https://maps.google.com/mapfiles/kml/shapes/shopping.png'}}
               />
 
               {/* Add markers for available drivers */}
@@ -197,9 +234,17 @@ const AssignDriver = () => {
                 <Marker
                   key={driver._id}
                   position={{ lat: driver.location.lat, lng: driver.location.lng }}
-                  icon={{ url: vehicleIcons[driver.vehicleType] || vehicleIcons.default }}
+                  icon={{ url: vehicleIcons[driver.vehicleType] || vehicleIcons.default ,scaledSize: new window.google.maps.Size(30, 30) }}
                 />
               ))}
+
+              {/* Add a moving marker for the assigned driver */}
+              {movingDriverPosition && (
+                <Marker
+                  position={movingDriverPosition}
+                  icon={{ url: 'https://maps.google.com/mapfiles/kml/shapes/motorcycling.png',scaledSize: new window.google.maps.Size(30, 30) }}
+                />
+              )}
 
               {directions && (
                 <DirectionsRenderer
@@ -320,6 +365,37 @@ const AssignDriver = () => {
           </button>
         </div>
       )}
+
+      {/* Modal for confirmation and rating */}
+      <Modal
+        isOpen={isModalOpen}
+        onRequestClose={() => setIsModalOpen(false)}
+        contentLabel="Confirmation Modal"
+        className="modal"
+        overlayClassName="modal-overlay"
+      >
+        <div className="p-5 text-center">
+          <h2 className="text-2xl font-bold mb-4">Delivery Completed!</h2>
+          <p className="mb-4">Please rate your experience:</p>
+          <div className="flex justify-center mb-4">
+            {[1, 2, 3, 4, 5].map((star) => (
+              <button
+                key={star}
+                onClick={() => setRating(star)}
+                className={`text-3xl ${star <= rating ? 'text-yellow-500' : 'text-gray-400'}`}
+              >
+                ★
+              </button>
+            ))}
+          </div>
+          <button
+            onClick={handleConfirm}
+            className="px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600 transition"
+          >
+            Confirm
+          </button>
+        </div>
+      </Modal>
     </div>
   );
 };

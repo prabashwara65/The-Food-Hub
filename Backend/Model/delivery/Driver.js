@@ -13,7 +13,7 @@ const DriverSchema = new mongoose.Schema({
   email: {
     type: String,
     required: [true, "Email is required"],
-    unique: true, // Ensure email is unique
+    unique: false, // Ensure email is unique
     match: [/^\S+@\S+\.\S+$/, "Invalid email address"] // Validate email format
   },
   location: {
