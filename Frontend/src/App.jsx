@@ -8,6 +8,7 @@ import Adminpanel from "../Pages/AdminPanel/Adminpanel";
 import OwnerDashboard from "../Pages/Hasara/RestaurantOwner/OwnerDashboard"
 import RestaurantView from "../Pages/Hasara/RestaurantDetails/RestaurantView"
 import MenuDetails from "../Pages/Hasara/Menu/MenuDetails"
+import CartDetails from "../Pages/Hasara/Cart/Cart"
 
 function App() {
   return (
@@ -25,7 +26,8 @@ function App() {
           <Route path="/restaurant/:id" element={<RestaurantView />} />
           {/*menu details view -hasara*/}
           <Route path="/menu/:menuId" element={<MenuDetails />} />
-         
+          {/* cart page - hasara */}
+          <Route path="/cart" element={<CartDetails />} />
         </Routes>
       </BrowserRouter>
     </>

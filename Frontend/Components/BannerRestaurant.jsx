@@ -20,7 +20,7 @@ const Banner = ({ restaurantId }) => {
 
   return (
     <div className="">
-      <div className="container relative mx-auto bg-amber-100 py-5 px-5 md:h-[250px] rounded-xl 
+      <div className="container relative mx-auto bg-[#FFBD73] py-5 px-5 md:h-[250px] rounded-xl 
       overflow-hidden flex flex-col md:flex-row items-center justify-between gap-6">
         
         {/* Left: Text Content */}
