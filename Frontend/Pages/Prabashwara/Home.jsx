@@ -6,7 +6,10 @@ import Navbar from "../../Components/Navbar";
 import Footer from "../../Components/Footer";
 import SearchBar from "../../Components/SearchBar";
 import HomeCard from "../../Components/HomeCard"
+
 import { Link } from "react-router-dom";
+// import { clearUser } from '../../ReduxToolKit/userSlice'
+import toast from "react-hot-toast";
 
 const Home = () => {
   //for search function (hasara)

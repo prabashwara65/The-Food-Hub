@@ -9,7 +9,9 @@ const Navbar = ( { onHandleLogOut } ) => {
   const user = useSelector((state) => state.user.user);
   const isLoggedIn = !!user?.name && !!user?.email;
 
-  const cartItems = useSelector((state) => state.cart.items);
+
+  const cartCount = useSelector(state => state.cart.totalCount);
+
 
   return (
     <div className="container mx-auto w-full h-2xl p-4">
@@ -31,9 +33,9 @@ const Navbar = ( { onHandleLogOut } ) => {
           {isLoggedIn && (
             <Link to="/cart" className="relative p-4 bg-[#F4F6F6] rounded-3xl">
               🛒
-              {cartItems.length >= 0 && (
+              {cartCount > 0 && (
                 <span className="absolute -bottom-1 -right-0 w-5 h-5 bg-red-500 text-white text-xs flex items-center justify-center rounded-full">
-                  {cartItems.length}
+                  {cartCount}
                 </span>
               )}
             </Link>
