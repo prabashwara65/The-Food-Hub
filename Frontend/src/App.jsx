@@ -8,6 +8,7 @@ import Adminpanel from "../Pages/AdminPanel/Adminpanel";
 import OwnerDashboard from "../Pages/Hasara/RestaurantOwner/OwnerDashboard"
 import RestaurantView from "../Pages/Hasara/RestaurantDetails/RestaurantView"
 import MenuDetails from "../Pages/Hasara/Menu/MenuDetails"
+import OrderHome from "../Pages/Prabashwara/Orders/OrderHome";
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />
           <Route path="/admin" element={<Adminpanel />} />
+          <Route path="/order" element={<OrderHome />} />
 
           {/* restaurant owner route  */}
           <Route path="/OwnerDashboard" element={<OwnerDashboard />} />
