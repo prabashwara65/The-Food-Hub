@@ -14,11 +14,12 @@ const Navbar = ( { onHandleLogOut } ) => {
   return (
     <div className="container mx-auto w-full h-2xl p-4">
       <div className="flex items-center justify-between">
+
         <div className="flex justify-center items-center ">
           <img src="/food2.png" alt="" />
-          <h3 className="text-2xl pl-2">The Food App</h3>
+          <h3 className="text-2xl pl-2">The Food Hub</h3>
         </div>
-        
+
         <ul className="flex flex-row gap-7 justify-center cursor-pointer font-extralight bg-[#F4F6F6] p-4 rounded-3xl">
           <Link to='/' >Home</Link>
           <Link to='#'>Service</Link>

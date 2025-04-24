@@ -7,6 +7,7 @@ const cors = require('cors')
 const  UserRouter  = require('./Routes/UserAuth/UserRouter')
 const MenuRouter = require('./Routes/Menu/MenuRouter')
 const SearchRestaurantRouter = require('./Routes/RestaurantView/SearchRestaurantRoute')
+const CartRouter = require('./Routes/Cart/CartRoute')
 
 const app = express()
 
@@ -23,6 +24,7 @@ app.use(cors({
 app.use('/api/auth' , UserRouter)
 app.use('/api/menu', MenuRouter)
 app.use('/api/restaurantView', SearchRestaurantRouter)
+app.use('/api/cart', CartRouter)
 
 
 mongoose.connect(process.env.DB)
