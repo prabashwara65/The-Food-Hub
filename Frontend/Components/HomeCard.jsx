@@ -12,7 +12,7 @@ const HomeCard = ( props ) => {
         <img
           src={menu.photos[0]}
           alt={menu.title}
-          className="absolute -top-10 left-18 w-26 h-26 rounded-full shadow-2xl border-1 border-amber-500 "
+          className="absolute -top-10 left-18 w-26 h-26 rounded-full  border-1 border-amber-500 "
         />
       )}
 
