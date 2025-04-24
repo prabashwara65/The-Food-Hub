@@ -5,6 +5,7 @@ import Home from "../Pages/Prabashwara/Home";
 import Register from "../Pages/Prabashwara/Register";
 import Login from "../Pages/Prabashwara/Login";
 import Adminpanel from "../Pages/AdminPanel/Adminpanel";
+import OrderHome from "../Pages/Prabashwara/Orders/OrderHome";
 
 //restaurant owner
 import OwnerDashboard from "../Pages/Hasara/RestaurantOwner/OwnerDashboard";
@@ -21,6 +22,7 @@ function App() {
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />
           <Route path="/admin" element={<Adminpanel />} />
+          <Route path="/order" element={<OrderHome />} />
 
           {/* restaurant owner route  */}
           <Route path="/OwnerDashboard" element={<OwnerDashboard />} />
