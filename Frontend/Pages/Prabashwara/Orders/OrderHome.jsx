@@ -32,7 +32,7 @@ const OrderHome = () => {
             ))}
                 
         </div>
-        <div className="bg-orange-300 w-2/3">
+        <div className="bg-orange-300 w-2/3 ">
                 fsdfs
         </div>
       </div>
