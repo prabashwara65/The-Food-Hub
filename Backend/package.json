@@ -11,6 +11,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@aws-sdk/client-s3": "^3.787.0",
     "@googlemaps/google-maps-services-js": "^3.4.1",
     "@reduxjs/toolkit": "^2.6.1",
     "bcrypt": "^5.1.1",
