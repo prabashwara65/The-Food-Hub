@@ -1,14 +1,20 @@
 import React, { useEffect, useState } from 'react';
 import Navbar from '../../../Components/Navbar';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import Footer from '../../../Components/Footer';
+import { useSelector } from 'react-redux'; //import useSelector from react-redux
+
 
 const MenuDetails = () => {
   const { menuId } = useParams(); 
   const [menuItem, setMenuItem] = useState(null);
+  const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
   const [selectedImage, setSelectedImage] = useState(null); 
-  const [quantity, setQuantity] = useState(1); // Manage the quantity state
+  const [quantity, setQuantity] = useState(1); 
+
+  const user = useSelector((state) => state.user.user); // Get the current user from Redux store
+  const email = user?.email;
 
   useEffect(() => {
     const fetchMenuItem = async () => {
@@ -35,40 +41,49 @@ const MenuDetails = () => {
   };
 
   // Handle adding item to the cart
-  const handleAddToCart = () => {
-    const cartItem = {
-      id: menuItem._id,
-      title: menuItem.title,
-      price: menuItem.price,
-      quantity: quantity,
-      image: selectedImage,
-    };
-
-    // Get cart from localStorage or initialize an empty array
-    const cart = JSON.parse(localStorage.getItem('cart')) || [];
-    
-    // Check if item is already in the cart
-    const existingItemIndex = cart.findIndex(item => item.id === menuItem._id);
-    
-    if (existingItemIndex >= 0) {
-      // If item exists, update quantity
-      cart[existingItemIndex].quantity += quantity;
-    } else {
-      // Otherwise, add new item to cart
-      cart.push(cartItem);
+  const handleAddToCart = async () => {
+    if (!email) {
+      alert("Please log in to add items to your cart.");
+      setTimeout(() => {
+        navigate('/login');
+      }, 2000); 
+      return;
     }
 
-    // Save updated cart back to localStorage
-    localStorage.setItem('cart', JSON.stringify(cart));
-    
-    alert(`${menuItem.title} has been added to the cart!`);
+    const cartItem = {
+      menuId : menuItem.menuId,
+      email: email,
+      quantity: quantity,
+      price: menuItem.price * quantity,
+      selectStatus: false,
+    };
+
+    try{
+      const response = await fetch('http://localhost:4000/api/cart', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(cartItem),
+      })
+
+      if(response.ok){
+         alert(`${menuItem.title} has been added to the cart.`);
+         console.log("Cart response:", response.status);
+      }else {
+        alert('Failed to add to cart. Please try again..');
+      }
+
+    }catch (error){
+      console.error("Error adding to cart", error)
+      alert("Error adding to cart...")
+    }
   };
 
   return (
     <div className="min-h-screen bg-linear-to-r from-[#f7b758] from-10% via-[#f0d9a3] via-65% to-[#e49e53] to-90%">
       <Navbar />
       <div>
-        {/* Single White Semi-Transparent Box with Flex Layout */}
         <div className="bg-white/75 rounded-xl p-6 shadow-3xl flex flex-col md:flex-row gap-6 m-10 md:mx-10">
           {/* Left Side */}
           <div>
