@@ -10,16 +10,15 @@ import OrderHome from "../Pages/Prabashwara/Orders/OrderHome";
 import store from "../store/store"; //redux store
 
 //restaurant owner
-import OwnerDashboard from "../Pages/Hasara/RestaurantOwner/OwnerDashboard";
-import RestaurantView from "../Pages/Hasara/RestaurantDetails/RestaurantView";
-import MenuDetails from "../Pages/Hasara/Menu/MenuDetails";
-import CartDetails from "../Pages/Hasara/Cart/Cart";
-import OwnerDashboard from "../Pages/RestaurantOwner/OwnerDashboard"
 import AssignDriver from "../Pages/Delivery/AssignDriver";
 import DeliveryPerson from "../Pages/Delivery/deliveryPerson";
 import { Provider } from "react-redux";
 import EmailVerification from "../Pages/Delivery/EmailVerification";
 import LocationAccess from "../Pages/Delivery/LocationAccess";
+import OwnerDashboard from "../Pages/Hasara/RestaurantOwner/OwnerDashboard";
+import RestaurantView from "../Pages/Hasara/RestaurantDetails/RestaurantView";
+import MenuDetails from "../Pages/Hasara/Menu/MenuDetails";
+import CartDetails from "../Pages/Hasara/Cart/Cart";
 
 function App() {
   return (
@@ -31,6 +30,15 @@ function App() {
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />
           <Route path="/admin" element={<Adminpanel />} />
+          <Route path="/OwnerDashboard" element={<OwnerDashboard />} />
+
+          {/* restaurant owner route  */}
+          <Route path="/assignDriver" element={<AssignDriver />} />
+          <Route path="/addDeliveryPerson" element={<DeliveryPerson />} />
+          <Route path="/emailVerification" element={<EmailVerification />} />
+          <Route path="/location-access" element={<LocationAccess />} />
+
+          {/* delivery person route */}
           <Route path="/order" element={<OrderHome />} />
 
           {/* restaurant owner route  */}
