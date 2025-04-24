@@ -6,7 +6,8 @@ import Navbar from "../../Components/Navbar";
 import Footer from "../../Components/Footer";
 import SearchBar from "../../Components/SearchBar";
 import HomeCard from "../../Components/HomeCard"
-import {Link} from "react-router-dom";
+import { Link } from "react-router-dom";
+// import { clearUser } from '../../ReduxToolKit/userSlice'
 
 const Home = () => {
   //for search function (hasara)
@@ -16,6 +17,8 @@ const Home = () => {
   const [menus, setMenus] = useState([]);
 
   const user = useSelector((state) => state.user.user);
+
+  const dispatch = useDispatch();
 
  useEffect(() => {
   const delayDebounce = setTimeout(() => {
@@ -64,11 +67,18 @@ const Home = () => {
 
    fetchMenus();
  }, []);
+
+ const handleLogOut = () => {
+  dispatch(clearUser())
+  console.log("account cleared")
+  
+ }
  
 
   return (
-    <div className="min-h-screen px-12 bg-linear-to-r from-[#E3E5E6] from-10% via-[#EDECE3] via-65% to-[#F6EFC8] to-90%">
-      <Navbar />
+    <div>
+      <div className="min-h-screen px-12 bg-linear-to-r from-[#E3E5E6] from-10% via-[#EDECE3] via-65% to-[#F6EFC8] to-90%">
+      <Navbar onHandleLogOut={handleLogOut}/>
       <div className="h-full mx-auto">
         <div className="container flex mx-auto py-8 justify-between items-end ">
           {/* Search bar */}
@@ -118,14 +128,13 @@ const Home = () => {
           />
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mt-6">
+        <div className=" w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mt-6">
         {menus.map((menu) => (
           <HomeCard key={menu._id} menu={menu}  />
         ))}
         </div>
 
        
-
         {/* 3rd container */}
         <div className="container p-8 flex mx-auto justify-between mt-15 gap-5">
           {/* First Card */}
@@ -211,14 +220,32 @@ const Home = () => {
           </div>
 
           {/* Third bottom card */}
-          <div className="flex flex-1/3 bg-green-300">
-            <div className="w-full bg-red-200">ds</div>
+          <div className="flex flex-1/3 bg-[#FFFFFF] rounded-2xl ">
+            
+              <div className="flex flex-col w-30 h-30 items-center p-4">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth={1.5}
+                  stroke="currentColor"
+                  className="size-8  rounded-full bg-amber-200  "
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z"
+                  />
+                </svg>
+                <p className="font-medium pt-3">Minto</p>
+                <p className="font-extralight">Suppliers</p>
+              </div>
             
           </div>
         </div>
-        
       </div>
-      <Footer />
+    </div>
+    <Footer />
     </div>
     
   );
