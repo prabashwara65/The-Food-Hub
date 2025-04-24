@@ -3,7 +3,7 @@ import Navbar from '../../../Components/Navbar';
 import { useParams, useNavigate } from 'react-router-dom';
 import Footer from '../../../Components/Footer';
 import { useSelector } from 'react-redux'; //import useSelector from react-redux
-import toast from "react-hot-toast";
+import { toast } from 'react-hot-toast';
 import { FaShoppingCart } from "react-icons/fa";
 
 const MenuDetails = () => {
@@ -55,7 +55,7 @@ const MenuDetails = () => {
       menuId : menuItem.menuId,
       email: email,
       quantity: quantity,
-      price: menuItem.price * quantity,
+      price: menuItem.price,
       selectStatus: false,
     };
 
