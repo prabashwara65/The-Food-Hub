@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { setUser } from "../../ReduxToolKit/userSlice";
-import { useNavigate } from "react-router";
+import { Link, useNavigate } from "react-router";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -53,7 +53,7 @@ const Login = () => {
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-orange-100 via-orange-200 to-orange-300">
       <div className="bg-white/30 backdrop-blur-xl rounded-3xl shadow-2xl p-10 w-full max-w-md animate-fade-in">
         <h2 className="text-4xl font-extrabold text-center text-orange-800 mb-6 tracking-wide">
-          Welcome Back 👋
+          Log in
         </h2>
         {error && (
           <div className="bg-red-100 text-red-600 text-sm px-4 py-2 rounded mb-4 text-center">
@@ -94,7 +94,7 @@ const Login = () => {
         </form>
         <p className="text-center text-sm text-orange-600 mt-6">
           Don't have an account?{" "}
-          <span className="underline cursor-pointer hover:text-orange-800">Sign Up</span>
+          <Link to="/register" className="underline cursor-pointer hover:text-orange-800">Sign Up</Link>
         </p>
       </div>
     </div>
