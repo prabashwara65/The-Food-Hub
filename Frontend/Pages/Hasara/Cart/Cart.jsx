@@ -183,6 +183,7 @@ function Cart() {
 
 
   return (
+    <div>
     <div className="min-h-screen px-12 bg-gradient-to-r from-[#F6EFC8] via-[#EDECE3] to-[#F6EFC8]">
       <Navbar />
       <h2 className="text-2xl font-bold mb-2 mt-3 p-2 text-orange-700">My Plate</h2>
@@ -268,8 +269,8 @@ function Cart() {
           </button>
         </div>
       )}
-
-      <Footer />
+    </div>
+    <Footer />
     </div>
   );
 }

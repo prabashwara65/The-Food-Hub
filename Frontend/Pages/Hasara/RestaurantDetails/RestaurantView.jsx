@@ -69,6 +69,7 @@ const RestaurantDetails = () => {
   }
 
   return (
+    <div>
     <div className="min-h-screen px-12 bg-linear-to-r from-[#F6EFC8] from-10% via-[#EDECE3] via-65% to-[#F6EFC8] to-90%">
         <Navbar />
        <div className=" p-5"> 
@@ -107,7 +108,8 @@ const RestaurantDetails = () => {
         </div>
       )}
       </div>
-      <Footer/>
+    </div>
+    <Footer/>
     </div>
   );
 };
