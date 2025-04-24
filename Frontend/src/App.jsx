@@ -8,7 +8,6 @@ import OwnerList from "../Pages/AdminPanel/OwnerList";
 import DeliveryList from "../Pages/AdminPanel/DeliveryList";
 
 //restaurant owner
-import OwnerDashboard from "../Pages/RestaurantOwner/OwnerDashboard";
 import ManageRestaurants from "../Pages/AdminPanel/ManageRestaurants";
 import ViewRestaurant from "../Pages/AdminPanel/ViewRestaurant";
 import AddRestaurant from "../Pages/AdminPanel/AddRestaurant";
@@ -27,8 +26,6 @@ function App() {
           <Route path="/admin/delivery" element={<DeliveryList />} />
           <Route path="/admin/home" element={<Adminpanel />} />
 
-          {/* restaurant owner route  */}
-          <Route path="/OwnerDashboard" element={<OwnerDashboard />} />
           <Route
             path="/admin/manage-restaurant"
             element={<ManageRestaurants />}

@@ -10,6 +10,10 @@ const RestaurantRouter = require("./Routes/Restaurant/RestaurantRoutes");
 
 const OwnerRoutes = require("./Routes/Restaurant/OwnerRoutes");
 
+const MenuRouter = require("./Routes/Menu/MenuRouter");
+
+const SearchRestaurantRoute = require("./Routes/RestaurantView/SearchRestaurantRoute");
+
 const app = express();
 
 //middleware
@@ -26,6 +30,8 @@ app.use(
 app.use("/api/auth", UserRouter);
 app.use("/api/restaurant", RestaurantRouter);
 app.use("/api/owner", OwnerRoutes);
+app.use("/api/menu", MenuRouter);
+app.use("/api/searchres", SearchRestaurantRoute);
 
 mongoose
   .connect(process.env.DB)

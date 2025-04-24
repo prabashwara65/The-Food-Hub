@@ -2,7 +2,7 @@ const express = require("express");
 const {
   RegisterOwner,
   LoginOwner,
-} = require("../../Controller/Restaurant/RestaurantController");
+} = require("../../Controller/Restaurant/OwnerController");
 
 const router = express.Router();
 

@@ -1,7 +1,6 @@
 const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
 const validator = require("validator");
-const jwt = require("jsonwebtoken");
 const Counter = require("./CounterModel");
 
 const Schema = mongoose.Schema;
@@ -29,6 +28,16 @@ const OwnerSchema = new Schema(
   { timestamps: true }
 );
 
+async function getNextOwnerId() {
+  const counter = await Counter.findOneAndUpdate(
+    { id: "restaurantOwner" },
+    { $inc: { seq: 1 } },
+    { new: true, upsert: true }
+  );
+
+  return `RO-${counter.seq.toString().padStart(4, "0")}`;
+}
+
 OwnerSchema.statics.Register = async function (name, ownerEmail, password) {
   if (!name || !ownerEmail || !password) {
     throw Error("Required fields missing");
@@ -45,8 +54,10 @@ OwnerSchema.statics.Register = async function (name, ownerEmail, password) {
 
   const salt = await bcrypt.genSalt(10);
   const hash = await bcrypt.hash(password, salt);
+  const ownerId = await getNextOwnerId();
 
   const restaurant = await this.create({
+    ownerId,
     name,
     ownerEmail,
     password: hash,
@@ -77,4 +88,4 @@ OwnerSchema.statics.Login = async function (ownerEmail, password) {
   return restaurant;
 };
 
-module.exports = mongoose.model("Restaurant", OwnerSchema);
+module.exports = mongoose.model("Owner", OwnerSchema);
