@@ -70,13 +70,12 @@ const Home = () => {
    fetchMenus();
  }, []);
 
- const handleLogOut = () => {
-  dispatch(clearUser())
-  console.log("account cleared")
-  
+  const handleLogOut = () => {
+    dispatch(clearUser())
+    console.log("account cleared")
+    
  }
  
-
   return (
     <div>
       <div className="min-h-screen px-12 bg-linear-to-r from-[#E3E5E6] from-10% via-[#EDECE3] via-65% to-[#F6EFC8] to-90%">
