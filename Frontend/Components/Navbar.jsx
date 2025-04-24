@@ -2,7 +2,10 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 
-const Navbar = () => {
+const Navbar = ( { onHandleLogOut } ) => {
+
+  // const handleLogOut = props.handleLogOut;
+
   const user = useSelector((state) => state.user.user);
   const isLoggedIn = !!user?.name && !!user?.email;
 
@@ -35,7 +38,7 @@ const Navbar = () => {
             </Link>
           )}
           <button className="p-4 bg-[#F4F6F6] rounded-3xl font-extralight">
-            {isLoggedIn ? `Hi, ${user.name}` : 'SIGNIN'}
+            {isLoggedIn ? `Hi, ${user.name}` : <Link to="/login"> LOGIN</Link>}
           </button>
           <button className="p-4 bg-[#F4F6F6] rounded-3xl">
             <svg
@@ -45,6 +48,7 @@ const Navbar = () => {
               strokeWidth={1.5}
               stroke="currentColor"
               className="size-6 font-extralight"
+              
             >
               <path
                 strokeLinecap="round"
@@ -52,6 +56,9 @@ const Navbar = () => {
                 d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z"
               />
             </svg>
+          </button>
+          <button onClick={onHandleLogOut}>
+              Log out
           </button>
         </div>
       </div>

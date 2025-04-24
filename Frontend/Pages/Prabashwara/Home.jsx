@@ -6,7 +6,8 @@ import Navbar from "../../Components/Navbar";
 import Footer from "../../Components/Footer";
 import SearchBar from "../../Components/SearchBar";
 import HomeCard from "../../Components/HomeCard"
-import {Link} from "react-router-dom";
+import { Link } from "react-router-dom";
+// import { clearUser } from '../../ReduxToolKit/userSlice'
 
 const Home = () => {
   //for search function (hasara)
@@ -16,6 +17,8 @@ const Home = () => {
   const [menus, setMenus] = useState([]);
 
   const user = useSelector((state) => state.user.user);
+
+  const dispatch = useDispatch();
 
  useEffect(() => {
   const delayDebounce = setTimeout(() => {
@@ -64,12 +67,18 @@ const Home = () => {
 
    fetchMenus();
  }, []);
+
+ const handleLogOut = () => {
+  dispatch(clearUser())
+  console.log("account cleared")
+  
+ }
  
 
   return (
     <div>
       <div className="min-h-screen px-12 bg-linear-to-r from-[#E3E5E6] from-10% via-[#EDECE3] via-65% to-[#F6EFC8] to-90%">
-      <Navbar />
+      <Navbar onHandleLogOut={handleLogOut}/>
       <div className="h-full mx-auto">
         <div className="container flex mx-auto py-8 justify-between items-end ">
           {/* Search bar */}
