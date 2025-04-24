@@ -1,39 +1,105 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { clearUser } from "../../ReduxToolKit/userSlice";
 import Navbar from "../../Components/Navbar";
 import Footer from "../../Components/Footer";
+import SearchBar from "../../Components/SearchBar";
+import HomeCard from "../../Components/HomeCard"
+
+import { Link } from "react-router-dom";
+// import { clearUser } from '../../ReduxToolKit/userSlice'
+import toast from "react-hot-toast";
 
 const Home = () => {
+  //for search function (hasara)
+  const [searchQuery, setSearchQuery] = useState("");
+  const [restaurants, setRestaurants] = useState([]); 
+  const [notFound, setNotFound] = useState(false); 
+  const [menus, setMenus] = useState([]);
+
   const user = useSelector((state) => state.user.user);
+
+  const dispatch = useDispatch();
+
+ useEffect(() => {
+  const delayDebounce = setTimeout(() => {
+    if(searchQuery.trim() === "") {
+      setRestaurants([]);
+      setNotFound(false)
+      return;
+    }
+
+    fetch(`http://localhost:4000/api/restaurantView/searchRestaurants?name=${searchQuery}`)
+    .then((res) => res.json())
+    .then((data) => {
+      if(data.length === 0){
+        setNotFound(true);
+      }else {
+        setNotFound(false);
+      }
+      setRestaurants(data);
+    })
+    .catch((err) => {
+      console.error("Error fetching data:", err);
+      setRestaurants([]);
+      setNotFound(true);
+    })
+  }, 500); //debounce delay
+
+  return () => clearTimeout(delayDebounce); //cleanup function
+ }, [searchQuery]);
+
+  
+ useEffect(() => {
+   const fetchMenus = async () => {
+     try {
+       const response = await fetch("http://localhost:4000/api/menu/menus/RI-0001");
+       console.log(response)
+       
+       if (!response.ok) throw new Error("Failed to fetch menus");
+
+       const json = await response.json();
+       setMenus(json);
+     } catch (error) {
+       toast.error("Error fetching menu data.");
+       console.error("Fetch Error:", error);
+     }
+   };
+
+   fetchMenus();
+ }, []);
+
+  const handleLogOut = () => {
+    dispatch(clearUser())
+    console.log("account cleared")
+    
+ }
+ 
   return (
-    <div className="min-h-screen bg-linear-to-r from-[#E3E5E6] from-10% via-[#EDECE3] via-65% to-[#F6EFC8] to-90%">
-      <Navbar />
+    <div>
+      <div className="min-h-screen px-12 bg-linear-to-r from-[#E3E5E6] from-10% via-[#EDECE3] via-65% to-[#F6EFC8] to-90%">
+      <Navbar onHandleLogOut={handleLogOut}/>
       <div className="h-full mx-auto">
         <div className="container flex mx-auto py-8 justify-between items-end ">
           {/* Search bar */}
-          <div className="relative p-1">
-            <input
-              type="text"
-              className="w-3xl focus:outline-none py-3 bg-[#EFEEFE] focus:shadow-amber-600 focus:shadow-sm rounded-full px-4"
-              placeholder="Search By food name / Resturant"
-            />
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth={1.5}
-              stroke="currentColor"
-              className="size-8 absolute right-6 top-4 text-gray-400"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z"
-              />
-            </svg>
-          </div>
+          <div className="w-full max-w-2xl ml-5">
+          <SearchBar value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)}/>
+
+            <div className="mt-2 max-h-40 overflow-y-auto ">
+              {notFound ? (
+                <p className="text-gray-600 bg-white p-1 rounded shadow mb-3">No such restaurant found.</p>
+              ) : (
+                restaurants.map((restaurant, index) => (
+                  <Link to={`/restaurant/${restaurant.restaurantId}`} key={index}>
+                     <div className="bg-white p-1 rounded shadow mb-2 hover:bg-gray-100 cursor-pointer">
+                      {restaurant.name}
+                    </div>
+                  </Link>
+                ))
+              )}
+            </div>
+            </div>
 
           {/* +Add order Button */}
           <button className="ml-8 rounded-3xl p-3 text-white bg-[#B97A9E] font-extralight">
@@ -63,139 +129,15 @@ const Home = () => {
           />
         </div>
 
-        <div className="container mx-auto flex flex-row mt-25 gap-7">
-          {/* Card 1 */}
-          <div className="relative flex flex-1/4 h-50 bg-[#FFFFFF] rounded-3xl shadow-xl">
-            <div className="absolute top-[-50px] left-23 w-30 h-30 rounded-full bg-red-200 "></div>
-            <div className="absolute w-30 h-38 bottom-0 p-4 pt-8 ">
-              {/* Rating */}
-              <div className="flex">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth={1.5}
-                  stroke="currentColor"
-                  className="size-5 pt-1 fill-[#AE859B] text-[#AE859B]"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M11.48 3.499a.562.562 0 0 1 1.04 0l2.125 5.111a.563.563 0 0 0 .475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 0 0-.182.557l1.285 5.385a.562.562 0 0 1-.84.61l-4.725-2.885a.562.562 0 0 0-.586 0L6.982 20.54a.562.562 0 0 1-.84-.61l1.285-5.386a.562.562 0 0 0-.182-.557l-4.204-3.602a.562.562 0 0 1 .321-.988l5.518-.442a.563.563 0 0 0 .475-.345L11.48 3.5Z"
-                  />
-                </svg>
-                <p className="text-md pl-1 text-[#AE859B]">4.7</p>
-              </div>
-
-              <p className="w-2xs pt-4 pl-1">
-                Special <span className="block">Chiken rice Bowl</span>{" "}
-              </p>
-              {/* Price */}
-            </div>
-            <div className="absolute flex justify-center items-center w-11 h-11 bottom-8 right-5 bg-[#AE859B] rounded-full text-sm text-white font-medium">
-              250
-            </div>
-          </div>
-          {/* Card 2 */}
-          <div className="relative flex flex-1/4 h-50 bg-[#FFFFFF] rounded-3xl shadow-xl">
-            <div className="absolute top-[-50px] left-23 w-30 h-30 rounded-full bg-red-200"></div>
-            <div className="absolute w-30 h-38 bottom-0 p-4 pt-8">
-              {/* Rating */}
-              <div className="flex">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth={1.5}
-                  stroke="currentColor"
-                  className="size-5 pt-1 fill-[#AE859B] text-[#AE859B]"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M11.48 3.499a.562.562 0 0 1 1.04 0l2.125 5.111a.563.563 0 0 0 .475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 0 0-.182.557l1.285 5.385a.562.562 0 0 1-.84.61l-4.725-2.885a.562.562 0 0 0-.586 0L6.982 20.54a.562.562 0 0 1-.84-.61l1.285-5.386a.562.562 0 0 0-.182-.557l-4.204-3.602a.562.562 0 0 1 .321-.988l5.518-.442a.563.563 0 0 0 .475-.345L11.48 3.5Z"
-                  />
-                </svg>
-                <p className="text-md pl-1 text-[#AE859B]">4.7</p>
-              </div>
-
-              <p className="w-2xs pt-4 pl-1">
-                Special <span className="block">Chiken rice Bowl</span>{" "}
-              </p>
-              {/* Price */}
-            </div>
-            <div className="absolute flex justify-center items-center w-11 h-11 bottom-8 right-5 bg-[#AE859B] rounded-full text-sm text-white font-medium">
-              250
-            </div>
-          </div>
-          {/* Card 3 */}
-          <div className="relative flex flex-1/4 h-50 bg-[#FFFFFF] rounded-3xl shadow-xl">
-            <div className="absolute top-[-50px] left-23 w-30 h-30 rounded-full bg-red-200"></div>
-            <div className="absolute w-30 h-38 bottom-0 p-4 pt-8">
-              {/* Rating */}
-              <div className="flex">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth={1.5}
-                  stroke="currentColor"
-                  className="size-5 pt-1 fill-[#AE859B] text-[#AE859B]"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M11.48 3.499a.562.562 0 0 1 1.04 0l2.125 5.111a.563.563 0 0 0 .475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 0 0-.182.557l1.285 5.385a.562.562 0 0 1-.84.61l-4.725-2.885a.562.562 0 0 0-.586 0L6.982 20.54a.562.562 0 0 1-.84-.61l1.285-5.386a.562.562 0 0 0-.182-.557l-4.204-3.602a.562.562 0 0 1 .321-.988l5.518-.442a.563.563 0 0 0 .475-.345L11.48 3.5Z"
-                  />
-                </svg>
-                <p className="text-md pl-1 text-[#AE859B]">4.7</p>
-              </div>
-
-              <p className="w-2xs pt-4 pl-1">
-                Special <span className="block">Chiken rice Bowl</span>{" "}
-              </p>
-              {/* Price */}
-            </div>
-            <div className="absolute flex justify-center items-center w-11 h-11 bottom-8 right-5 bg-[#AE859B] rounded-full text-sm text-white font-medium">
-              250
-            </div>
-          </div>
-          {/* Card 4 */}
-          <div className="relative flex flex-1/4 h-50 bg-[#FFFFFF] rounded-3xl shadow-xl">
-            <div className="absolute top-[-50px] left-23 w-30 h-30 rounded-full bg-red-200"></div>
-            <div className="absolute w-30 h-38 bottom-0 p-4 pt-8">
-              {/* Rating */}
-              <div className="flex">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth={1.5}
-                  stroke="currentColor"
-                  className="size-5 pt-1 fill-[#AE859B] text-[#AE859B]"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M11.48 3.499a.562.562 0 0 1 1.04 0l2.125 5.111a.563.563 0 0 0 .475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 0 0-.182.557l1.285 5.385a.562.562 0 0 1-.84.61l-4.725-2.885a.562.562 0 0 0-.586 0L6.982 20.54a.562.562 0 0 1-.84-.61l1.285-5.386a.562.562 0 0 0-.182-.557l-4.204-3.602a.562.562 0 0 1 .321-.988l5.518-.442a.563.563 0 0 0 .475-.345L11.48 3.5Z"
-                  />
-                </svg>
-                <p className="text-md pl-1 text-[#AE859B]">4.7</p>
-              </div>
-
-              <p className="w-2xs pt-4 pl-1">
-                Special <span className="block">Chiken rice Bowl</span>{" "}
-              </p>
-              {/* Price */}
-            </div>
-            <div className="absolute flex justify-center items-center w-11 h-11 bottom-8 right-5 bg-[#AE859B] rounded-full text-sm text-white font-medium">
-              250
-            </div>
-          </div>
+        <div className=" w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mt-6">
+        {menus.map((menu) => (
+          <HomeCard key={menu._id} menu={menu}  />
+        ))}
         </div>
 
+       
         {/* 3rd container */}
-        <div className="container flex mx-auto justify-between mt-15 gap-5">
+        <div className="container p-8 flex mx-auto justify-between mt-15 gap-5">
           {/* First Card */}
           <div className="flex flex-1/4">
             <div className="flex flex-col w-40 h-40 items-center p-4">
@@ -279,14 +221,34 @@ const Home = () => {
           </div>
 
           {/* Third bottom card */}
-          <div className="flex flex-1/3 bg-green-300">
-            <div className="w-full bg-red-200">ds</div>
+          <div className="flex flex-1/3 bg-[#FFFFFF] rounded-2xl ">
+            
+              <div className="flex flex-col w-30 h-30 items-center p-4">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth={1.5}
+                  stroke="currentColor"
+                  className="size-8  rounded-full bg-amber-200  "
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z"
+                  />
+                </svg>
+                <p className="font-medium pt-3">Minto</p>
+                <p className="font-extralight">Suppliers</p>
+              </div>
             
           </div>
         </div>
-        <Footer />
       </div>
     </div>
+    <Footer />
+    </div>
+    
   );
 };
 

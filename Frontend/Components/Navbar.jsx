@@ -1,19 +1,48 @@
 import React from "react";
+import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
 
-const Navbar = () => {
+const Navbar = ( { onHandleLogOut } ) => {
+
+  // const handleLogOut = props.handleLogOut;
+
+  const user = useSelector((state) => state.user.user);
+  const isLoggedIn = !!user?.name && !!user?.email;
+
+
+  const cartCount = useSelector(state => state.cart.totalCount);
+
+
   return (
-    <div className="container mx-auto w-full h-2xl p-4 ">
-      <div className="flex  items-center justify-between">
-        <h3 className="text-2xl">The Food App</h3>
+    <div className="container mx-auto w-full h-2xl p-4">
+      <div className="flex items-center justify-between">
+
+        <div className="flex justify-center items-center ">
+          <img src="/food2.png" alt="" />
+          <h3 className="text-2xl pl-2">The Food Hub</h3>
+        </div>
+
         <ul className="flex flex-row gap-7 justify-center cursor-pointer font-extralight bg-[#F4F6F6] p-4 rounded-3xl">
-          <li>Home</li>
-          <li>Service</li>
-          <li>Order</li>
-          <li>Restuarant</li>
-          <li>Feedback</li>
+          <Link to='/' >Home</Link>
+          <Link to='#'>Service</Link>
+          <Link to='#'>Order</Link>
+          <Link to='#'>Restuarant</Link>
+          <Link to='#'>Feedback</Link>
         </ul>
-        <div className="flex gap-2 pl-2">
-        <button className="p-4 bg-[#F4F6F6] rounded-3xl font-extralight">SIGNIN</button>
+        <div className="flex gap-2 pl-2 items-center relative">
+          {isLoggedIn && (
+            <Link to="/cart" className="relative p-4 bg-[#F4F6F6] rounded-3xl">
+              🛒
+              {cartCount > 0 && (
+                <span className="absolute -bottom-1 -right-0 w-5 h-5 bg-red-500 text-white text-xs flex items-center justify-center rounded-full">
+                  {cartCount}
+                </span>
+              )}
+            </Link>
+          )}
+          <button className="p-4 bg-[#F4F6F6] rounded-3xl font-extralight">
+            {isLoggedIn ? `Hi, ${user.name}` : <Link to="/login"> LOGIN</Link>}
+          </button>
           <button className="p-4 bg-[#F4F6F6] rounded-3xl">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -22,6 +51,7 @@ const Navbar = () => {
               strokeWidth={1.5}
               stroke="currentColor"
               className="size-6 font-extralight"
+              
             >
               <path
                 strokeLinecap="round"
@@ -30,7 +60,9 @@ const Navbar = () => {
               />
             </svg>
           </button>
-          
+          <button onClick={onHandleLogOut}>
+              Log out
+          </button>
         </div>
       </div>
     </div>
