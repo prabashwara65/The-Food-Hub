@@ -2,9 +2,12 @@ import React from "react";
 import { RiFacebookLine, RiGoogleLine } from "react-icons/ri";
 import { FaInstagram } from "react-icons/fa";
 import { CgProfile } from "react-icons/cg";
+import { Link } from "react-router-dom";
 import { MdEmail, MdLockOutline } from "react-icons/md";
 
 const Register = () => {
+ 
+
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-orange-100 via-orange-300 to-yellow-200 py-16 px-4">
       <div className="bg-white/90 backdrop-blur-xl rounded-3xl shadow-2xl p-10 w-full max-w-md">
@@ -65,9 +68,9 @@ const Register = () => {
 
         <p className="text-center text-sm text-gray-600 mt-6">
           Already have an account?{" "}
-          <span className="text-orange-500 font-medium hover:underline cursor-pointer">
+          <Link to="/login" className="text-orange-500 font-medium hover:underline cursor-pointer">
             Log in
-          </span>
+          </Link >
         </p>
       </div>
     </div>
