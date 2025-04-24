@@ -7,7 +7,6 @@ import Footer from "../../Components/Footer";
 import SearchBar from "../../Components/SearchBar";
 import HomeCard from "../../Components/HomeCard"
 import { Link } from "react-router-dom";
-// import { clearUser } from '../../ReduxToolKit/userSlice'
 
 const Home = () => {
   //for search function (hasara)
@@ -68,13 +67,12 @@ const Home = () => {
    fetchMenus();
  }, []);
 
- const handleLogOut = () => {
-  dispatch(clearUser())
-  console.log("account cleared")
-  
+  const handleLogOut = () => {
+    dispatch(clearUser())
+    console.log("account cleared")
+    
  }
  
-
   return (
     <div>
       <div className="min-h-screen px-12 bg-linear-to-r from-[#E3E5E6] from-10% via-[#EDECE3] via-65% to-[#F6EFC8] to-90%">
