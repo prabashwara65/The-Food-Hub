@@ -8,8 +8,10 @@ const {
     PostOrder,
 } = require('../../Controller/Order/OrderController')
 
-router.get('/' , getAllOrders)
+router.get('/getOrders' , getAllOrders)
 
-router.get('/:id' , getOrderById)
+router.get('/getOrder/:id' , getOrderById)
 
-router.post('/' , PostOrder)
+router.post('/create' , PostOrder)
+
+module.exports = router;

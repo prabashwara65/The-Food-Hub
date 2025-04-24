@@ -25,6 +25,7 @@ app.use('/api/auth' , UserRouter)
 app.use('/api/menu', MenuRouter)
 app.use('/api/restaurantView', SearchRestaurantRouter)
 app.use('/api/cart', CartRouter)
+app.use('/api/order' , OrderRo)
 
 
 
