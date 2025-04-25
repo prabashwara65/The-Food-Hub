@@ -24,7 +24,13 @@ const createCheckoutSession = async (req,res) => {
             customer_email: email,
             success_url: "http://localhost:3000/success",
             cancel_url: "http://localhost:3000/cancel",
+            shipping_address_collection: {
+                allowed_countries: ['US', 'CA', 'LK'], 
+            },
+
         });
+
+
 
         res.json({id : session.id});
 

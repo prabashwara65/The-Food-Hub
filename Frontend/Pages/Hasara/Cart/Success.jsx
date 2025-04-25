@@ -1,8 +1,6 @@
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FaCheckCircle } from 'react-icons/fa';
-import Navbar from '../../../Components/Navbar';
-import Footer from '../../../Components/Footer';
 import { useSelector } from 'react-redux';
 
 function Success() {
