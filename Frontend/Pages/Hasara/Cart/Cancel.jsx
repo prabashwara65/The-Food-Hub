@@ -9,9 +9,8 @@ function Cancel() {
 
   return (
     <div className="min-h-screen bg-gradient-to-r from-red-100 via-white to-red-100">
-      <Navbar />
       <div className="flex flex-col items-center justify-center py-20 text-center">
-        <FaTimesCircle size={80} className="text-red-500 mb-6" />
+        <FaTimesCircle size={80} className="text-red-500 mb-6 mt-40" />
         <h1 className="text-3xl font-bold text-red-700 mb-2">Payment Cancelled</h1>
         <p className="text-lg text-gray-600 mb-4">
           Your payment was not completed. If this was a mistake, you can try again.
@@ -23,7 +22,6 @@ function Cancel() {
           Return to My Plate
         </button>
       </div>
-      <Footer />
     </div>
   );
 }
