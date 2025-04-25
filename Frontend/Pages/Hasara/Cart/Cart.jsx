@@ -244,9 +244,9 @@ function Cart() {
                 <td className="px-4 py-2">
                <button
                       onClick={() => handleDeleteItem(item._id) }
-                       className="text-red-600 hover:text-red-800 "
+                       className="text-black hover:text-gray-600 "
               >
-              <FaTrash />
+              <FaTrash size={20}/>
            </button>
         </td>
 
@@ -263,9 +263,8 @@ function Cart() {
           </h4>
           <button
             onClick={handleCheckout}
-            className="bg-orange-500 hover:bg-orange-600 text-white px-6 py-2 rounded-md font-semibold transition-all duration-200"
-          >
-            Checkout
+            className="bg-orange-500 hover:bg-orange-600 text-white px-6 py-2 rounded-md font-semibold transition-all duration-200">
+            Pay for My Plate
           </button>
         </div>
       )}
