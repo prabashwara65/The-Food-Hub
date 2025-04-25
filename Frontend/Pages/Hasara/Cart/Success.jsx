@@ -3,9 +3,33 @@ import { useNavigate } from 'react-router-dom';
 import { FaCheckCircle } from 'react-icons/fa';
 import Navbar from '../../../Components/Navbar';
 import Footer from '../../../Components/Footer';
+import { useSelector } from 'react-redux';
 
 function Success() {
   const navigate = useNavigate();
+  const user = useSelector((state) => state.user.user);
+
+  //delete selected items after payment done successful
+  useEffect(() => {
+    const clearCart = async () => {
+      try {
+        const response = await fetch(`http://localhost:4000/api/cart/clearSelected/${user.email}`, {
+          method: 'DELETE',
+        });
+
+        if (response.ok) {
+          console.log("Selected items cleared after success");
+        } else {
+          console.error("Failed to clear cart items");
+        }
+      } catch (error) {
+        console.error("Error clearing cart:", error);
+      }
+    };
+
+    if (user?.email) clearCart();
+  }, [user]);
+
 
   useEffect(() => {
     const timer = setTimeout(() => {
