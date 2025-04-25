@@ -1,8 +1,10 @@
 const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
+const endpointSecret = process.env.STRIPE_WEBHOOK_SECRET;
+const Order = require("../../Model/Order/OrderModel")
 
 const createCheckoutSession = async (req,res) => {
     const { items, email } = req.body;
-    // console.log("Received items:", items);
+ 
 
     try{
         const line_items= items.map (item => ({
@@ -22,6 +24,9 @@ const createCheckoutSession = async (req,res) => {
             mode: "payment",
             line_items,
             customer_email: email,
+            metadata:{
+                items: JSON.stringify(items),
+            },
             success_url: "http://localhost:3000/success",
             cancel_url: "http://localhost:3000/cancel",
             shipping_address_collection: {
@@ -29,9 +34,6 @@ const createCheckoutSession = async (req,res) => {
             },
 
         });
-
-
-
         res.json({id : session.id});
 
     }catch (error){
@@ -42,4 +44,45 @@ const createCheckoutSession = async (req,res) => {
     }
 }
 
-module.exports = {createCheckoutSession}
+
+const handleStripeWebhook = async (req, res) => {
+    const sig = req.headers['stripe-signature'];
+    let event;
+
+    try {
+        event = stripe.webhooks.constructEvent(req.body, sig, endpointSecret);
+    } catch (err) {
+        return res.status(400).send(`Webhook Error: ${err.message}`);
+    }
+
+    if (event.type === 'checkout.session.completed') {
+        const session = event.data.object;
+
+        try {
+            const items = session.metadata?.items
+                ? JSON.parse(session.metadata.items)
+                : [];
+
+            const totalAmount = session.amount_total / 100 || 0;
+            const email = session.customer_email || 'no-email@example.com';
+
+            const order = new Order({
+                email,
+                amount: totalAmount,
+                items,
+                paymentStatus: session.payment_status || 'unknown',
+            });
+
+            await order.save();
+            console.log("✅ Order created:", order);
+        } catch (err) {
+            console.error("❌ Failed to save order:", err.message);
+            return res.status(500).send("Order creation failed.");
+        }
+    }
+
+    res.status(200).json({ received: true });
+};
+
+
+module.exports = {createCheckoutSession, handleStripeWebhook}

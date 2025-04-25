@@ -11,7 +11,13 @@ const CartRouter = require('./Routes/Cart/CartRoute')
 const OrderRouter = require('./Routes/Order/OrderRouter')
 const CheckoutRouter = require('./Routes/Cart/StripePaymentRoute')
 
+const {handleStripeWebhook} = require('./Controller/Cart/StripePaymentController')
+
 const app = express()
+
+// ⚠️ Stripe requires the raw body for webhook signature verification
+app.post('/webhook', express.raw({ type: 'application/json' }), handleStripeWebhook);
+
 
 //middleware
 app.use(express.json())
