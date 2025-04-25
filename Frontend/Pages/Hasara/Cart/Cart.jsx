@@ -84,7 +84,15 @@ function Cart() {
 
   const handleCheckout = () => {
     console.log('Proceeding to checkout');
-    // Add your logic here
+    if(totalPrice === 0){
+      toast.error ("Please select at least one item to proceed.");
+      return;
+    }
+
+    console.log('Proceeding to checkout with total amount:', totalPrice);
+
+    toast.success(`Proceeding to checkout. Total: Rs. ${totalPrice}`);
+
   };
   
 
@@ -212,13 +220,14 @@ function Cart() {
           </thead>
           <tbody>
             {cartItem.map((item) => (
-              <tr key={item._id} className={`border-b ${item.selectStatus ? 'bg-white' : 'bg-white'}`}>
+              <tr key={item._id} className={`border-b ${item.menuAvailability ? 'bg-white' : 'bg-gray-100 text-gray-400'}`}>
                 <td className="px-4">
                   <input
                     type="checkbox"
                     checked={selectedItemIds.includes(item._id)}
                     onChange={() => handleSelectItem(item)}
                     className="w-5 h-5 accent-orange-200"
+                    disabled={!item.menuAvailability}
                   />
                 </td>
                 <td className="px-6 py-4 font-medium text-gray-900 flex items-center gap-4">
@@ -230,27 +239,29 @@ function Cart() {
                 <td className="px-6 py-4">{item.menuAvailability ? 'Available' : 'Out of Stock'}</td>
                 <td className="px-6 py-4">
                 <button onClick={() => handleQuantityChange(item._id, item.quantity - 1)}
-                    className="hover:text-gray-800 pb-1 bg-black rounded-full text-l w-8 text-white font-bold">
+                 disabled={!item.menuAvailability}
+                 className={`pb-1 w-8 text-white font-bold rounded-full ${
+                  item.menuAvailability ? 'bg-black hover:text-gray-800' : 'bg-gray-300 cursor-not-allowed'
+                }`}>
                   -
                     </button>
              <span className="mx-3">{item.quantity}</span>
                   <button onClick={() => handleQuantityChange(item._id, item.quantity + 1)}
-                     className=" hover:text-gray-800 pb-1 bg-black rounded-full text-l w-8 text-white font-bold">
+                  disabled={!item.menuAvailability}
+                     className={`pb-1 w-8 text-white font-bold rounded-full ${
+                      item.menuAvailability ? 'bg-black hover:text-gray-800' : 'bg-gray-300 cursor-not-allowed'
+                    }`}>
                     +
              </button>
              </td>
                 <td className="px-6 py-4">Rs. {item.menuPrice}</td>
                 <td className="px-4 py-2">Rs. {item.quantity * item.menuPrice}</td>
                 <td className="px-4 py-2">
-               <button
-                      onClick={() => handleDeleteItem(item._id) }
-                       className="text-black hover:text-gray-600 "
-              >
+               <button onClick={() => handleDeleteItem(item._id) } className="text-black hover:text-gray-600 ">
               <FaTrash size={20}/>
            </button>
         </td>
-
-              </tr>
+           </tr>
             ))}
           </tbody>
         </table>
