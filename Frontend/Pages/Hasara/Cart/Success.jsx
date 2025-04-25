@@ -8,13 +8,11 @@ function Success() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Clear cart or show a message if needed
-    // Optional: You can also clear selected items from Redux if necessary
     const timer = setTimeout(() => {
-      navigate('/'); // Redirect to home or orders page after delay
-    }, 5000);
+      navigate('/');
+    }, 3000);
 
-    return () => clearTimeout(timer); // cleanup on unmount
+    return () => clearTimeout(timer); 
   }, [navigate]);
 
   return (
