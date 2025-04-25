@@ -9,6 +9,7 @@ const MenuRouter = require('./Routes/Menu/MenuRouter')
 const SearchRestaurantRouter = require('./Routes/RestaurantView/SearchRestaurantRoute')
 const CartRouter = require('./Routes/Cart/CartRoute')
 const OrderRouter = require('./Routes/Order/OrderRouter')
+const CheckoutRouter = require('./Routes/Cart/StripePaymentRoute')
 
 const app = express()
 
@@ -27,6 +28,7 @@ app.use('/api/menu', MenuRouter)
 app.use('/api/restaurantView', SearchRestaurantRouter)
 app.use('/api/cart', CartRouter)
 app.use('/api/order' , OrderRouter)
+app.use('/api/checkout', CheckoutRouter)
 
 
 

@@ -5,6 +5,7 @@ import Footer from '../../../Components/Footer';
 import { FaTrash } from 'react-icons/fa';
 import { toast } from 'react-hot-toast';
 import { setCartItems } from '../../../ReduxToolKit/cartSlice';
+import {loadStripe} from '@stripe/stripe-js';
 
 function Cart() {
   const [loading, setLoading] = useState(true);
@@ -82,17 +83,39 @@ function Cart() {
     }
   };
 
-  const handleCheckout = () => {
-    console.log('Proceeding to checkout');
-    if(totalPrice === 0){
-      toast.error ("Please select at least one item to proceed.");
+  const handleCheckout = async() => {
+    if (!selectedItemIds.length) {
+      toast.error("Please select at least one item to proceed.");
       return;
     }
 
-    console.log('Proceeding to checkout with total amount:', totalPrice);
+    const stripe = await loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY);
+    const selectedItems = cartItem.filter(item => selectedItemIds.includes(item._id))
+    
+    const body = {
+      items: selectedItems,
+      email: user?.email, 
+    };
 
-    toast.success(`Proceeding to checkout. Total: Rs. ${totalPrice}`);
+    try{
+      const response = await fetch("http://localhost:4000/api/checkout/create-checkout-session", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(body),
+      });
 
+      const session = await response.json();
+      if (session.id) {
+        await stripe.redirectToCheckout({ sessionId: session.id });
+      } else {
+        toast.error("Failed to initiate payment.");
+      }
+    } catch (error){
+      console.error("Checkout error:", error);
+      toast.error("Something went wrong during checkout.");
+    }
   };
   
 
