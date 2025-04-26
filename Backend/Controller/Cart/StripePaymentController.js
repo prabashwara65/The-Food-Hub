@@ -19,13 +19,21 @@ const createCheckoutSession = async (req,res) => {
             quantity: item.quantity,
         }));
 
+        const simplifiedItems = items.map(item => ({
+            menuId: item.menuId,
+            menuTitle: item.menuTitle,
+            quantity: item.quantity,
+            price: item.menuPrice
+        }));
+        
+
         const session = await stripe.checkout.sessions.create({
             payment_method_types: ["card"],
             mode: "payment",
             line_items,
             customer_email: email,
             metadata:{
-                items: JSON.stringify(items),
+                items: JSON.stringify(simplifiedItems),
             },
             success_url: "http://localhost:3000/success",
             cancel_url: "http://localhost:3000/cancel",
@@ -74,9 +82,9 @@ const handleStripeWebhook = async (req, res) => {
             });
 
             await order.save();
-            console.log("✅ Order created:", order);
+            console.log(" Order created:", order);
         } catch (err) {
-            console.error("❌ Failed to save order:", err.message);
+            console.error("Failed to save order:", err.message);
             return res.status(500).send("Order creation failed.");
         }
     }
