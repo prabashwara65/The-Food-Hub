@@ -5,6 +5,7 @@ const orderSchema = new mongoose.Schema({
     amount: Number,
     items: Array,
     paymentStatus: String,
+    status: {type: String, default: "Payment Successfull"},
     createdAt: {
         type: Date,
         default: Date.now,
