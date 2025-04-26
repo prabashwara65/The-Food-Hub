@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Navbar from '../../../Components/Navbar';
 import { useParams, useNavigate } from 'react-router-dom';
 import Footer from '../../../Components/Footer';
-import { useSelector } from 'react-redux'; //import useSelector from react-redux
+import { useSelector } from 'react-redux'; 
 import { toast } from 'react-hot-toast';
 import { FaShoppingCart } from "react-icons/fa";
 
@@ -14,7 +14,7 @@ const MenuDetails = () => {
   const [selectedImage, setSelectedImage] = useState(null); 
   const [quantity, setQuantity] = useState(1); 
 
-  const user = useSelector((state) => state.user.user); // Get the current user from Redux store
+  const user = useSelector((state) => state.user.user); 
   const email = user?.email;
 
   useEffect(() => {
