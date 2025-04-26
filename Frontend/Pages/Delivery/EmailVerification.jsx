@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { verifyEmail } from '../../store/driverSlice'; // Correctly import the action
+import { verifyEmail } from '../../ReduxToolKit/driverSlice'; // Correctly import the action
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios'; // Import Axios for API calls
 

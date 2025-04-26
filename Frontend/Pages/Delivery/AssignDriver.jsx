@@ -69,12 +69,13 @@ const AssignDriver = () => {
       navigator.geolocation.getCurrentPosition(
         (position) => {
           const { latitude, longitude } = position.coords;
-          setOrderLocation({ lat: latitude, lng: longitude });
+          setOrderLocation({ lat: latitude, lng: longitude }); // Set user's actual location
           setError(null);
           setDirections(null);
           setProgressStep(0); // Reset progress
         },
-        () => {
+        (error) => {
+          console.error("Error fetching location:", error);
           setError("Unable to retrieve your location. Please enable location services.");
         }
       );
@@ -216,6 +217,7 @@ const AssignDriver = () => {
               zoom={12}
               onClick={handleMapClick}
             >
+              {/* Marker for the order location */}
               {orderLocation && (
                 <Marker
                   position={orderLocation}
@@ -223,10 +225,10 @@ const AssignDriver = () => {
                 />
               )}
 
-              {/* Add a marker for the restaurant */}
+              {/* Marker for the restaurant */}
               <Marker
                 position={{ lat: 6.922201, lng: 79.913870 }}
-                icon={{ url: 'https://maps.google.com/mapfiles/kml/shapes/shopping.png'}}
+                icon={{ url: 'https://maps.gstatic.com/mapfiles/ms2/micons/homegardenbusiness.png' }}
               />
 
               {/* Add markers for available drivers */}
@@ -234,18 +236,26 @@ const AssignDriver = () => {
                 <Marker
                   key={driver._id}
                   position={{ lat: driver.location.lat, lng: driver.location.lng }}
-                  icon={{ url: vehicleIcons[driver.vehicleType] || vehicleIcons.default ,scaledSize: new window.google.maps.Size(30, 30) }}
+                  icon={{
+                    url: vehicleIcons[driver.vehicleType] || vehicleIcons.default,
+                    scaledSize: new window.google.maps.Size(30, 30),
+                  }}
+                  title={`Driver: ${driver.name}, Contact: ${driver.contact}`}
                 />
               ))}
 
-              {/* Add a moving marker for the assigned driver */}
+              {/* Marker for the moving driver (if assigned) */}
               {movingDriverPosition && (
                 <Marker
                   position={movingDriverPosition}
-                  icon={{ url: 'https://maps.google.com/mapfiles/kml/shapes/motorcycling.png',scaledSize: new window.google.maps.Size(30, 30) }}
+                  icon={{
+                    url: 'https://maps.google.com/mapfiles/kml/shapes/motorcycling.png',
+                    scaledSize: new window.google.maps.Size(30, 30),
+                  }}
                 />
               )}
 
+              {/* Directions Renderer */}
               {directions && (
                 <DirectionsRenderer
                   directions={directions}
@@ -254,8 +264,8 @@ const AssignDriver = () => {
                     polylineOptions: {
                       strokeColor: '#FF0000',
                       strokeOpacity: 0.8,
-                      strokeWeight: 6
-                    }
+                      strokeWeight: 6,
+                    },
                   }}
                 />
               )}
@@ -264,12 +274,19 @@ const AssignDriver = () => {
         </div>
 
         <div className="flex-1 text-center">
-          <div className="mb-5 flex flex-row gap items-center">
+          <div className="mb-5 flex flex-row gap-4 items-center">
             <p className="mb-2" style={{ fontSize: '24px' }}>Your location</p>
-            <button onClick={getUserLocation} className="p-2 text-xl bg-gray-200 rounded-full">
+            {/* Button to detect location automatically */}
+            <button
+              onClick={getUserLocation}
+              className="p-2 text-xl bg-gray-200 rounded-full hover:bg-gray-300 transition"
+            >
               <FaLocationCrosshairs />
             </button>
           </div>
+
+          <p className="text-gray-500 mb-4">Or click on the map to select your location manually.</p>
+
           {assignedDriver ? (
             <div className="mt-5 p-4 bg-gray-100 rounded-md shadow-md items-center">
               <div className="flex flex-row items-center gap-10 pl-15">
@@ -288,9 +305,9 @@ const AssignDriver = () => {
                 <p className="text-white flex items-center gap-8 pl-20 p-2">
                   <FaPhoneAlt className="text-green-500 w-6 h-6" /> {assignedDriver.contact}
                 </p>
-                </div>
-                <br />
-                <div className='bg-black w-full'>
+              </div>
+              <br />
+              <div className="bg-black w-full">
                 <p className="text-white flex items-center gap-8 pl-20 p-2">
                   <strong>Distance:</strong> {assignedDriver.distance}
                 </p>
@@ -302,33 +319,34 @@ const AssignDriver = () => {
           ) : (
             <div className="mt-5 p-4 bg-gray-100 rounded-md shadow-md text-center">
               <p className="text-gray-700">No driver assigned yet.</p>
-              <p className="text-gray-500">Please select a location on the map and assign a driver.</p>
+              <p className="text-gray-500">Please select a location on the map or use the button above to detect your location.</p>
             </div>
           )}
-          <br />
-          <br />
         </div>
       </div>
 
-      <div className="my-6 p-4 bg-gray-100 rounded-md">
-        <h3 className="text-lg font-semibold mb-3">
-          Available Drivers ({drivers.filter(d => d.available).length})
-        </h3>
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-          {drivers.map(driver => (
-            <div
-              key={driver._id}
-              className={`p-3 rounded-md ${driver.available ? 'bg-green-100' : 'bg-red-100'}`}
-            >
-              <p className="font-bold">{driver.name}</p>
-              <p>{vehicleIcons[driver.vehicleType] || vehicleIcons.default} {driver.vehicleType}</p>
-              <p>📱 {driver.contact}</p>
-              <p>📍 {driver.location.lat.toFixed(4)}, {driver.location.lng.toFixed(4)}</p>
-              <p>{driver.available ? '🟢 Available' : '🔴 Busy'}</p>
-            </div>
-          ))}
+      {/* Available Drivers Section */}
+      {!assignedDriver && (
+        <div className="my-6 p-4 bg-gray-100 rounded-md">
+          <h3 className="text-lg font-semibold mb-3">
+            Available Drivers ({drivers.filter((d) => d.available).length})
+          </h3>
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+            {drivers.map((driver) => (
+              <div
+                key={driver._id}
+                className={`p-3 rounded-md ${driver.available ? 'bg-green-100' : 'bg-red-100'}`}
+              >
+                <p className="font-bold">{driver.name}</p>
+               
+                <p>📱 {driver.contact}</p>
+                <p>📍 {driver.location.lat.toFixed(4)}, {driver.location.lng.toFixed(4)}</p>
+                <p>{driver.available ? '🟢 Available' : '🔴 Busy'}</p>
+              </div>
+            ))}
+          </div>
         </div>
-      </div>
+      )}
 
       <div className="text-center mt-6">
         <button

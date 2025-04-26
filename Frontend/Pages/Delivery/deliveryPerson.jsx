@@ -4,7 +4,7 @@ import deloveryP2 from "../../assets/images/deliverPerson2.png";
 import deloveryP3 from "../../assets/images/deliveryPerson3.png";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { setDriverDetails } from "../../store/driverSlice";
+import { setDriverDetails } from "../../ReduxToolKit/driverSlice";
 
 const DeliveryPersonView = () => {
   const deliveryPersons = [deloveryP, deloveryP2, deloveryP3];

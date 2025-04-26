@@ -1,6 +1,6 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { setDriverDetails } from '../../store/driverSlice'; // Import the action to update location
+import { setDriverDetails } from '../../ReduxToolKit/driverSlice'; // Import the action to update location
 import axios from 'axios'; // Import Axios for API calls
 
 const LocationAccess = () => {

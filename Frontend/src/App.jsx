@@ -7,7 +7,6 @@ import Login from "../Pages/Prabashwara/Login";
 import Adminpanel from "../Pages/AdminPanel/Adminpanel";
 import OrderHome from "../Pages/Prabashwara/Orders/OrderHome";
 
-import store from "../store/store"; //redux store
 
 //restaurant owner
 import AssignDriver from "../Pages/Delivery/AssignDriver";
@@ -23,7 +22,6 @@ import CartDetails from "../Pages/Hasara/Cart/Cart";
 function App() {
   return (
     <>
-    <Provider store={store}>
       <BrowserRouter>
         <Routes>
           <Route path="/home" element={<Home />} />
@@ -49,7 +47,6 @@ function App() {
         </Routes>
         <Toaster position="top-center" reverseOrder={false} /> 
       </BrowserRouter>
-      </Provider>
     </>
   );
 }
