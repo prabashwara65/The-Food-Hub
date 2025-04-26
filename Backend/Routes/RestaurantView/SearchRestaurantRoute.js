@@ -1,7 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const { searchRestaurantsByName } = require("../../Controller/RestaurantView-hasara/SearchRestaurant");
-const {getMenusByRestaurantID,  getRestaurantById} = require("../../Controller/RestaurantView-hasara/RestaurantView")
+const {getMenusByRestaurantID,  getRestaurantById, searchRestaurantsByName} = require("../../Controller/RestaurantView-hasara/RestaurantView")
 
 // The searchRestaurantsByName 
 router.get("/searchRestaurants", searchRestaurantsByName);
