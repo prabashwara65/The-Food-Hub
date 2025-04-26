@@ -5,6 +5,7 @@ import Footer from '../../../Components/Footer';
 import { FaTrash } from 'react-icons/fa';
 import { toast } from 'react-hot-toast';
 import { setCartItems } from '../../../ReduxToolKit/cartSlice';
+import {loadStripe} from '@stripe/stripe-js';
 
 function Cart() {
   const [loading, setLoading] = useState(true);
@@ -82,9 +83,39 @@ function Cart() {
     }
   };
 
-  const handleCheckout = () => {
-    console.log('Proceeding to checkout');
-    // Add your logic here
+  const handleCheckout = async() => {
+    if (!selectedItemIds.length) {
+      toast.error("Please select at least one item to proceed.");
+      return;
+    }
+
+    const stripe = await loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY);
+    const selectedItems = cartItem.filter(item => selectedItemIds.includes(item._id))
+    
+    const body = {
+      items: selectedItems,
+      email: user?.email, 
+    };
+
+    try{
+      const response = await fetch("http://localhost:4000/api/checkout/create-checkout-session", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(body),
+      });
+
+      const session = await response.json();
+      if (session.id) {
+        await stripe.redirectToCheckout({ sessionId: session.id });
+      } else {
+        toast.error("Failed to initiate payment.");
+      }
+    } catch (error){
+      console.error("Checkout error:", error);
+      toast.error("Something went wrong during checkout.");
+    }
   };
   
 
@@ -183,6 +214,7 @@ function Cart() {
 
 
   return (
+    <div>
     <div className="min-h-screen px-12 bg-gradient-to-r from-[#F6EFC8] via-[#EDECE3] to-[#F6EFC8]">
       <Navbar />
       <h2 className="text-2xl font-bold mb-2 mt-3 p-2 text-orange-700">My Plate</h2>
@@ -211,13 +243,14 @@ function Cart() {
           </thead>
           <tbody>
             {cartItem.map((item) => (
-              <tr key={item._id} className={`border-b ${item.selectStatus ? 'bg-white' : 'bg-white'}`}>
+              <tr key={item._id} className={`border-b ${item.menuAvailability ? 'bg-white' : 'bg-gray-100 text-gray-400'}`}>
                 <td className="px-4">
                   <input
                     type="checkbox"
                     checked={selectedItemIds.includes(item._id)}
                     onChange={() => handleSelectItem(item)}
                     className="w-5 h-5 accent-orange-200"
+                    disabled={!item.menuAvailability}
                   />
                 </td>
                 <td className="px-6 py-4 font-medium text-gray-900 flex items-center gap-4">
@@ -229,27 +262,29 @@ function Cart() {
                 <td className="px-6 py-4">{item.menuAvailability ? 'Available' : 'Out of Stock'}</td>
                 <td className="px-6 py-4">
                 <button onClick={() => handleQuantityChange(item._id, item.quantity - 1)}
-                    className="hover:text-gray-800 pb-1 bg-black rounded-full text-l w-8 text-white font-bold">
+                 disabled={!item.menuAvailability}
+                 className={`pb-1 w-8 text-white font-bold rounded-full ${
+                  item.menuAvailability ? 'bg-black hover:text-gray-800' : 'bg-gray-300 cursor-not-allowed'
+                }`}>
                   -
                     </button>
              <span className="mx-3">{item.quantity}</span>
                   <button onClick={() => handleQuantityChange(item._id, item.quantity + 1)}
-                     className=" hover:text-gray-800 pb-1 bg-black rounded-full text-l w-8 text-white font-bold">
+                  disabled={!item.menuAvailability}
+                     className={`pb-1 w-8 text-white font-bold rounded-full ${
+                      item.menuAvailability ? 'bg-black hover:text-gray-800' : 'bg-gray-300 cursor-not-allowed'
+                    }`}>
                     +
              </button>
              </td>
                 <td className="px-6 py-4">Rs. {item.menuPrice}</td>
                 <td className="px-4 py-2">Rs. {item.quantity * item.menuPrice}</td>
                 <td className="px-4 py-2">
-               <button
-                      onClick={() => handleDeleteItem(item._id) }
-                       className="text-red-600 hover:text-red-800 "
-              >
-              <FaTrash />
+               <button onClick={() => handleDeleteItem(item._id) } className="text-black hover:text-gray-600 ">
+              <FaTrash size={20}/>
            </button>
         </td>
-
-              </tr>
+           </tr>
             ))}
           </tbody>
         </table>
@@ -262,14 +297,13 @@ function Cart() {
           </h4>
           <button
             onClick={handleCheckout}
-            className="bg-orange-500 hover:bg-orange-600 text-white px-6 py-2 rounded-md font-semibold transition-all duration-200"
-          >
-            Checkout
+            className="bg-orange-500 hover:bg-orange-600 text-white px-6 py-2 rounded-md font-semibold transition-all duration-200">
+            Pay for My Plate
           </button>
         </div>
       )}
-
-      <Footer />
+    </div>
+    <Footer />
     </div>
   );
 }

@@ -12,15 +12,24 @@ const OrderHome = () => {
             setOrders(data)
         }
         fecthOrders()
-    },[orders])
+    },[])
+
+    const handelClick = (id) => {
+        console.log(`card has pressed  + ${id}`)
+    }
 
   return (
     <div className="container bg-teal-200 min-h-screen ">
       <Navbar />
-      <div className="container flex flex-row gap-5 p-5">
-        <div className="overflow-auto bg-amber-300 w-1/3 h-[30rem]">
+      <div className="container flex flex-row gap-5 p-5 ">
+        <div className="overflow-auto bg-amber-300 w-1/3 h-[30rem] rounded-2xl">
             {orders.map((order)=>(
-                <div className="flex flex-col m-4 text-xl h-16 rounded-2xl bg-white p-2 truncate overflow-hidden" key={order._id}> {order.status}</div>
+                <div 
+                className="flex flex-col m-4 text-xl h-16 rounded-2xl bg-white p-2 truncate overflow-hidden" 
+                onClick={() => handelClick(order._id)}
+                key={order._id}> {order.status}
+                
+                </div>
             ))}
                 
         </div>

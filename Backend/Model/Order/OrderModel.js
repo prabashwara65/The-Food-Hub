@@ -1,11 +1,15 @@
-const mongoose = require('mongoose')
+const mongoose = require("mongoose");
 
-const schema = mongoose.Schema
+const orderSchema = new mongoose.Schema({
+    email: String,
+    amount: Number,
+    items: Array,
+    paymentStatus: String,
+    status: {type: String, default: "Payment Successfull"},
+    createdAt: {
+        type: Date,
+        default: Date.now,
+    },
+});
 
-const OrderSchema = new schema({
-    status:{
-        type: String
-    }
-})
-
-module.exports = mongoose.model('order' , OrderSchema)
+module.exports = mongoose.model("Order", orderSchema);
