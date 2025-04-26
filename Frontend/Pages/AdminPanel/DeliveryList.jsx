@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 const DeliveryList = () => {
@@ -9,6 +10,8 @@ const DeliveryList = () => {
     email: "",
     phoneNumber: "",
   });
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetchDelivery();
@@ -63,6 +66,13 @@ const DeliveryList = () => {
 
   return (
     <div className="p-6">
+      <button
+        onClick={() => navigate("/admin")}
+        className="mb-4 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+      >
+        ← Back to Home
+      </button>
+
       <h2 className="text-2xl font-bold mb-4">Driver Details</h2>
       <table className="w-full table-auto border border-gray-300">
         <thead className="bg-gray-200">

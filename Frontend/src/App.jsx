@@ -6,11 +6,14 @@ import Adminpanel from "../Pages/AdminPanel/Adminpanel";
 import CustomerList from "../Pages/AdminPanel/customerList";
 import OwnerList from "../Pages/AdminPanel/OwnerList";
 import DeliveryList from "../Pages/AdminPanel/DeliveryList";
+import ManageOrders from "../Pages/AdminPanel/ManageOrders";
 
 //restaurant owner
 import ManageRestaurants from "../Pages/AdminPanel/ManageRestaurants";
 import ViewRestaurant from "../Pages/AdminPanel/ViewRestaurant";
 import AddRestaurant from "../Pages/AdminPanel/AddRestaurant";
+import OwnerLogin from "../Pages/RestaurantOwner/OwnerLogin";
+import OwnerRegister from "../Pages/RestaurantOwner/OwnerRegister";
 
 function App() {
   return (
@@ -32,6 +35,9 @@ function App() {
           />
           <Route path="/admin/view-restaurant" element={<ViewRestaurant />} />
           <Route path="/admin/add-restaurant" element={<AddRestaurant />} />
+          <Route path="/owner/login" element={<OwnerLogin />} />
+          <Route path="/owner/register" element={<OwnerRegister />} />
+          <Route path="/admin/manage-orders" element={<ManageOrders />} />
         </Routes>
       </BrowserRouter>
     </>

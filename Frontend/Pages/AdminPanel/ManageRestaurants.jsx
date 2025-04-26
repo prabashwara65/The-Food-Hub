@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import Dashboard from "./Dashboard";
-import img1 from "../../assets/images/bg1.jpeg";
-import img2 from "../../assets/images/bg2.jpg";
-import img3 from "../../assets/images/bg3.jpg";
+import img1 from "../../assets/images/res1.jpg";
+import img2 from "../../assets/images/res2.jpg";
+import img3 from "../../assets/images/res3.jpg";
 import { useNavigate } from "react-router-dom";
 
 const backgrounds = [img1, img2, img3];
@@ -33,15 +33,23 @@ const ManageRestaurant = () => {
         }}
       >
         <div className="flex flex-col justify-between items-center h-full">
-          <h1 className="text-6xl font-bold text-shadow mb-6">
-            Manage Restaurants
-          </h1>
+          <div
+            className="p-8 rounded-xl shadow-lg mb-8 text-center"
+            style={{
+              backgroundColor: "rgba(255, 255, 255, 0.3)",
+              backdropFilter: "blur(10px)",
+            }}
+          >
+            <h1 className="text-6xl font-bold text-white-900 mb-4">
+              Manage Restaurants
+            </h1>
 
-          <p className="text-xl text-white text-center max-w-xl mb-8 italic">
-            Easily add, update, or remove restaurant listings to keep your
-            platform up to date. Streamline your operations by managing all
-            restaurant data from one centralized dashboard.
-          </p>
+            <p className="text-xl text-white-800 max-w-xl italic">
+              Easily add, update, or remove restaurant listings to keep your
+              platform up to date. Streamline your operations by managing all
+              restaurant data from one centralized dashboard.
+            </p>
+          </div>
 
           <button
             onClick={() => navigate("/admin/view-restaurant")}

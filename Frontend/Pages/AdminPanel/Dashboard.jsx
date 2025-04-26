@@ -110,14 +110,17 @@ const Dashboard = () => {
   // };
 
   const navItems = [
-    { label: "Home", icon: <Home size={20} />, path: "/admin/home" },
     { label: "Dashboard", icon: <LayoutDashboard size={20} />, path: "/admin" },
     {
       label: "Manage Restaurants",
       icon: <Utensils size={20} />,
       path: "/admin/manage-restaurant",
     },
-    { label: "Manage Orders", icon: <ClipboardList size={20} />, path: "#" },
+    {
+      label: "Manage Orders",
+      icon: <ClipboardList size={20} />,
+      path: "/admin/manage-orders",
+    },
     { label: "User Management", icon: <Users size={20} />, path: "#" },
     { label: "Reports & Analytics", icon: <BarChart size={20} />, path: "#" },
     {

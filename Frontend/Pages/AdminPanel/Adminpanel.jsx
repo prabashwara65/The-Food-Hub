@@ -1,7 +1,6 @@
 import React from "react";
 import Dashboard from "./Dashboard";
 import HomeSection from "./HomeSection";
-import ManageRestaurants from "./ManageRestaurants";
 
 const Adminpanel = () => {
   return (
