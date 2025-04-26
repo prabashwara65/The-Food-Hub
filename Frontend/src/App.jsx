@@ -24,11 +24,12 @@ function App() {
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />
           <Route path="/admin" element={<Adminpanel />} />
+
+          {/* Admin Routes */}
           <Route path="/admin/customers" element={<CustomerList />} />
           <Route path="/admin/owners" element={<OwnerList />} />
           <Route path="/admin/delivery" element={<DeliveryList />} />
           <Route path="/admin/home" element={<Adminpanel />} />
-
           <Route
             path="/admin/manage-restaurant"
             element={<ManageRestaurants />}
