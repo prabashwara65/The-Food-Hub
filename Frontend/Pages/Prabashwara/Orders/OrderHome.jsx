@@ -25,11 +25,23 @@ const OrderHome = () => {
       <div className="container flex flex-row gap-5 p-5 ">
         <div className="overflow-auto bg-amber-300 w-1/3 h-[30rem] rounded-2xl">
           {orders.map((order) => (
-            <div
-              className="flex flex-col m-4 text-xl h-16 rounded-2xl bg-white p-2 pointer "
-              onClick={() => handelClick(order._id)}
-              key={order._id}
-            >
+            <div key={order._id} className="order-card">
+              <h3>Order ID: {order._id}</h3>
+              <p>Email: {order.email}</p>
+              <p>Total: ${order.totalAmount}</p>
+              <p>Status: {order.status}</p>
+              <p>Created At: {new Date(order.createdAt).toLocaleString()}</p>
+
+              <h4>Items:</h4>
+              <ul>
+                {order.items.map((item) => (
+                  <li key={item.menuId}>
+                    {item.menuTitle} - Quantity: {item.quantity} - Price: $
+                    {item.price}
+                  </li>
+                ))}
+              </ul>
+              <hr />
             </div>
           ))}
         </div>
