@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Navbar from "../../../Components/Navbar";
+import SingleOrder from "./SingleOrder";
 
 const OrderHome = () => {
   const [orders, setOrders] = useState([]);
@@ -28,7 +29,10 @@ const OrderHome = () => {
       const data = response.json
       setOneOrder(data)
     }
-  })
+    getOneOrder()
+  },[])
+
+
 
   return (
     <div className="container min-h-screen ">
@@ -57,6 +61,7 @@ const OrderHome = () => {
           ))}
         </div>
         <div className="bg-orange-300 w-2/3 rounded-3xl">
+        {/* <SingleOrder id={order._id}/> */}
         
         </div>
       </div>
