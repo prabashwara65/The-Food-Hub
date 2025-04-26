@@ -1,27 +1,24 @@
 const mongoose = require('mongoose')
-// const Restaurant = require('../../models/Restaurant')
-
-const restaurantList =[
-  { restaurantId: 1, name: "Sushi Palace" },
-  { restaurantId: 2, name: "Bella Pasta" },
-  { restaurantId: 3, name: "Green Garden" },
-  { restaurantId: 4, name: "Chicken House" },
-  {restaurantId : "RI-0001", name: "Mew Mew"}
-]
+const Restaurant = require('../../Model/Restaurant/RestaurantModel')
 
 const searchRestaurantsByName = async (req, res) => {
-    const {name} = req.query;
+  const { name } = req.query;
 
-    if(!name || name.trim() === "") {
-        return res.status(400).json({ message: "Search query is required." });   
-    }
+  if (!name || name.trim() === "") {
+      return res.status(400).json({ message: "Search query is required." });
+  }
 
-    const filtered = restaurantList.filter((restaurant) =>
-        restaurant.name.toLowerCase().includes(name.toLowerCase())
-      );
+  try {
+      const filteredRestaurants = await Restaurant.find({
+          name: { $regex: name, $options: 'i' } 
+      }).select('restaurantId name'); 
 
-      return res.status(200).json(filtered);
-}
+      return res.status(200).json(filteredRestaurants);
+  } catch (error) {
+      console.error('Error searching restaurants:', error);
+      return res.status(500).json({ message: "Server error while searching restaurants." });
+  }
+};
 
 module.exports = {searchRestaurantsByName}
 

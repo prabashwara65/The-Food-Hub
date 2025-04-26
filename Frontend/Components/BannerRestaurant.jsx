@@ -32,9 +32,6 @@ const Banner = ({ restaurantId }) => {
             <p className="flex items-center gap-3">
               <FaPhoneAlt /> {restaurant?.mobile || "+39 123 456 789"}
             </p>
-            <p className="flex items-center gap-3">
-              <FaMapMarkerAlt /> {restaurant?.location || "Unknown location"}
-            </p>
           </div>
 
           {/* Social Media Icons */}
