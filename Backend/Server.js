@@ -13,6 +13,9 @@ const CheckoutRouter = require('./Routes/Cart/StripePaymentRoute')
 
 const {handleStripeWebhook} = require('./Controller/Cart/StripePaymentController')
 
+const RestaurantRouter = require("./Routes/Restaurant/RestaurantRoutes");
+const OwnerRoutes = require("./Routes/Restaurant/OwnerRoutes");
+
 const app = express()
 
 // ⚠️ Stripe requires the raw body for webhook signature verification
@@ -36,6 +39,9 @@ app.use('/api/restaurantView', SearchRestaurantRouter)
 app.use('/api/cart', CartRouter)
 app.use('/api/order' , OrderRouter)
 app.use('/api/checkout', CheckoutRouter)
+app.use("/api/restaurant", RestaurantRouter);
+app.use("/api/owner", OwnerRoutes);
+// app.use("/api/searchres", SearchRestaurantRoute);
 
 
 
