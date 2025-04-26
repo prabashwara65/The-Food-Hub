@@ -12,6 +12,8 @@ import OwnerDashboard from "../Pages/Hasara/RestaurantOwner/OwnerDashboard";
 import RestaurantView from "../Pages/Hasara/RestaurantDetails/RestaurantView";
 import MenuDetails from "../Pages/Hasara/Menu/MenuDetails";
 import CartDetails from "../Pages/Hasara/Cart/Cart";
+import Success from "../Pages/Hasara/Cart/Success";
+import Cancel from "../Pages/Hasara/Cart/Cancel";
 
 function App() {
   return (
@@ -29,6 +31,9 @@ function App() {
           <Route path="/restaurant/:id" element={<RestaurantView />} />
           <Route path="/menu/:menuId" element={<MenuDetails />} />
           <Route path="/cart" element={<CartDetails />} />
+          <Route path="/success" element={<Success/>} />
+          <Route path="/cancel" element={<Cancel />} />
+
         </Routes>
         <Toaster position="top-center" reverseOrder={false} /> 
       </BrowserRouter>
