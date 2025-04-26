@@ -1,6 +1,6 @@
 const express = require('express')
 
-const {createCart, getCartItems, updateSelectStatus, deleteCartItem, updateQuantity} = require ('../../Controller/Cart/CartController')
+const {createCart, getCartItems, updateSelectStatus, deleteCartItem, updateQuantity, clearSelectedItems} = require ('../../Controller/Cart/CartController')
 
 const router = express.Router()
 const fileupload = require("express-fileupload")
@@ -27,5 +27,8 @@ router.delete('/:id', deleteCartItem)
 
 //update quantity
 router.put('/updateQuantity/:id', updateQuantity)
+
+// delete selected item after payment
+router.delete('/clearSelected/:email', clearSelectedItems)
 
   module.exports = router

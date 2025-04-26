@@ -6,6 +6,7 @@ import Footer from "../../../Components/Footer";
 import { FaShoppingCart } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
+import { toast } from 'react-hot-toast';
 
 const RestaurantDetails = () => {
   const { id } = useParams(); // restaurantId from URL
@@ -32,7 +33,7 @@ const RestaurantDetails = () => {
   //handling adding item to cart
   const handleAddToCart = async (menu) => {
     if(!email){
-      alert("Please log in to add items to your cart");
+      toast("Please log in to add items to your cart");
       setTimeout(() => {
         navigate('/login');
       }, 2000);
@@ -57,18 +58,19 @@ const RestaurantDetails = () => {
       })
       
       if(response.ok){
-        alert(`${menu.title} has been added to the cart.`);
+        toast(`${menu.title} has been added to the cart.`);
         console.log("Cart response:", response.status);
      }else {
-       alert('Failed to add to cart. Please try again..');
+      toast('Failed to add to cart. Please try again..');
      }
     }catch (error){
       console.error("Error adding to cart", error)
-      alert("Error adding to cart...")
+      toast("Error adding to cart...")
     }
   }
 
   return (
+    <div>
     <div className="min-h-screen px-12 bg-linear-to-r from-[#F6EFC8] from-10% via-[#EDECE3] via-65% to-[#F6EFC8] to-90%">
         <Navbar />
        <div className=" p-5"> 
@@ -107,7 +109,8 @@ const RestaurantDetails = () => {
         </div>
       )}
       </div>
-      <Footer/>
+    </div>
+    <Footer/>
     </div>
   );
 };

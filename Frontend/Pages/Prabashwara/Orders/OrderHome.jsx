@@ -25,10 +25,9 @@ const OrderHome = () => {
         <div className="overflow-auto bg-amber-300 w-1/3 h-[30rem] rounded-2xl">
             {orders.map((order)=>(
                 <div 
-                className="flex flex-col m-4 text-xl h-16 rounded-2xl bg-white p-2 truncate overflow-hidden" 
+                className="flex flex-col m-4 text-xl h-16 rounded-2xl bg-white p-2 pointer " 
                 onClick={() => handelClick(order._id)}
                 key={order._id}> {order.status}
-                
                 </div>
             ))}
                 

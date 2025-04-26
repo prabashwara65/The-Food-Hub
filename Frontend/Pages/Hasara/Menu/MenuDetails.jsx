@@ -82,10 +82,11 @@ const MenuDetails = () => {
   };
 
   return (
+    <div>
     <div className="min-h-screen px-12 bg-linear-to-r from-[#F6EFC8] from-10% via-[#EDECE3] via-65% to-[#F6EFC8] to-90%">
       <Navbar />
       <div>
-        <div className="bg-white/75 rounded-xl p-6 shadow-3xl flex flex-col md:flex-row gap-6 m-10 md:mx-10">
+        <div className="bg-white/75 rounded-xl p-6 shadow-3xl flex flex-col md:flex-row gap-6 m-5 md:m-5">
           {/* Left Side */}
           <div>
             {selectedImage && (
@@ -153,7 +154,8 @@ const MenuDetails = () => {
           </div>
         </div>
       </div>
-      <Footer />
+    </div>
+    <Footer />
     </div>
   );
 };
