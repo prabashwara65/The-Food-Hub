@@ -5,10 +5,10 @@ const {getMenusByRestaurantID,  getRestaurantById, searchRestaurantsByName} = re
 // The searchRestaurantsByName 
 router.get("/searchRestaurants", searchRestaurantsByName);
 
-// The getMenusByRestaurantID (Restaurant View Controller)
+// The getMenusByRestaurantID 
 router.get("/byRestaurant/:restaurantId", getMenusByRestaurantID);
 
-// The getRestaurantById -  restaurant details (Restaurant View Controller)
+// The getRestaurantById -  restaurant details 
 router.get("/:id", getRestaurantById);
 
 
