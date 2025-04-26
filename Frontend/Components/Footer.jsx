@@ -1,6 +1,6 @@
 const Footer = () => {
     return (
-      <footer className="bg-gray-900 text-white px-6 py-10 mt-5">
+      <footer className="bg-gray-900 text-white px-6 py-10 ">
         <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-8">
           
           {/* Brand */}
@@ -54,7 +54,7 @@ const Footer = () => {
         </div>
   
         <div className="mt-10 border-t border-gray-700 pt-4 text-center text-sm text-gray-500">
-          © {new Date().getFullYear()} GoFIND-WORLD. All rights reserved.
+          © {new Date().getFullYear()} The Food Hub. All rights reserved.
         </div>
       </footer>
     );

@@ -1,14 +1,20 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import Navbar from "../../../Components/Navbar";
 import Banner from "../../../Components/BannerRestaurant";
 import Footer from "../../../Components/Footer";
 import { FaShoppingCart } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { toast } from 'react-hot-toast';
 
 const RestaurantDetails = () => {
   const { id } = useParams(); // restaurantId from URL
   const [menus, setMenus] = useState([]);
+    const navigate = useNavigate();
+
+  const user = useSelector((state) => state.user.user);
+  const email = user?.email;
 
   useEffect(() => {
     fetch(`http://localhost:4000/api/restaurantView/byRestaurant/${id}`)
@@ -24,8 +30,48 @@ const RestaurantDetails = () => {
       });
   }, [id]);
 
+  //handling adding item to cart
+  const handleAddToCart = async (menu) => {
+    if(!email){
+      toast("Please log in to add items to your cart");
+      setTimeout(() => {
+        navigate('/login');
+      }, 2000);
+      return ;
+    }
+
+    const cartItem = {
+      menuId: menu.menuId,
+      email:email,
+      quantity: 1,
+      price: menu.price,
+      selectStatus: false,
+    }
+
+    try{
+      const response = await fetch('http://localhost:4000/api/cart', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(cartItem),
+      })
+      
+      if(response.ok){
+        toast(`${menu.title} has been added to the cart.`);
+        console.log("Cart response:", response.status);
+     }else {
+      toast('Failed to add to cart. Please try again..');
+     }
+    }catch (error){
+      console.error("Error adding to cart", error)
+      toast("Error adding to cart...")
+    }
+  }
+
   return (
-    <div className="min-h-screen bg-linear-to-r from-[#f7b758] from-10% via-[#f0d9a3] via-65% to-[#e49e53] to-90%">
+    <div>
+    <div className="min-h-screen px-12 bg-linear-to-r from-[#F6EFC8] from-10% via-[#EDECE3] via-65% to-[#F6EFC8] to-90%">
         <Navbar />
        <div className=" p-5"> 
         <Banner restaurantId={id}/>
@@ -52,7 +98,9 @@ const RestaurantDetails = () => {
 
           <div className="mt-4 flex justify-between items-center">
               <p className="font-bold  text-lg">Rs. {menu.price}</p>
-              <button className="bg-black text-white px-2 py-1 rounded flex items-center gap-2 hover:bg-gray-300 hover:text-black transition">
+              <button 
+              onClick={() => handleAddToCart(menu)}
+              className="bg-black text-white px-2 py-1 rounded flex items-center gap-2 hover:bg-gray-300 hover:text-black transition">
               <FaShoppingCart /> Add to Cart
               </button>
         </div>
@@ -61,7 +109,8 @@ const RestaurantDetails = () => {
         </div>
       )}
       </div>
-      <Footer/>
+    </div>
+    <Footer/>
     </div>
   );
 };
