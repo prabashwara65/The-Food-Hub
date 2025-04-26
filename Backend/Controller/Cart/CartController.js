@@ -134,5 +134,17 @@ const updateQuantity = async (req,res) => {
   }
 }
 
+//delete selected items after payement
+const clearSelectedItems = async (req, res) => {
+  try {
+    const email = req.params.email;
+    await Cart.deleteMany({ email, selectStatus: true });
+    res.status(200).json({ message: "Selected items cleared" });
+  } catch (error) {
+    console.error("Error clearing selected items:", error);
+    res.status(500).json({ error: "Failed to clear selected items" });
+  }
+};
 
-module.exports = {createCart, getCartItems, updateSelectStatus, deleteCartItem, updateQuantity}
+
+module.exports = {createCart, getCartItems, updateSelectStatus, deleteCartItem, updateQuantity, clearSelectedItems}
