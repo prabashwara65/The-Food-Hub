@@ -15,7 +15,7 @@ const OwnerRegister = () => {
   const handleRegister = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post("http://localhost:8000/api/owner/register", {
+      const res = await axios.post("http://localhost:4000/api/owner/register", {
         name,
         ownerEmail,
         password,

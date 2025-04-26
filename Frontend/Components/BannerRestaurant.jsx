@@ -17,7 +17,6 @@ const Banner = ({ restaurantId }) => {
   }, [restaurantId]);
 
 
-
   return (
     <div className="">
       <div className="container relative mx-auto bg-[#FFBD73] py-5 px-5 md:h-[250px] rounded-xl 
@@ -30,7 +29,10 @@ const Banner = ({ restaurantId }) => {
           {/* Contact Info */}
           <div className="mt-2 space-y-1 text-lg text-[#2F2F2F]">
             <p className="flex items-center gap-3">
-              <FaPhoneAlt /> {restaurant?.mobile || "+39 123 456 789"}
+              <FaPhoneAlt /> {restaurant?.telephone || "+39 123 456 789"}
+            </p>
+            <p className="flex items-center gap-3">
+              <FaMapMarkerAlt /> {restaurant?.address || "Unknown location"}
             </p>
           </div>
 
