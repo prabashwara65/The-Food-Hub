@@ -20,7 +20,7 @@ const DeliveryList = () => {
   const fetchDelivery = async () => {
     try {
       const res = await axios.get(
-        "http://localhost:8000/api/auth/users?role=delivery"
+        "http://localhost:4000/api/auth/users?role=delivery"
       );
       setDelivery(res.data);
     } catch (err) {
@@ -45,7 +45,7 @@ const DeliveryList = () => {
   const handleSave = async (userId) => {
     try {
       await axios.put(
-        `http://localhost:8000/api/auth/users/${userId}`,
+        `http://localhost:4000/api/auth/users/${userId}`,
         editedData
       );
       fetchDelivery();
@@ -57,7 +57,7 @@ const DeliveryList = () => {
 
   const handleDelete = async (userId) => {
     try {
-      await axios.delete(`http://localhost:8000/api/auth/users/${userId}`);
+      await axios.delete(`http://localhost:4000/api/auth/users/${userId}`);
       fetchDelivery();
     } catch (err) {
       console.error(err);
