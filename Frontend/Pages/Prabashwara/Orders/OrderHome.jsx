@@ -28,7 +28,7 @@ const OrderHome = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-yellow-100 to-orange-100">
+    <div className="min-h-screen bg-gradient-to-br from-gray-100 to-orange-200">
       <Navbar />
       <div className="container mx-auto flex flex-col md:flex-row gap-6 p-6">
         
