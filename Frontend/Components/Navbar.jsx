@@ -25,7 +25,7 @@ const Navbar = ( { onHandleLogOut } ) => {
         <ul className="flex flex-row gap-7 justify-center cursor-pointer font-extralight bg-[#F4F6F6] p-4 rounded-3xl">
           <Link to='/' >Home</Link>
           <Link to='#'>Service</Link>
-          <Link to='#'>Order</Link>
+          <Link to='/order'>Order</Link>
           <Link to='#'>Restuarant</Link>
           <Link to='#'>Feedback</Link>
         </ul>

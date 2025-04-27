@@ -42,7 +42,7 @@ const AssignDriver = () => {
   useEffect(() => {
     const fetchDrivers = async () => {
       try {
-        const response = await fetch('http://localhost:8000/api/drivers/available');
+        const response = await fetch('http://localhost:4000/api/drivers/available');
         const data = await response.json();
         setDrivers(data);
       } catch (err) {
@@ -113,7 +113,7 @@ const AssignDriver = () => {
     setIsLoading(true);
     setProgressStep(1); // Step 1: Assigning driver
     try {
-      const response = await fetch('http://localhost:8000/api/assign-driver', {
+      const response = await fetch('http://localhost:4000/api/assign-driver', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(orderLocation)
@@ -210,7 +210,7 @@ const AssignDriver = () => {
 
       <div className="flex flex-col md:flex-row gap-5">
         <div className="flex-3.5 w-full md:w-3/4">
-          <LoadScript googleMapsApiKey="AIzaSyAnjsdMyhOrZEXpYMA1faKFR1QkHwyNsHY">
+          <LoadScript googleMapsApiKey={import.meta.env.REACT_APP_GOOGLE_MAPS_API_KEY}>
             <GoogleMap
               mapContainerStyle={mapContainerStyle}
               center={center}

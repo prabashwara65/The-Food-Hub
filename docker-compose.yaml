@@ -1,0 +1,63 @@
+# services:
+#   backend:
+#     build: ./backend
+#     container_name: TheFoodHub-backend-container
+#     ports:
+#       - '4000:4000'
+#     volumes:
+#       - ./backend:/app 
+#       - /app/node_modules
+#     env_file:
+#       - ./backend/.env
+#   frontend:
+#     build: ./frontend
+#     container_name: TheFoodHub-frontend-container
+#     ports:
+#       - '3000:3000'
+#     volumes:
+#       - ./frontend:/app 
+#       - /app/node_modules
+#     stdin_open: true
+#     tty: true  
+
+
+
+version: "3.8"
+services:
+  backend:
+    build: ./backend
+    container_name: TheFoodHub-backend-container
+    ports:
+      - '4000:4000'
+    volumes:
+      - ./backend:/app
+      - /app/node_modules
+    env_file:
+      - ./backend/.env
+    deploy:
+      replicas: 1  # Define number of replicas you want in Swarm
+      restart_policy:
+        condition: on-failure  # Optional: Restart policy for your service
+    networks:
+      - app-network
+
+  frontend:
+    build: ./frontend
+    container_name: TheFoodHub-frontend-container
+    ports:
+      - '3000:3000'
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    stdin_open: true  # This is supported for interactive use
+    tty: true         # This is supported for interactive use
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: overlay
