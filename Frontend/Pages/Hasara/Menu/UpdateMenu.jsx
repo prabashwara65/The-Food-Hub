@@ -15,7 +15,7 @@ const UpdateMenu = ({ isOpen, onClose, menuId, onUpdateSuccess }) => {
     if (isOpen && menuId) {
       const fetchMenuItem = async () => {
         try {
-          const response = await fetch(`http://localhost:4000/api/menu/${menuId}`);
+          const response = await fetch(`http://localhost:4004/api/menu/${menuId}`);
           const data = await response.json();
 
           if (response.ok) {
@@ -48,8 +48,6 @@ const UpdateMenu = ({ isOpen, onClose, menuId, onUpdateSuccess }) => {
     setPhotos((prev) => prev.filter((_, i) => i !== index));
   };
 
-  if (!isOpen) return null;
-
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -60,15 +58,17 @@ const UpdateMenu = ({ isOpen, onClose, menuId, onUpdateSuccess }) => {
     formData.append("availability", availability);
     formData.append("price", price);
 
-    // Append new images only (File objects)
-    photos.forEach((photo) => {
-      if (photo instanceof File) {
-        formData.append("photos", photo);
-      }
-    });
+    // Append only NEW photos (File objects)
+    const newFiles = photos.filter((photo) => photo instanceof File);
+
+    if (newFiles.length > 0) {
+      newFiles.forEach((file) => {
+        formData.append("photos", file);
+      });
+    }
 
     try {
-      const response = await fetch(`http://localhost:4000/api/menu/${menuId}`, {
+      const response = await fetch(`http://localhost:4004/api/menu/${menuId}`, {
         method: "PATCH",
         body: formData,
         credentials: "include",
@@ -90,7 +90,7 @@ const UpdateMenu = ({ isOpen, onClose, menuId, onUpdateSuccess }) => {
         setError(null);
         onClose();
         if (onUpdateSuccess) {
-          onUpdateSuccess(); // <-- REFRESH the menu dashboard
+          onUpdateSuccess(); // Refresh menu dashboard
         }
       }
     } catch (error) {
@@ -98,6 +98,8 @@ const UpdateMenu = ({ isOpen, onClose, menuId, onUpdateSuccess }) => {
       toast.error("Error updating menu item.");
     }
   };
+
+  if (!isOpen) return null;
 
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-orange-100 bg-opacity-50 z-50">
