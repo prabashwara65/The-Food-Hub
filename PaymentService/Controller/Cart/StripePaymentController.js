@@ -1,6 +1,7 @@
 const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 const endpointSecret = process.env.STRIPE_WEBHOOK_SECRET;
 const Order = require("../../Model/Order/OrderModel")
+const nodemailer = require("nodemailer");
 
 const createCheckoutSession = async (req,res) => {
     const { items, email } = req.body;
@@ -54,17 +55,23 @@ const createCheckoutSession = async (req,res) => {
 
 
 const handleStripeWebhook = async (req, res) => {
+    console.log('Webhook received:', req.body);
     const sig = req.headers['stripe-signature'];
     let event;
+    
 
     try {
         event = stripe.webhooks.constructEvent(req.body, sig, endpointSecret);
     } catch (err) {
+        console.error('Webhook signature verification failed.', err.message);
         return res.status(400).send(`Webhook Error: ${err.message}`);
     }
+      
+    console.log('Event received:', event); 
 
     if (event.type === 'checkout.session.completed') {
         const session = event.data.object;
+        console.log('Checkout session completed:', session);
 
         try {
             const items = session.metadata?.items
@@ -83,6 +90,7 @@ const handleStripeWebhook = async (req, res) => {
 
             await order.save();
             console.log(" Order created:", order);
+            sendOrderConfirmationEmail(order.email, order);  
         } catch (err) {
             console.error("Failed to save order:", err.message);
             return res.status(500).send("Order creation failed.");
@@ -91,6 +99,49 @@ const handleStripeWebhook = async (req, res) => {
 
     res.status(200).json({ received: true });
 };
+
+//send order email
+const transporter = nodemailer.createTransport({
+    service:'gmail',
+    auth: {
+        user:process.env.EMAIL_USER,
+        pass:process.env.EMAIL_PASS
+    },
+    tls: {
+        rejectUnauthorized: false // Allow self-signed certs
+    }
+})
+
+const sendOrderConfirmationEmail = (customerEmail, orderDetails) => {
+    const mailOptions = {
+        from: process.env.EMAIL_USER,
+        to: customerEmail,
+        subject: 'Order Confirmation - The Food Hub',
+        text: `
+        Hello,
+
+        Thank you for your order! Here are your order details:
+
+        Order ID: ${orderDetails._id}
+        Items: ${orderDetails.items.map(item => `${item.menuTitle} (x${item.quantity})`).join(', ')}
+        Total Amount: LKR ${orderDetails.amount}
+
+        We'll notify you when your order is ready.
+
+        Best regards,
+        The Food Hub
+    `
+    };
+
+    transporter.sendMail(mailOptions, (error, info) => {
+        if (error) {
+            console.error('Error sending email:', error);
+        } else {
+            console.log('Order confirmation email sent:', info.response);
+        }
+    });
+
+}
 
 
 module.exports = {createCheckoutSession, handleStripeWebhook}

@@ -1,28 +1,5 @@
-# services:
-#   backend:
-#     build: ./backend
-#     container_name: TheFoodHub-backend-container
-#     ports:
-#       - '4000:4000'
-#     volumes:
-#       - ./backend:/app 
-#       - /app/node_modules
-#     env_file:
-#       - ./backend/.env
-#   frontend:
-#     build: ./frontend
-#     container_name: TheFoodHub-frontend-container
-#     ports:
-#       - '3000:3000'
-#     volumes:
-#       - ./frontend:/app 
-#       - /app/node_modules
-#     stdin_open: true
-#     tty: true  
-
-
-
 version: "3.8"
+
 services:
   backend:
     build: ./backend
@@ -35,9 +12,9 @@ services:
     env_file:
       - ./backend/.env
     deploy:
-      replicas: 1  # Define number of replicas you want in Swarm
+      replicas: 1
       restart_policy:
-        condition: on-failure  # Optional: Restart policy for your service
+        condition: on-failure
     networks:
       - app-network
 
@@ -49,8 +26,110 @@ services:
     volumes:
       - ./frontend:/app
       - /app/node_modules
-    stdin_open: true  # This is supported for interactive use
-    tty: true         # This is supported for interactive use
+    stdin_open: true
+    tty: true
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+    networks:
+      - app-network
+
+  auth-service:
+    build: ./AuthService
+    container_name: auth-service-container
+    ports:
+      - '5000:5000'  # Adjust port if needed
+    volumes:
+      - ./AuthService:/app
+      - /app/node_modules
+    env_file:
+      - ./AuthService/.env
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+    networks:
+      - app-network
+
+  delivery-service:
+    build: ./DeliveryService
+    container_name: delivery-service-container
+    ports:
+      - '5001:5001'  # Adjust port if needed
+    volumes:
+      - ./DeliveryService:/app
+      - /app/node_modules
+    env_file:
+      - ./DeliveryService/.env
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+    networks:
+      - app-network
+
+  notification-service:
+    build: ./NotificationService
+    container_name: notification-service-container
+    ports:
+      - '5002:5002'  # Adjust port if needed
+    volumes:
+      - ./NotificationService:/app
+      - /app/node_modules
+    env_file:
+      - ./NotificationService/.env
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+    networks:
+      - app-network
+
+  order-service:
+    build: ./OrderService
+    container_name: order-service-container
+    ports:
+      - '5003:5003'  # Adjust port if needed
+    volumes:
+      - ./OrderService:/app
+      - /app/node_modules
+    env_file:
+      - ./OrderService/.env
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+    networks:
+      - app-network
+
+  payment-service:
+    build: ./PaymentService
+    container_name: payment-service-container
+    ports:
+      - '5004:5004'  # Adjust port if needed
+    volumes:
+      - ./PaymentService:/app
+      - /app/node_modules
+    env_file:
+      - ./PaymentService/.env
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+    networks:
+      - app-network
+
+  restaurant-service:
+    build: ./RestaurantService
+    container_name: restaurant-service-container
+    ports:
+      - '5005:5005'  # Adjust port if needed
+    volumes:
+      - ./RestaurantService:/app
+      - /app/node_modules
+    env_file:
+      - ./RestaurantService/.env
     deploy:
       replicas: 1
       restart_policy:

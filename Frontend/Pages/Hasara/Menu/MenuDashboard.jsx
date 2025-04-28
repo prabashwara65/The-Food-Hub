@@ -3,17 +3,19 @@ import { PlusCircle } from "lucide-react";
 import AddMenuModal from "./AddMenu";
 import MenuCard from "./MenuCard";
 import toast, { Toaster } from "react-hot-toast";
+import UpdateMenu from "./UpdateMenu";
 
 const MenuDashboard = ({restaurantId}) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [menus, setMenus] = useState([]);
+  const [updateMenuId, setUpdateMenuId] = useState(null)
   
 
   useEffect(() => {
     const fetchMenus = async () => {
       if (!restaurantId) return; 
       try {
-        const response = await fetch(`http://localhost:4004/api/menu/menus/${restaurantId}`);
+        const response = await fetch(`http://localhost:4000/api/menu/menus/${restaurantId}`);
         if (!response.ok) throw new Error("Failed to fetch menus");
 
         const json = await response.json();
@@ -27,6 +29,32 @@ const MenuDashboard = ({restaurantId}) => {
     fetchMenus();
   }, [restaurantId]);
 
+  const handleUpdate = (id) => {
+    setUpdateMenuId(id); // set the menu id to update
+  };
+
+
+  const handleUpdateSuccess = () => {
+    setUpdateMenuId(null); // close modal after update
+    // refetch menus after update
+    fetchMenus();
+  };
+
+  const fetchMenus = async () => {
+    if (!restaurantId) return;
+    try {
+      const response = await fetch(`http://localhost:4000/api/menu/menus/${restaurantId}`);
+      if (!response.ok) throw new Error("Failed to fetch menus");
+
+      const json = await response.json();
+      setMenus(json);
+    } catch (error) {
+      toast.error("Error fetching menu data.");
+      console.error("Fetch Error:", error);
+    }
+  };
+
+
   // Delete menu
   const handleDelete = async (id) => {
     toast(
@@ -39,7 +67,7 @@ const MenuDashboard = ({restaurantId}) => {
               onClick={async () => {
                 try {
                   const response = await fetch(
-                    `http://localhost:4004/api/menu/${id}`,
+                    `http://localhost:4000/api/menu/${id}`,
                     {
                       method: "DELETE",
                     }
@@ -102,7 +130,7 @@ const MenuDashboard = ({restaurantId}) => {
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mt-6">
         {menus.length > 0 ? (
           menus.map((menu) => (
-            <MenuCard key={menu._id} menu={menu} onDelete={handleDelete} />
+            <MenuCard key={menu._id} menu={menu} onDelete={handleDelete} onUpdate={handleUpdate} />
           ))
         ) : (
           <p className="text-center text-gray-500 col-span-full">
@@ -110,6 +138,15 @@ const MenuDashboard = ({restaurantId}) => {
           </p>
         )}
       </div>
+       {/* Update Menu Modal */}
+      {updateMenuId && (
+        <UpdateMenu
+          isOpen={!!updateMenuId}
+          onClose={() => setUpdateMenuId(null)}
+          menuId={updateMenuId}
+          onUpdateSuccess={handleUpdateSuccess} // refetch after update
+        />
+      )}
     </div>
   );
 };
