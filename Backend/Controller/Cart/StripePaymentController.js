@@ -55,7 +55,7 @@ const createCheckoutSession = async (req,res) => {
 
 
 const handleStripeWebhook = async (req, res) => {
-     
+    console.log('Webhook received:', req.body);
     const sig = req.headers['stripe-signature'];
     let event;
     
@@ -67,10 +67,11 @@ const handleStripeWebhook = async (req, res) => {
         return res.status(400).send(`Webhook Error: ${err.message}`);
     }
       
-   
+    console.log('Event received:', event); 
 
     if (event.type === 'checkout.session.completed') {
         const session = event.data.object;
+        console.log('Checkout session completed:', session);
 
         try {
             const items = session.metadata?.items

@@ -100,7 +100,6 @@ const updateMenu = async (req, res) => {
       updateFields.photos = uploadedImageUrls;
     }
 
-    // 👉 Now find by `menuId`, not `_id`
     const menu = await Menu.findOneAndUpdate(
       { menuId: id },
       { $set: updateFields },
