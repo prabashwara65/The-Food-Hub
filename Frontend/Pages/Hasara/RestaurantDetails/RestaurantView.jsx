@@ -17,7 +17,7 @@ const RestaurantDetails = () => {
   const email = user?.email;
 
   useEffect(() => {
-    fetch(`http://localhost:4000/api/restaurantView/byRestaurant/${id}`)
+    fetch(`http://localhost:4004/api/restaurantView/byRestaurant/${id}`)
       .then((res) => res.json())
       .then((data) => {
         // Filter menus to only include available ones

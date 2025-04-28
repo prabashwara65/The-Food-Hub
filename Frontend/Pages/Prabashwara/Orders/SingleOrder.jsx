@@ -13,7 +13,7 @@ const SingleOrder = ({ order }) => {
       // Fetch images for each item
       await Promise.all(order.items.map(async (item) => {
         try {
-          const response = await fetch(`http://localhost:4003/api/menu/${item.menuId}`);
+          const response = await fetch(`http://localhost:4004/api/menu/${item.menuId}`);
           const data = await response.json();
           fetchedImages[item.menuId] = data.photos?.[0] || null; // Take the first photo
         } catch (error) {

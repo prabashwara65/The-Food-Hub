@@ -13,7 +13,7 @@ const OwnerDashboard = () => {
     const fetchRestaurant = async () => {
       try {
         if (owner?.name) {
-          const response = await fetch(`http://localhost:4000/api/restaurant/getByOwnerName?ownerName=${owner.name}`);
+          const response = await fetch(`http://localhost:4004/api/restaurant/getByOwnerName?ownerName=${owner.name}`);
           if (!response.ok) {
             throw new Error('Failed to fetch restaurant');
           }
