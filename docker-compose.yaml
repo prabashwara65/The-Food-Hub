@@ -1,23 +1,4 @@
-version: "3.8"
-
 services:
-  backend:
-    build: ./backend
-    container_name: TheFoodHub-backend-container
-    ports:
-      - '4000:4000'
-    volumes:
-      - ./backend:/app
-      - /app/node_modules
-    env_file:
-      - ./backend/.env
-    deploy:
-      replicas: 1
-      restart_policy:
-        condition: on-failure
-    networks:
-      - app-network
-
   frontend:
     build: ./frontend
     container_name: TheFoodHub-frontend-container
@@ -28,10 +9,6 @@ services:
       - /app/node_modules
     stdin_open: true
     tty: true
-    deploy:
-      replicas: 1
-      restart_policy:
-        condition: on-failure
     networks:
       - app-network
 
@@ -39,16 +16,12 @@ services:
     build: ./AuthService
     container_name: auth-service-container
     ports:
-      - '5000:5000'  # Adjust port if needed
+      - '4001:4001'
     volumes:
       - ./AuthService:/app
       - /app/node_modules
     env_file:
       - ./AuthService/.env
-    deploy:
-      replicas: 1
-      restart_policy:
-        condition: on-failure
     networks:
       - app-network
 
@@ -56,16 +29,12 @@ services:
     build: ./DeliveryService
     container_name: delivery-service-container
     ports:
-      - '5001:5001'  # Adjust port if needed
+      - '4002:4002'
     volumes:
       - ./DeliveryService:/app
       - /app/node_modules
     env_file:
       - ./DeliveryService/.env
-    deploy:
-      replicas: 1
-      restart_policy:
-        condition: on-failure
     networks:
       - app-network
 
@@ -73,16 +42,12 @@ services:
     build: ./NotificationService
     container_name: notification-service-container
     ports:
-      - '5002:5002'  # Adjust port if needed
+      - '4005:4005'
     volumes:
       - ./NotificationService:/app
       - /app/node_modules
     env_file:
       - ./NotificationService/.env
-    deploy:
-      replicas: 1
-      restart_policy:
-        condition: on-failure
     networks:
       - app-network
 
@@ -90,16 +55,12 @@ services:
     build: ./OrderService
     container_name: order-service-container
     ports:
-      - '5003:5003'  # Adjust port if needed
+      - '4003:4003'
     volumes:
       - ./OrderService:/app
       - /app/node_modules
     env_file:
       - ./OrderService/.env
-    deploy:
-      replicas: 1
-      restart_policy:
-        condition: on-failure
     networks:
       - app-network
 
@@ -107,36 +68,28 @@ services:
     build: ./PaymentService
     container_name: payment-service-container
     ports:
-      - '5004:5004'  # Adjust port if needed
+      - '4000:4000'
     volumes:
       - ./PaymentService:/app
       - /app/node_modules
     env_file:
       - ./PaymentService/.env
-    deploy:
-      replicas: 1
-      restart_policy:
-        condition: on-failure
     networks:
       - app-network
 
-  restaurant-service:
-    build: ./RestaurantService
-    container_name: restaurant-service-container
+  restuarant-service:  
+    build: ./RestuarantService   
+    container_name: restuarant-service-container
     ports:
-      - '5005:5005'  # Adjust port if needed
+      - '4004:4004'
     volumes:
-      - ./RestaurantService:/app
+      - ./RestuarantService:/app
       - /app/node_modules
     env_file:
-      - ./RestaurantService/.env
-    deploy:
-      replicas: 1
-      restart_policy:
-        condition: on-failure
+      - ./RestuarantService/.env
     networks:
       - app-network
 
 networks:
   app-network:
-    driver: overlay
+    driver: bridge
