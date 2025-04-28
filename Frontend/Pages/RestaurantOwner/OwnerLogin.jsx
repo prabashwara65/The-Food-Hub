@@ -3,6 +3,10 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { EyeIcon, EyeSlashIcon } from "@heroicons/react/24/outline";
 
+//redux
+import { useDispatch } from "react-redux";
+import { setOwner } from "../../ReduxToolKit/ownerSlice";
+
 const OwnerLogin = () => {
   const [ownerEmail, setOwnerEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -10,15 +14,22 @@ const OwnerLogin = () => {
   const [message, setMessage] = useState("");
 
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post("http://localhost:4001/api/owner/login", {
+      const res = await axios.post("http://localhost:4000/api/owner/login", {
         ownerEmail,
         password,
       });
+      const ownerData = res.data.owner;
+
       localStorage.setItem("token", res.data.token);
+
+      dispatch(setOwner(ownerData));
+      navigate("/OwnerDashboard")
+      
       setMessage("✅ Login successful!");
     } catch (err) {
       setMessage(err.response?.data?.error || "❌ Login failed");

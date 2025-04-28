@@ -55,9 +55,27 @@ const deleteRestaurant = async (req, res) => {
   }
 };
 
+//get restaurant by logged owner name
+const getRestaurantByOwnerName = async (req,res) => {
+    const {ownerName} = req.query;
+
+    try{
+      const restaurant = await RestaurantModel.findOne({owner: ownerName});
+
+      if(!restaurant){
+        return res.status(404).json({message: "Restaurant not found"});
+      }
+
+      res.status(200).json({ restaurantId: restaurant.restaurantId })
+    }catch (error) {
+      res.status(500).json({ message: "Error fetching restaurant", error: error.message });
+    }
+}
+
 module.exports = {
   AddRestaurant,
   GetRestaurants,
   updateRestaurant,
   deleteRestaurant,
+  getRestaurantByOwnerName
 };

@@ -1,15 +1,14 @@
 const express = require("express");
 const router = express.Router();
-const { searchRestaurantsByName } = require("../../Controller/RestaurantView-hasara/SearchRestaurant");
-const {getMenusByRestaurantID,  getRestaurantById} = require("../../Controller/RestaurantView-hasara/RestaurantView")
+const {getMenusByRestaurantID,  getRestaurantById, searchRestaurantsByName} = require("../../Controller/RestaurantView/RestaurantView")
 
 // The searchRestaurantsByName 
 router.get("/searchRestaurants", searchRestaurantsByName);
 
-// The getMenusByRestaurantID (Restaurant View Controller)
+// The getMenusByRestaurantID 
 router.get("/byRestaurant/:restaurantId", getMenusByRestaurantID);
 
-// The getRestaurantById -  restaurant details (Restaurant View Controller)
+// The getRestaurantById -  restaurant details 
 router.get("/:id", getRestaurantById);
 
 

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Navbar from '../../../Components/Navbar';
 import { useParams, useNavigate } from 'react-router-dom';
 import Footer from '../../../Components/Footer';
-import { useSelector } from 'react-redux'; //import useSelector from react-redux
+import { useSelector } from 'react-redux'; 
 import { toast } from 'react-hot-toast';
 import { FaShoppingCart } from "react-icons/fa";
 
@@ -14,13 +14,13 @@ const MenuDetails = () => {
   const [selectedImage, setSelectedImage] = useState(null); 
   const [quantity, setQuantity] = useState(1); 
 
-  const user = useSelector((state) => state.user.user); // Get the current user from Redux store
+  const user = useSelector((state) => state.user.user); 
   const email = user?.email;
 
   useEffect(() => {
     const fetchMenuItem = async () => {
       try {
-        const response = await fetch(`http://localhost:4004/api/menu/${menuId}`);
+        const response = await fetch(`http://localhost:4000/api/menu/${menuId}`);
         const data = await response.json();
         setMenuItem(data);
         setSelectedImage(data.photos && data.photos[0]); // Set first image as selected by default
@@ -60,7 +60,7 @@ const MenuDetails = () => {
     };
 
     try{
-      const response = await fetch('http://localhost:4/api/cart', {
+      const response = await fetch('http://localhost:4000/api/cart', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

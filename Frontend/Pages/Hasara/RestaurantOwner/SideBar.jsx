@@ -30,11 +30,11 @@ const SideBar = ({ setActivePage }) => {
           <NavItem icon={<LogOut size={20} />} label="Logout" isCollapsed={isCollapsed} setActivePage={setActivePage} />
         </ul>
 
-        {/* User Profile Section */}
+        {/* User Profile Section
         <div className="border-t border-gray-200 flex items-center p-3 bg-orange-100 hover:bg-orange-300 m-3 rounded-lg cursor-pointer transition">
           <User size={20} className="text-black" />
           {!isCollapsed && <span className="ml-3 font-medium text-gray-700">John Doe</span>}
-        </div>
+        </div> */}
       </nav>
     </aside>
   );
