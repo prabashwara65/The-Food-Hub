@@ -68,8 +68,7 @@ const deleteMenu = async (req,res) => {
     res.status(200).json(menu)
 }
 
-
-
+//update menu
 const updateMenu = async (req, res) => {
   const { id } = req.params;
 
@@ -116,6 +115,7 @@ const updateMenu = async (req, res) => {
     res.status(500).json({ error: "Internal Server Error", details: error.message });
   }
 };
+
 
 
 //get menus by restaurantId
