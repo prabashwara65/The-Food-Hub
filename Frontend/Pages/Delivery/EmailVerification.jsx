@@ -13,7 +13,7 @@ const EmailVerification = () => {
 
   const sendVerificationEmail = async () => {
     try {
-      const response = await axios.post('http://localhost:4000/api/send-verification-email', { email }); // Updated endpoint
+      const response = await axios.post('http://localhost:4002/api/send-verification-email', { email }); // Updated endpoint
       if (response.status === 200) {
         alert('Verification email sent!');
         setIsEmailSent(true);
@@ -26,7 +26,7 @@ const EmailVerification = () => {
 
   const handleVerify = async () => {
     try {
-      const response = await axios.post('http://localhost:4000/api/verify-code', { email, verificationCode }); // Correct endpoint
+      const response = await axios.post('http://localhost:4002/api/verify-code', { email, verificationCode }); // Correct endpoint
       if (response.status === 200) {
         dispatch(verifyEmail()); // Dispatch the correct action
         navigate('/location-access'); // Navigate to the correct page

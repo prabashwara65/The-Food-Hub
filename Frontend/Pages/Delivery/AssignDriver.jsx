@@ -42,7 +42,7 @@ const AssignDriver = () => {
   useEffect(() => {
     const fetchDrivers = async () => {
       try {
-        const response = await fetch('http://localhost:4000/api/drivers/available');
+        const response = await fetch('http://localhost:4002/api/drivers/available');
         const data = await response.json();
         setDrivers(data);
       } catch (err) {
@@ -113,7 +113,7 @@ const AssignDriver = () => {
     setIsLoading(true);
     setProgressStep(1); // Step 1: Assigning driver
     try {
-      const response = await fetch('http://localhost:4000/api/assign-driver', {
+      const response = await fetch('http://localhost:4002/api/assign-driver', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(orderLocation)
