@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const bcrypt = require("bcrypt");
+const bcrypt = require("bcryptjs"); // Using bcryptjs instead of bcrypt
 const validator = require("validator");
 
 const Schema = mongoose.Schema;
@@ -30,7 +30,7 @@ const UserRegistrationSchema = new Schema(
   { timestamps: true }
 );
 
-//Create registraion Statics function
+// Create registration statics function
 UserRegistrationSchema.statics.Register = async function (
   name,
   email,
@@ -44,8 +44,9 @@ UserRegistrationSchema.statics.Register = async function (
     throw Error("Email Already in use");
   }
 
+  // bcryptjs does not require "genSalt" for salt generation
   const salt = await bcrypt.genSalt(10);
-  const hash = await bcrypt.hash(password, salt);
+  const hash = await bcrypt.hash(password, salt); // Use bcryptjs's hash method
 
   const user = await this.create({
     name,
@@ -58,9 +59,9 @@ UserRegistrationSchema.statics.Register = async function (
   return user;
 };
 
-//Create login Static function
+// Create login static function
 UserRegistrationSchema.statics.Login = async function (email, password) {
-  //Validation
+  // Validation
   if (!email || !password) {
     throw Error("All fields must be filled");
   }
@@ -75,6 +76,7 @@ UserRegistrationSchema.statics.Login = async function (email, password) {
     throw Error("Incorrect email");
   }
 
+  // Use bcryptjs's compare method for password verification
   const match = await bcrypt.compare(password, user.password);
 
   if (!match) {

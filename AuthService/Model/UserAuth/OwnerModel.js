@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const bcrypt = require("bcrypt");
+const bcrypt = require("bcryptjs"); // Using bcryptjs instead of bcrypt
 const validator = require("validator");
 const Counter = require("./CounterModel");
 
@@ -52,8 +52,8 @@ OwnerSchema.statics.Register = async function (name, ownerEmail, password) {
     throw Error("Email already in use");
   }
 
-  const salt = await bcrypt.genSalt(10);
-  const hash = await bcrypt.hash(password, salt);
+  const salt = await bcrypt.genSalt(10);  // bcryptjs genSalt
+  const hash = await bcrypt.hash(password, salt);  // bcryptjs hash
   const ownerId = await getNextOwnerId();
 
   const restaurant = await this.create({
@@ -80,7 +80,7 @@ OwnerSchema.statics.Login = async function (ownerEmail, password) {
     throw Error("Incorrect email");
   }
 
-  const match = await bcrypt.compare(password, restaurant.password);
+  const match = await bcrypt.compare(password, restaurant.password); // bcryptjs compare
   if (!match) {
     throw Error("Incorrect password");
   }

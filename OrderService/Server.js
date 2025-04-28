@@ -27,7 +27,7 @@ mongoose
   .connect(process.env.DB)
   .then(() => {
     app.listen(process.env.PORT, () => {
-      console.log("Auth Service is running on Port " + process.env.PORT);
+      console.log("Order Service is running on Port " + process.env.PORT);
     });
   })
   .catch((error) => {
