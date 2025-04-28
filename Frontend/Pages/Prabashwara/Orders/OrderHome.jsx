@@ -12,7 +12,7 @@ const OrderHome = () => {
   useEffect(() => {
     const fetchOrders = async () => {
       try {
-        const response = await fetch("http://localhost:4000/api/order/getOrders");
+        const response = await fetch("http://localhost:4003/api/order/getOrders");
         const data = await response.json();
         setOrders(data);
       } catch (error) {

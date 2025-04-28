@@ -37,7 +37,7 @@ const AddMenuModal = ({ isOpen, onClose }) => {
     });
 
     try {
-      const response = await fetch("http://localhost:4000/api/menu", {
+      const response = await fetch("http://localhost:4004/api/menu", {
         method: "POST",
         body: formData,
         credentials: "include",

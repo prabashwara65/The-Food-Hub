@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 
 const SingleOrder = ({ order }) => {
-  const [menuImages, setMenuImages] = useState({}); // 🔥 Store menuId -> photo mapping
+  const [menuImages, setMenuImages] = useState({}); 
 
   useEffect(() => {
     const fetchMenuImages = async () => {
@@ -13,7 +13,7 @@ const SingleOrder = ({ order }) => {
       // Fetch images for each item
       await Promise.all(order.items.map(async (item) => {
         try {
-          const response = await fetch(`http://localhost:4000/api/menu/${item.menuId}`);
+          const response = await fetch(`http://localhost:4003/api/menu/${item.menuId}`);
           const data = await response.json();
           fetchedImages[item.menuId] = data.photos?.[0] || null; // Take the first photo
         } catch (error) {
@@ -22,7 +22,7 @@ const SingleOrder = ({ order }) => {
         }
       }));
 
-      setMenuImages(fetchedImages); // set once all fetched
+      setMenuImages(fetchedImages); 
     };
 
     fetchMenuImages();
