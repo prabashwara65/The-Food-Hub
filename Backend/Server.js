@@ -41,8 +41,6 @@ app.use('/api/order' , OrderRouter)
 app.use('/api/checkout', CheckoutRouter)
 app.use("/api/restaurant", RestaurantRouter);
 app.use("/api/owner", OwnerRoutes);
-// app.use("/api/searchres", SearchRestaurantRoute);
-
 
 
 mongoose

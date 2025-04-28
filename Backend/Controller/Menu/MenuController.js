@@ -70,42 +70,54 @@ const deleteMenu = async (req,res) => {
 
 
 
-//update menu
-const updateMenu = async (req,res) => {
-    const {id} = req.params
-    
-    if(!mongoose.Types.ObjectId.isValid(id)){
-        return res.status(404).json({error:"No such menu"})
+const updateMenu = async (req, res) => {
+  const { id } = req.params;
+
+  const { title, description, price, availability, category } = req.body;
+  const files = req.files?.photos;
+  const newPhotos = Array.isArray(files) ? files : files ? [files] : [];
+
+  let updateFields = {};
+
+  if (title) updateFields.title = title;
+  if (description) updateFields.description = description;
+  if (typeof price !== "undefined") updateFields.price = price;
+  if (typeof availability !== "undefined") updateFields.availability = availability;
+  if (category) updateFields.category = category;
+
+  try {
+    // Upload new images if any
+    if (newPhotos.length > 0) {
+      const uploadedImageUrls = [];
+
+      for (const file of newPhotos) {
+        const fileName = `images/${v4()}-${file.name}`;
+        const { url } = await putObject(file.data, fileName);
+        if (!url) throw new Error(`Failed to upload image: ${file.name}`);
+        uploadedImageUrls.push(url);
+      }
+
+      updateFields.photos = uploadedImageUrls;
     }
 
-    // Destructure allowed fields
-    const { title,description,price,availability, photos, category } = req.body
+    // 👉 Now find by `menuId`, not `_id`
+    const menu = await Menu.findOneAndUpdate(
+      { menuId: id },
+      { $set: updateFields },
+      { new: true, runValidators: true }
+    );
 
-    let updateFields = {};
+    if (!menu) {
+      return res.status(404).json({ error: "No such menu" });
+    }
 
-    if(title) updateFields.title = title
-    if(description) updateFields.description = description
-    if(price) updateFields.price = price
-    if(availability) updateFields.availability = availability
-    if(photos) updateFields.photos = photos
-    if(category) updateFields. category  = category 
+    res.status(200).json(menu);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal Server Error", details: error.message });
+  }
+};
 
-    try {
-            const menu = await Menu.findOneAndUpdate(
-                { _id: id }, 
-                { $set: updateFields }, 
-                { new: true, runValidators: true }
-            )
-
-            if(!menu){
-                return res.status(404).json({error:"No such menu"})
-            }
-        
-            res.status(200).json(menu)
-        } catch (error){
-            res.status(500).json({ error: "Internal Server Error", details: error.message })
-        }
-}
 
 //get menus by restaurantId
 const getMenusByRestaurantID = async (req, res) => {
