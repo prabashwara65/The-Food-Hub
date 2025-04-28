@@ -16,6 +16,10 @@ const {handleStripeWebhook} = require('./Controller/Cart/StripePaymentController
 const RestaurantRouter = require("./Routes/Restaurant/RestaurantRoutes");
 const OwnerRoutes = require("./Routes/Restaurant/OwnerRoutes");
 
+const deliveryRoutes = require('./Routes/delivery/deliveryRoutes');
+const driverRoutes = require('./Routes/delivery/driverRoutes');
+const emailRoutes = require('./Routes/delivery/emailRoutes');
+
 const app = express()
 
 // ⚠️ Stripe requires the raw body for webhook signature verification
@@ -41,8 +45,9 @@ app.use('/api/order' , OrderRouter)
 app.use('/api/checkout', CheckoutRouter)
 app.use("/api/restaurant", RestaurantRouter);
 app.use("/api/owner", OwnerRoutes);
-// app.use("/api/searchres", SearchRestaurantRoute);
-
+app.use('/api', deliveryRoutes);
+app.use('/api/drivers', driverRoutes);
+app.use('/api', emailRoutes);
 
 
 mongoose
