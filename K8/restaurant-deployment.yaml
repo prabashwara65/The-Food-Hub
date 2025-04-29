@@ -15,6 +15,7 @@ spec:
       containers:
         - name: restaurant
           image: thefoodhubmicroservice-restuarant-service
+          imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 4004
 ---

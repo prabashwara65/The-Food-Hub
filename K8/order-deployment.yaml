@@ -14,7 +14,8 @@ spec:
     spec:
       containers:
         - name: order
-          image: thefoodhubmicroservice-order-service
+          image: thefoodhubmicroservice-order-service:latest
+          imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 4003
 ---

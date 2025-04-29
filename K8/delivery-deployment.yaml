@@ -15,6 +15,7 @@ spec:
       containers:
         - name: delivery
           image: thefoodhubmicroservice-delivery-service
+          imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 4002
 ---
