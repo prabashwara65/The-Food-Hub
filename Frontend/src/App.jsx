@@ -22,7 +22,7 @@ import Success from "../Pages/Hasara/Cart/Success";
 import Cancel from "../Pages/Hasara/Cart/Cancel";
 
 //Admin Side
-import CustomerList from "../Pages/AdminPanel/customerList";
+import CustomerList from "../Pages/AdminPanel/CustomerList";
 import OwnerList from "../Pages/AdminPanel/OwnerList";
 import DeliveryList from "../Pages/AdminPanel/DeliveryList";
 import ManageOrders from "../Pages/AdminPanel/ManageOrders";
