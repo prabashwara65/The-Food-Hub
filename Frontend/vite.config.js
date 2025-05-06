@@ -9,8 +9,9 @@ export default defineConfig({
     react()
   ],
   server: {
-    host: '0.0.0.0',  // Allow access from any network
-    port: 3000,       // Ensure it's the correct port
-    strictPort: true, // Prevent Vite from switching to another port
+    host: '0.0.0.0',
+    port: 3000,
+    strictPort: true,
+    allowedHosts: ['foodhub.local'], // 👈 Add this line
   },
 })

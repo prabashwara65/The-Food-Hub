@@ -4,6 +4,7 @@ const { mongoose } = require("mongoose");
 const cors = require("cors");
 
 const UserRouter  = require('./Routes/UserAuth/UserRouter')
+const OwnerRouter = require('./Routes/UserAuth/OwnerRoutes')
 
 const app = express()
 
@@ -20,7 +21,7 @@ app.use(
   );
   
 app.use('/api/auth' , UserRouter)
-
+app.use('/api/owner', OwnerRouter)
 
 
 mongoose

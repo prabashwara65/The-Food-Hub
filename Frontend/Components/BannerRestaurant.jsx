@@ -6,7 +6,7 @@ const Banner = ({ restaurantId }) => {
 
   useEffect(() => {
     if (restaurantId) {
-      fetch(`http://localhost:4000/api/restaurantView/${restaurantId}`)
+      fetch(`http://localhost:4004/api/restaurantView/${restaurantId}`)
         .then((res) => res.json())
         .then((data) => setRestaurant(data))
         .catch((err) => {

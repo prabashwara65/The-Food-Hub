@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend-deployment
+  labels:
+    app: frontend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: frontend
+  template:
+    metadata:
+      labels:
+        app: frontend
+    spec:
+      containers:
+        - name: frontend
+          image: thefoodhubmicroservice-frontend
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 3000
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: frontend-service
+spec:
+  type: ClusterIP  # 🔁 Change from NodePort to ClusterIP (default)
+  selector:
+    app: frontend
+  ports:
+    - port: 3000
+      targetPort: 3000

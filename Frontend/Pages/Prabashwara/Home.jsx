@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { clearUser } from "../../ReduxToolKit/userSlice";
 import Navbar from "../../Components/Navbar";
@@ -18,8 +17,7 @@ const Home = () => {
   const [notFound, setNotFound] = useState(false); 
   const [menus, setMenus] = useState([]);
 
-  const user = useSelector((state) => state.user.user);
-
+  
   const dispatch = useDispatch();
 
  useEffect(() => {
@@ -30,7 +28,7 @@ const Home = () => {
       return;
     }
 
-    fetch(`http://localhost:4000/api/restaurantView/searchRestaurants?name=${searchQuery}`)
+    fetch(`http://localhost:4004/api/restaurantView/searchRestaurants?name=${searchQuery}`)
     .then((res) => res.json())
     .then((data) => {
       if(data.length === 0){

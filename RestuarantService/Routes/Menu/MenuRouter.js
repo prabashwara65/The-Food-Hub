@@ -20,7 +20,7 @@ router.post("/", createMenu)
 router.get("/", getMenus)
 
 //update menu
-router.patch("/:id", fileupload(),updateMenu)
+router.patch("/:id", updateMenu);
 
 //delete menu
 router.delete("/:id", deleteMenu)
