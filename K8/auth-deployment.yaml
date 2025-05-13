@@ -19,9 +19,27 @@ spec:
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 4001
-          # envFrom:
-          #   - configMapRef:
-          #       name: auth-env
+          env:
+            - name: DB
+              value: "mongodb+srv://prabashwara65:Hwd6vJ69Fx6rhTwP@cluster0.n7bqx.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
+            - name: PORT
+              value: "4001"
+            - name: TOKEN
+              value: "TheFoodHubJWT_Token_sdasdasdasdada"
+            - name: AWS_ACCESS_KEY_ID
+              value: "AKIA5FTZCDBRPZZOERPB"
+            - name: AWS_SECRET_ACCESS_KEY
+              value: "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"
+            - name: AWS_REGION
+              value: "eu-north-1"
+            - name: AWS_S3_BUCKET
+              value: "food-hub-hasara"
+            - name: STRIPE_SECRET_KEY
+              value: "sk_test_51RHR0rGh4o63MbLiFNiYYOcVEEEyeEqWHVwL0Q0klO46wGX9vQJG1Wuwhu4g5QwZvxjss7usReNE5xcsHTfBHTUc00BN8jaEzX"
+            - name: STRIPE_WEBHOOK_SECRET
+              value: "whsec_22f0a33badbc5cc11de8726e07b47b5680d65cf002021d9b0e750dd90dabdd43"
+
+---
 
 ---
 apiVersion: v1
@@ -33,5 +51,5 @@ spec:
     app: auth
   ports:
     - protocol: TCP
-      port: 4001
+      port: 80
       targetPort: 4001
