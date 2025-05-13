@@ -54,8 +54,33 @@ const getAvailableDrivers = async (req, res) => {
     res.status(500).json({ error: 'Failed to fetch available drivers', details: error.message });
   }
 };
+const updateDriver = async (req, res) => {
+  try {
+    const { id } = req.params;
+    // Find the driver by ID and update with request body
+    const updatedDriver = await Driver.findByIdAndUpdate(id, req.body, { new: true, runValidators: true });
+    if (!updatedDriver) {
+      return res.status(404).json({ error: 'Driver not found' });
+    }
+    res.status(200).json({ message: 'Driver updated successfully', driver: updatedDriver });
+  } catch (error) {
+    console.error('Error updating driver:', error);
+    res.status(400).json({ error: 'Failed to update driver', details: error.message });
+  }
+};
+const getAllDrivers = async (req, res) => {
+  try {
+    const drivers = await Driver.find({});
+    res.status(200).json(drivers);
+  } catch (error) {
+    console.error('Error fetching all drivers:', error);
+    res.status(500).json({ error: 'Failed to fetch drivers', details: error.message });
+  }
+};
 
 module.exports = {
   addDriver,
   getAvailableDrivers,
+  updateDriver,
+  getAllDrivers
 };

@@ -11,31 +11,62 @@ const DeliveryPersonView = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [fade, setFade] = useState(false);
 
-  const[formData, setFormData] = useState({
+  const [formData, setFormData] = useState({
     name: "",
     phone: "",
     email: "",
     vehicleType: "",
+    profilePicture: "", // Base64 string for the profile picture
   });
+
+  const [previewImage, setPreviewImage] = useState(null); // State for image preview
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const handleChange =(e)=>{
-    const {name, value} = e.target;
+  const handleChange = (e) => {
+    const { name, value } = e.target;
     setFormData({
       ...formData,
       [name]: value,
     });
   };
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        dispatch(setDriverDetails(formData));
-        navigate("/emailVerification");
-        console.log("Form submitted:", formData);
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setFormData({
+          ...formData,
+          profilePicture: reader.result, // Store the Base64 string in formData
+        });
+        setPreviewImage(reader.result); // Set the preview image
+      };
+      reader.readAsDataURL(file); // Convert the file to Base64
+    }
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    // Convert form data to a plain object
+    const formDataToSubmit = {
+      name: formData.name,
+      phone: formData.phone,
+      email: formData.email,
+      vehicleType: formData.vehicleType,
+      profilePicture: formData.profilePicture, // Base64 string
     };
 
+    // Dispatch the plain object
+    dispatch(setDriverDetails(formDataToSubmit));
+
+    // Navigate to the email verification page
+    navigate("/emailVerification");
+
+    console.log("Form submitted:", formDataToSubmit);
+  };
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -62,7 +93,7 @@ const DeliveryPersonView = () => {
             <img
               src={deliveryPersons[currentIndex]}
               alt={`Delivery Person ${currentIndex + 1}`}
-              className={`w-full h-[480px] object-cover transition-opacity duration-700 ${
+              className={`w-full h-[660px] object-cover transition-opacity duration-700 ${
                 fade ? "opacity-0" : "opacity-100"
               }`}
             />
@@ -83,8 +114,8 @@ const DeliveryPersonView = () => {
                   type="text"
                   placeholder="Enter your name"
                   value={formData.name}
-                    onChange={handleChange}
-                    name="name"
+                  onChange={handleChange}
+                  name="name"
                   className="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-green-400 focus:outline-none"
                 />
               </div>
@@ -92,9 +123,9 @@ const DeliveryPersonView = () => {
                 <label className="block text-sm font-medium text-gray-600 mb-1">Phone</label>
                 <input
                   type="text"
-                    value={formData.phone}
-                    onChange={handleChange}
-                    name="phone"
+                  value={formData.phone}
+                  onChange={handleChange}
+                  name="phone"
                   placeholder="Enter your phone number"
                   className="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-green-400 focus:outline-none"
                 />
@@ -103,24 +134,53 @@ const DeliveryPersonView = () => {
                 <label className="block text-sm font-medium text-gray-600 mb-1">Email</label>
                 <input
                   type="email"
-                    value={formData.email}
-                    onChange={handleChange}
-                    name="email"
+                  value={formData.email}
+                  onChange={handleChange}
+                  name="email"
                   placeholder="Enter your email address"
                   className="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-green-400 focus:outline-none"
                 />
               </div>
               <div>
                 <label className="block text-sm font-medium text-gray-600 mb-1">Vehicle Type</label>
-                <select className="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-green-400 focus:outline-none"
-                name="vehicleType"
-                value={formData.vehicleType}
-                onChange={handleChange}
+                <select
+                  className="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-green-400 focus:outline-none"
+                  name="vehicleType"
+                  value={formData.vehicleType}
+                  onChange={handleChange}
                 >
                   <option value="bike">Bike</option>
                   <option value="car">Car</option>
                   <option value="truck">Truck</option>
                 </select>
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-600 mb-1">Profile Picture</label>
+                <div className="flex items-center gap-4">
+                  {/* Profile Picture Preview */}
+                  <div className="w-42 h-32 rounded-full border-2 border-dashed border-gray-300 flex items-center justify-center overflow-hidden bg-gray-100">
+                    {previewImage ? (
+                      <img
+                        src={previewImage}
+                        alt="Preview"
+                        className="w-full h-full object-cover"
+                      />
+                    ) : (
+                      <span className="text-gray-400 text-sm">No Image</span>
+                    )}
+                  </div>
+
+                  {/* File Input */}
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={handleImageChange}
+                    className="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-green-400 focus:outline-none"
+                  />
+                </div>
+                <p className="text-sm text-gray-500 mt-2">
+                  Upload a clear profile picture (JPG, PNG, or JPEG).
+                </p>
               </div>
               <button
                 type="submit"

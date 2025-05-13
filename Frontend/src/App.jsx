@@ -33,6 +33,7 @@ import ViewRestaurant from "../Pages/AdminPanel/ViewRestaurant";
 import AddRestaurant from "../Pages/AdminPanel/AddRestaurant";
 import OwnerLogin from "../Pages/RestaurantOwner/OwnerLogin";
 import OwnerRegister from "../Pages/RestaurantOwner/OwnerRegister";
+import SuccessfullyRegistration from "../Pages/Delivery/SuccessfullyRegistration";
 
 function App() {
   return (
@@ -50,6 +51,7 @@ function App() {
           <Route path="/addDeliveryPerson" element={<DeliveryPerson />} />
           <Route path="/emailVerification" element={<EmailVerification />} />
           <Route path="/location-access" element={<LocationAccess />} />
+          <Route path="/successDelivery" element={<SuccessfullyRegistration />} />
 
           {/* delivery person route */}
           <Route path="/order" element={<OrderHome />} />

@@ -29,7 +29,12 @@ const DriverSchema = new mongoose.Schema({
     required: [true, "Vehicle type is required"],
     enum: ["bike", "car", "truck"], // Restrict to specific vehicle types
     default: "bike" // Default vehicle type
+  },
+  profilePicture: {
+    type: String, // Store the URL or path of the profile picture
+    default: "", // Default to an empty string if no picture is provided
   }
+  
 });
 
 module.exports = mongoose.model('Driver', DriverSchema);

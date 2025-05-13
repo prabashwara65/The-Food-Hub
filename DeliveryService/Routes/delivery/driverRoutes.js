@@ -8,4 +8,7 @@ router.post('/', driverController.addDriver);
 // GET /api/drivers/available - List available drivers (for testing)
 router.get('/available', driverController.getAvailableDrivers);
 
+router.put('/:id', driverController.updateDriver);
+router.get('/', driverController.getAllDrivers);
+
 module.exports = router;

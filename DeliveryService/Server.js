@@ -6,6 +6,7 @@ const cors = require("cors");
 const driverRoutes = require('./Routes/delivery/driverRoutes');
 const deliveryRoutes = require('./Routes/delivery/deliveryRoutes')
 
+
 const app = express()
 
 
@@ -21,8 +22,11 @@ app.use(
   );
 
   
-app.use('api/deliver' , deliveryRoutes)
+app.use('/api' , deliveryRoutes)
 app.use('/api/drivers', driverRoutes);
+const emailRoutes = require('./Routes/delivery/emailRoutes');
+app.use('/api', emailRoutes);
+
 
 
 mongoose

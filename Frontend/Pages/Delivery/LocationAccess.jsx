@@ -2,10 +2,13 @@ import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { setDriverDetails } from '../../ReduxToolKit/driverSlice'; // Import the action to update location
 import axios from 'axios'; // Import Axios for API calls
+import { Navigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 const LocationAccess = () => {
-  const { name, email, available, phone, vehicleType, location } = useSelector((state) => state.driver); // Access location from Redux state
+  const { name, email, available, phone, vehicleType, location ,profilePicture} = useSelector((state) => state.driver); // Access location from Redux state
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const handleLocationAccess = () => {
     if (navigator.geolocation) {
@@ -20,7 +23,7 @@ const LocationAccess = () => {
             })
           );
 
-          console.log('Location:', { name, email, available, vehicleType, phone, lat: latitude, lng: longitude });
+          console.log('Location:', { name, email, available, vehicleType, phone, lat: latitude, lng: longitude ,profilePicture});
 
           // Prepare data to send to the API
           const driverData = {
@@ -30,18 +33,23 @@ const LocationAccess = () => {
             vehicleType,
             phone,
             location: { lat: latitude, lng: longitude },
+            profilePicture
           };
 
           try {
             console.log('Driver Data to be sent:', driverData);
-
+            console.log('image:', profilePicture);
+            // Validate the data before sending
             // Send data to the API
-            const response = await axios.post('http://localhost:4002/api/drivers', driverData);
-
+            const response = await axios.post('http://localhost:4000/api/drivers', driverData);
+            navigate('/successDelivery'); // Redirect to the success page
             console.log('API Response:', response);
-
+            
             if (response.status === 200) {
+
               console.log('Driver data stored successfully:', response.data);
+            
+
             } else {
               console.log('Failed to store driver data:', response.data);
             }
