@@ -27,12 +27,10 @@ kind: Service
 metadata:
   name: frontend-service
 spec:
-  type: ClusterIP  
+  type: NodePort  # Change ClusterIP to NodePort
   selector:
     app: frontend
   ports:
     - port: 80
       targetPort: 3000
-
-
-
+      nodePort: 30080  # You can specify any available port in the range 30000-32767

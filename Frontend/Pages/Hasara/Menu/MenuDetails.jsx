@@ -20,7 +20,7 @@ const MenuDetails = () => {
   useEffect(() => {
     const fetchMenuItem = async () => {
       try {
-        const response = await fetch(`http://localhost:4000/api/menu/${menuId}`);
+        const response = await fetch(`http://foodhub.local:4000/api/menu/${menuId}`);
         const data = await response.json();
         setMenuItem(data);
         setSelectedImage(data.photos && data.photos[0]); // Set first image as selected by default
@@ -60,7 +60,7 @@ const MenuDetails = () => {
     };
 
     try{
-      const response = await fetch('http://localhost:4000/api/cart', {
+      const response = await fetch('http://foodhub.local:4000/api/cart', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

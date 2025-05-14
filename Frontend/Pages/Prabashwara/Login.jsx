@@ -15,7 +15,7 @@ const Login = () => {
 
     const user = { email, password };
 
-    const response = await fetch("http://localhost:4001/api/auth/login", {
+    const response = await fetch("http://foodhub.local:4001/api/auth/login", {
       method: "POST",
       body: JSON.stringify(user),
       headers: {

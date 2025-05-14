@@ -15,10 +15,11 @@ const MenuDashboard = ({restaurantId}) => {
     const fetchMenus = async () => {
       if (!restaurantId) return; 
       try {
-        const response = await fetch(`http://localhost:4004/api/menu/menus/${restaurantId}`);
+        const response = await fetch(`http://foodhub.local:4004/api/menu/menus/${restaurantId}`);
         if (!response.ok) throw new Error("Failed to fetch menus");
 
         const json = await response.json();
+        console.log(json)
         setMenus(json);
       } catch (error) {
         toast.error("Error fetching menu data.");
@@ -43,7 +44,7 @@ const MenuDashboard = ({restaurantId}) => {
   const fetchMenus = async () => {
     if (!restaurantId) return;
     try {
-      const response = await fetch(`http://localhost:4004/api/menu/menus/${restaurantId}`);
+      const response = await fetch(`http://foodhub.local:4004/api/menu/menus/${restaurantId}`);
       if (!response.ok) throw new Error("Failed to fetch menus");
 
       const json = await response.json();
@@ -67,7 +68,7 @@ const MenuDashboard = ({restaurantId}) => {
               onClick={async () => {
                 try {
                   const response = await fetch(
-                    `http://localhost:4004/api/menu/${id}`,
+                    `http://foodhub.local:4004/api/menu/${id}`,
                     {
                       method: "DELETE",
                     }

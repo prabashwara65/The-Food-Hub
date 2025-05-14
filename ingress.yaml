@@ -41,7 +41,7 @@ spec:
                 port:
                   number: 80
           - path: /order
-            pathType: Exact
+            pathType: Prefix
             backend:
               service:
                 name: order-service

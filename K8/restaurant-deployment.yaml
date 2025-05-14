@@ -45,9 +45,11 @@ kind: Service
 metadata:
   name: restaurant-service
 spec:
+  type: NodePort  # Exposing the service as NodePort
   selector:
     app: restaurant
   ports:
     - protocol: TCP
       port: 80
       targetPort: 4004
+      nodePort: 30090

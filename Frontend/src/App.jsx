@@ -52,7 +52,7 @@ function App() {
           <Route path="/location-access" element={<LocationAccess />} />
 
           {/* delivery person route */}
-          <Route path="/order" element={<OrderHome />} />
+          <Route path="/orders" element={<OrderHome />} />
 
           {/* restaurant owner route  */}
           <Route path="/OwnerDashboard" element={<OwnerDashboard />} />

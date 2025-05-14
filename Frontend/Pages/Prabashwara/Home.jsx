@@ -52,7 +52,7 @@ const Home = () => {
  useEffect(() => {
    const fetchMenus = async () => {
      try {
-       const response = await fetch("http://foodhub.local:4004/api/menu/menus/RI-0001");
+       const response = await fetch("http://localhost:30090/api/menu/menus/RI-0001");
        console.log(response)
        
        if (!response.ok) throw new Error("Failed to fetch menus");

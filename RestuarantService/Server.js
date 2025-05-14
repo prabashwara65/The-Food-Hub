@@ -13,7 +13,7 @@ const app = express();
 // Middlewares
 app.use(express.json());
 app.use(cors({
-  origin: ["http://foodhub.local"],
+  origin: ["http://localhost:30080"],
   methods: ["GET", "POST", "PATCH", "DELETE", "PUT"],
   credentials: true,
 }));
