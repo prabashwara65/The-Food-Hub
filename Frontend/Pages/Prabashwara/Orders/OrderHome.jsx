@@ -12,8 +12,9 @@ const OrderHome = () => {
   useEffect(() => {
     const fetchOrders = async () => {
       try {
-        const response = await fetch("http://localhost:4003/api/order/getOrders");
+        const response = await fetch("http://foodhub.local:4003/api/order/getOrders");
         const data = await response.json();
+        console.log(data)
         setOrders(data);
       } catch (error) {
         console.error("Error fetching orders:", error);

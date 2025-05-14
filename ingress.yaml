@@ -4,7 +4,6 @@ metadata:
   name: foodhub-ingress
   namespace: default
   annotations:
-    nginx.ingress.kubernetes.io/rewrite-target: /
     nginx.ingress.kubernetes.io/ssl-redirect: "false"
 spec:
   ingressClassName: nginx
@@ -42,7 +41,7 @@ spec:
                 port:
                   number: 80
           - path: /order
-            pathType: Prefix
+            pathType: Exact
             backend:
               service:
                 name: order-service
