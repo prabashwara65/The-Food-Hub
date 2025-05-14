@@ -27,9 +27,12 @@ kind: Service
 metadata:
   name: frontend-service
 spec:
-  type: ClusterIP  # 🔁 Change from NodePort to ClusterIP (default)
+  type: ClusterIP  
   selector:
     app: frontend
   ports:
     - port: 80
       targetPort: 3000
+
+
+
