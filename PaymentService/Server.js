@@ -17,7 +17,7 @@ app.post('/webhook', express.raw({ type: 'application/json' }), handleStripeWebh
 // Middlewares
 app.use(express.json());
 app.use(cors({
-  origin: ["http://localhost:30080"],
+  origin: ["http://foodhub.local"],
   methods: ["GET", "POST", "PATCH", "DELETE", "PUT"],
   credentials: true,
 }));
