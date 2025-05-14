@@ -45,9 +45,11 @@ kind: Service
 metadata:
   name: notification-service
 spec:
+  type: NodePort
   selector:
     app: notification
   ports:
     - protocol: TCP
       port: 80
       targetPort: 4005
+      nodePort: 30005
