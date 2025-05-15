@@ -42,7 +42,7 @@ const AssignDriver = () => {
   useEffect(() => {
     const fetchDrivers = async () => {
       try {
-        const response = await fetch('http://localhost:4002/api/drivers/available');
+        const response = await fetch('http://foodhub.local:30002/api/drivers/available');
         const data = await response.json();
         setDrivers(data);
       } catch (err) {

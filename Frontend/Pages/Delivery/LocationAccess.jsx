@@ -36,7 +36,7 @@ const LocationAccess = () => {
             console.log('Driver Data to be sent:', driverData);
 
             // Send data to the API
-            const response = await axios.post('http://localhost:4002/api/drivers', driverData);
+            const response = await axios.post('http://foodhub.local:30002/api/drivers', driverData);
 
             console.log('API Response:', response);
 
