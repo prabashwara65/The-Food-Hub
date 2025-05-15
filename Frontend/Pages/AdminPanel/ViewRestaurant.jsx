@@ -19,7 +19,7 @@ const ViewRestaurant = () => {
     const fetchRestaurants = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:4000/api/restaurant/list"
+          "http://foodhub.local:30000/api/restaurant/list"
         );
         setRestaurants(response.data);
       } catch (error) {
@@ -33,7 +33,7 @@ const ViewRestaurant = () => {
   const handleDelete = async (id) => {
     if (window.confirm("Are you sure you want to delete this restaurant?")) {
       try {
-        await axios.delete(`http://localhost:4000/api/restaurant/${id}`);
+        await axios.delete(`http://foodhub.local:30000/api/restaurant/${id}`);
         setRestaurants(restaurants.filter((res) => res._id !== id));
       } catch (error) {
         console.error("Failed to delete restaurant:", error);
@@ -59,7 +59,7 @@ const ViewRestaurant = () => {
   const handleSave = async (id) => {
     try {
       const response = await axios.put(
-        `http://localhost:4000/api/restaurant/${id}`,
+        `http://foodhub.local:30000/api/restaurant/${id}`,
         editForm
       );
       const updatedList = restaurants.map((rest) =>

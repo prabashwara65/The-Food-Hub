@@ -14,7 +14,7 @@ const HomeSection = () => {
     const fetchCounts = async () => {
       try {
         const res = await axios.get(
-          "http://localhost:4000/api/auth/user-counts"
+          "http://foodhub.local:30000/api/auth/user-counts"
         );
 
         setCounts({

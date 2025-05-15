@@ -20,7 +20,7 @@ const OwnerList = () => {
   const fetchOwners = async () => {
     try {
       const res = await axios.get(
-        "http://localhost:4000/api/auth/users?role=owner"
+        "http://foodhub.local:30000/api/auth/users?role=owner"
       );
       setOwners(res.data);
     } catch (err) {

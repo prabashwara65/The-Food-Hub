@@ -19,7 +19,7 @@ const CustomerList = () => {
   const fetchCustomers = async () => {
     try {
       const res = await axios.get(
-        "http://localhost:4000/api/auth/users?role=customer"
+        "http://foodhub.local:30000/api/auth/users?role=customer"
       );
       setCustomers(res.data);
     } catch (err) {

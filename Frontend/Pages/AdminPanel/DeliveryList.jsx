@@ -20,7 +20,7 @@ const DeliveryList = () => {
   const fetchDelivery = async () => {
     try {
       const res = await axios.get(
-        "http://localhost:4000/api/auth/users?role=delivery"
+        "http://foodhub.local:30000/api/auth/users?role=delivery"
       );
       setDelivery(res.data);
     } catch (err) {

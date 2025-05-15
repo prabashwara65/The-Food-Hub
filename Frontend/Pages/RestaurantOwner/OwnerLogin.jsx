@@ -19,7 +19,7 @@ const OwnerLogin = () => {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post("http://localhost:4001/api/owner/login", {
+      const res = await axios.post("http://foodhub.local:30001/api/owner/login", {
         ownerEmail,
         password,
       });
