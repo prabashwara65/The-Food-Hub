@@ -47,11 +47,11 @@ kind: Service
 metadata:
   name: auth-service
 spec:
-  type: NodePort  # Exposing the service as NodePort
+  type: NodePort 
   selector:
     app: auth
   ports:
     - protocol: TCP
       port: 80
       targetPort: 4001
-      nodePort: 30100
+      nodePort: 30001
