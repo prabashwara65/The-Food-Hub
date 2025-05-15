@@ -28,7 +28,7 @@ const Home = () => {
       return;
     }
 
-    fetch(`http://localhost:4004/api/restaurantView/searchRestaurants?name=${searchQuery}`)
+    fetch(`http://foodhub.local:30004/api/restaurantView/searchRestaurants?name=${searchQuery}`)
     .then((res) => res.json())
     .then((data) => {
       if(data.length === 0){

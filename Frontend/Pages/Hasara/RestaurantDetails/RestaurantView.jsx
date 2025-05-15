@@ -17,7 +17,7 @@ const RestaurantDetails = () => {
   const email = user?.email;
 
   useEffect(() => {
-    fetch(`http://localhost:4004/api/restaurantView/byRestaurant/${id}`)
+    fetch(`http://foodhub.local:30004/api/restaurantView/byRestaurant/${id}`)
       .then((res) => res.json())
       .then((data) => {
         // Filter menus to only include available ones
@@ -49,7 +49,7 @@ const RestaurantDetails = () => {
     }
 
     try{
-      const response = await fetch('http://localhost:4000/api/cart', {
+      const response = await fetch('http://foodhub.local:30000//api/cart', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
