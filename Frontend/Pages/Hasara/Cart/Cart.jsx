@@ -21,7 +21,7 @@ function Cart() {
   useEffect(() => {
     const fetchCartItem = async () => {
       try {
-        const response = await fetch(`http://localhost:4000/api/cart/getCartItem/${email}`);
+        const response = await fetch(`http://foodhub.local:30000/api/cart/getCartItem/${email}`);
         const data = await response.json();
         setCartItem(data);
         dispatch(setCartItems(data));
@@ -51,7 +51,7 @@ function Cart() {
 
     try {
       // Update item on the server
-      await fetch(`http://localhost:4000/api/cart/updateSelectStatus/${item._id}`, {
+      await fetch(`http://foodhub.local:30000/api/cart/updateSelectStatus/${item._id}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ selectStatus: newStatus }),
@@ -98,7 +98,7 @@ function Cart() {
     };
 
     try{
-      const response = await fetch("http://localhost:4000/api/checkout/create-checkout-session", {
+      const response = await fetch("http://foodhub.local:30000/api/checkout/create-checkout-session", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -130,7 +130,7 @@ function Cart() {
             className="px-3 py-1 bg-red-500 text-white rounded-md"
             onClick={async () => {
               try {
-                const response = await fetch(`http://localhost:4000/api/cart/${id}`, {
+                const response = await fetch(`http://foodhub.local:30000/api/cart/${id}`, {
                   method: "DELETE",
                 });
   
@@ -183,7 +183,7 @@ function Cart() {
   if (newQuantity < 1) return;
 
   try {
-    const response = await fetch(`http://localhost:4000/api/cart/updateQuantity/${itemId}`, {
+    const response = await fetch(`http://foodhub.local:30000/api/cart/updateQuantity/${itemId}`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ quantity: newQuantity }),

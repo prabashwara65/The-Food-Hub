@@ -11,7 +11,7 @@ function Success() {
   useEffect(() => {
     const clearCart = async () => {
       try {
-        const response = await fetch(`http://localhost:4000/api/cart/clearSelected/${user.email}`, {
+        const response = await fetch(`http://foodhub.local:30000/api/cart/clearSelected/${user.email}`, {
           method: 'DELETE',
         });
 
