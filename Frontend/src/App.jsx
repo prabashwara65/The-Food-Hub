@@ -33,6 +33,8 @@ import ViewRestaurant from "../Pages/AdminPanel/ViewRestaurant";
 import AddRestaurant from "../Pages/AdminPanel/AddRestaurant";
 import OwnerLogin from "../Pages/RestaurantOwner/OwnerLogin";
 import OwnerRegister from "../Pages/RestaurantOwner/OwnerRegister";
+import ViewOrders from "../Pages/AdminPanel/ViewOrders";
+import FinanceTransaction from "../Pages/AdminPanel/FinanceTransaction";
 
 function App() {
   return (
@@ -74,6 +76,9 @@ function App() {
           <Route path="/owner/login" element={<OwnerLogin />} />
           <Route path="/owner/register" element={<OwnerRegister />} />
           <Route path="/admin/manage-orders" element={<ManageOrders />} />
+          <Route path="/admin/view-orders" element={<ViewOrders/>} />
+          <Route path="/admin/finance-transaction" element={<FinanceTransaction />} />
+
 
         </Routes>
         <Toaster position="top-center" reverseOrder={false} /> 

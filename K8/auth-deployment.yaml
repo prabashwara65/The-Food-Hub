@@ -38,6 +38,8 @@ spec:
               value: "sk_test_51RHR0rGh4o63MbLiFNiYYOcVEEEyeEqWHVwL0Q0klO46wGX9vQJG1Wuwhu4g5QwZvxjss7usReNE5xcsHTfBHTUc00BN8jaEzX"
             - name: STRIPE_WEBHOOK_SECRET
               value: "whsec_22f0a33badbc5cc11de8726e07b47b5680d65cf002021d9b0e750dd90dabdd43"
+            - name: JWT_SECRET
+              value: "heFoodHubJWT_Token_abcdef"
 
 ---
 

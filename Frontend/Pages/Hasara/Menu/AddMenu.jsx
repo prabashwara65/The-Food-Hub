@@ -37,7 +37,7 @@ const AddMenuModal = ({ isOpen, onClose }) => {
     });
 
     try {
-      const response = await fetch("http://foodhub.local:4004/api/menu", {
+      const response = await fetch("http://foodhub.local:30004/api/menu", {
         method: "POST",
         body: formData,
         credentials: "include",

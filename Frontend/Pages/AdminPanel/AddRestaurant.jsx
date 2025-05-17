@@ -24,7 +24,7 @@ const AddRestaurant = () => {
     setError("");
 
     try {
-      await axios.post("http://foodhub.local:30000/api/restaurant/add", formData);
+      await axios.post("http://foodhub.local:30004/api/restaurant/add", formData);
       navigate("/admin/view-restaurant");
     } catch (err) {
       console.error(err);

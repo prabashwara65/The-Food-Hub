@@ -5,6 +5,7 @@ const cors = require("cors");
 
 const CartRouter = require('./Routes/Cart/CartRoute');
 const CheckoutRouter = require('./Routes/Cart/StripePaymentRoute');
+const AnalyticsRouter = require('./Routes/AnalyticsRoutes');
 const { handleStripeWebhook } = require('./Controller/Cart/StripePaymentController');
 
 
@@ -14,10 +15,12 @@ const app = express();
 // Stripe webhook needs raw body
 app.post('/webhook', express.raw({ type: 'application/json' }), handleStripeWebhook);
 
+
+
 // Middlewares
 app.use(express.json());
 app.use(cors({
-  origin: ["http://foodhub.local"],
+  origin: ["http://foodhub.local", "http://foodhub.local:30080"],
   methods: ["GET", "POST", "PATCH", "DELETE", "PUT"],
   credentials: true,
 }));
@@ -25,6 +28,7 @@ app.use(cors({
 // Routes
 app.use('/api/cart', CartRouter);
 app.use('/api/checkout', CheckoutRouter);
+app.use("/api/finance" , AnalyticsRouter)
 
 // Database connection and server start
 mongoose

@@ -14,14 +14,14 @@ app.use(express.json());
 
 app.use(
     cors({
-      origin: ["http://foodhub.local"],
+      origin: ["http://foodhub.local", "http://foodhub.local:30080"],
       methods: ["GET", "POST", "PATCH", "DELETE", "PUT"],
       credentials: true,
     })
   );
 
   
-app.use('api/deliver' , deliveryRoutes)
+app.use('/api/deliver' , deliveryRoutes)
 app.use('/api/drivers', driverRoutes);
 
 

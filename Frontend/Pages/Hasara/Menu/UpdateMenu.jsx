@@ -15,7 +15,7 @@ const UpdateMenu = ({ isOpen, onClose, menuId, onUpdateSuccess }) => {
     if (isOpen && menuId) {
       const fetchMenuItem = async () => {
         try {
-          const response = await fetch(`http://foodhub.local:4004/api/menu/${menuId}`);
+          const response = await fetch(`http://foodhub.local:30004/api/menu/${menuId}`);
           const data = await response.json();
 
           if (response.ok) {
@@ -68,7 +68,7 @@ const UpdateMenu = ({ isOpen, onClose, menuId, onUpdateSuccess }) => {
     }
 
     try {
-      const response = await fetch(`http://foodhub.local:4004/api/menu/${menuId}`, {
+      const response = await fetch(`http://foodhub.local:30004/api/menu/${menuId}`, {
         method: "PATCH",
         body: formData,
         credentials: "include",

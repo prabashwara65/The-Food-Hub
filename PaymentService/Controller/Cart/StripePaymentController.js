@@ -36,8 +36,8 @@ const createCheckoutSession = async (req,res) => {
             metadata:{
                 items: JSON.stringify(simplifiedItems),
             },
-            success_url: "http://localhost:3000/success",
-            cancel_url: "http://localhost:3000/cancel",
+            success_url: "http://foodhub.local:30080/success",
+            cancel_url: "http://foodhub.local:30080/cancel",
             shipping_address_collection: {
                 allowed_countries: ['US', 'CA', 'LK'], 
             },

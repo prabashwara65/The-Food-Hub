@@ -49,7 +49,7 @@ const RestaurantDetails = () => {
     }
 
     try{
-      const response = await fetch('http://foodhub.local:30000//api/cart', {
+      const response = await fetch('http://foodhub.local:30000/api/cart', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

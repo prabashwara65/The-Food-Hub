@@ -126,7 +126,7 @@ const Dashboard = () => {
     {
       label: "Financial Transactions",
       icon: <DollarSign size={20} />,
-      path: "#",
+      path: "/admin/finance-transaction",
     },
     { label: "Settings", icon: <Settings size={20} />, path: "#" },
     { label: "Logout", icon: <LogOut size={20} />, path: "#" },

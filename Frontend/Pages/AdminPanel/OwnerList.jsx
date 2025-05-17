@@ -20,7 +20,7 @@ const OwnerList = () => {
   const fetchOwners = async () => {
     try {
       const res = await axios.get(
-        "http://foodhub.local:30000/api/auth/users?role=owner"
+        "http://foodhub.local:30001/api/auth/users?role=owner"
       );
       setOwners(res.data);
     } catch (err) {
@@ -45,7 +45,7 @@ const OwnerList = () => {
   const handleSave = async (userId) => {
     try {
       await axios.put(
-        `http://localhost:4000/api/auth/users/${userId}`,
+        `http://foodhub.local:30001/api/auth/users/${userId}`,
         editedData
       );
       fetchOwners();
@@ -57,7 +57,7 @@ const OwnerList = () => {
 
   const handleDelete = async (userId) => {
     try {
-      await axios.delete(`http://localhost:4000/api/auth/users/${userId}`);
+      await axios.delete(`http://foodhub.local:30001/api/auth/users/${userId}`);
       fetchOwners();
     } catch (err) {
       console.error(err);
