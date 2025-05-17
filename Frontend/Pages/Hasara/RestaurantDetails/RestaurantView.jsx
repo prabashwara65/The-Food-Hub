@@ -18,6 +18,7 @@ const RestaurantDetails = () => {
 
   useEffect(() => {
     fetch(`http://foodhub.local:30004/api/restaurantView/byRestaurant/${id}`)
+    fetch(`http://foodhub.local:30004/api/restaurantView/byRestaurant/${id}`)
       .then((res) => res.json())
       .then((data) => {
         // Filter menus to only include available ones
